@@ -59,7 +59,7 @@ export const HeroSlider: React.FC = () => {
   const slide = slides[currentSlide % slides.length] || heroSlides[0];
 
   return (
-    <section className="relative w-full h-[520px] sm:h-[600px] lg:h-[650px] overflow-hidden bg-slate-900 text-white">
+    <section className="relative w-full h-[520px] sm:h-[600px] lg:h-[650px] overflow-hidden bg-[#05160E] text-white">
       {/* Slide Images Container */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -79,8 +79,8 @@ export const HeroSlider: React.FC = () => {
             referrerPolicy="no-referrer"
           />
           {/* Overlay Gradient for readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/80 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-900/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#05160E]/95 via-[#0A2418]/85 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#05160E] via-transparent to-[#0A2418]/40" />
         </motion.div>
       </AnimatePresence>
 
@@ -163,7 +163,7 @@ export const HeroSlider: React.FC = () => {
       {/* Navigation Controls */}
       <button
         onClick={prevSlide}
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-slate-900/40 hover:bg-slate-900/80 text-white backdrop-blur-md transition-colors hidden sm:flex items-center justify-center border border-white/10"
+        className="absolute left-3 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-[#05160E]/40 hover:bg-[#05160E]/80 text-white backdrop-blur-md transition-colors hidden sm:flex items-center justify-center border border-white/10"
         aria-label="Previous Slide"
       >
         <ChevronLeft className="w-6 h-6" />
@@ -171,7 +171,7 @@ export const HeroSlider: React.FC = () => {
 
       <button
         onClick={nextSlide}
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-slate-900/40 hover:bg-slate-900/80 text-white backdrop-blur-md transition-colors hidden sm:flex items-center justify-center border border-white/10"
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-[#05160E]/40 hover:bg-[#05160E]/80 text-white backdrop-blur-md transition-colors hidden sm:flex items-center justify-center border border-white/10"
         aria-label="Next Slide"
       >
         <ChevronRight className="w-6 h-6" />
