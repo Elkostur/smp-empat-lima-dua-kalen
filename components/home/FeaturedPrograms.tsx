@@ -13,7 +13,7 @@ import {
   Check,
 } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
-import { programsData } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 const iconComponents: Record<string, React.ReactNode> = {
   BookOpen: <BookOpen className="w-6 h-6 text-[#D4AF37]" />,
@@ -23,6 +23,8 @@ const iconComponents: Record<string, React.ReactNode> = {
 };
 
 export const FeaturedPrograms: React.FC = () => {
+  const { programs } = useAdminDataStore();
+
   return (
     <section className="py-16 md:py-24 bg-[#0D2D1D] text-white border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,7 +36,7 @@ export const FeaturedPrograms: React.FC = () => {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {programsData.map((program, idx) => (
+          {programs.map((program, idx) => (
             <motion.div
               key={program.id}
               initial={{ opacity: 0, y: 20 }}

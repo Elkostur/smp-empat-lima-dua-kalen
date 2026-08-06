@@ -34,6 +34,38 @@ export interface AgendaItem {
   category: string;
 }
 
+export interface OsisOfficer {
+  id: string;
+  position: string;
+  name: string;
+  className: string;
+}
+
+export interface IpnuInfo {
+  title: string;
+  period: string;
+  description: string;
+  sections: string[];
+  leaderName: string;
+  leaderClass: string;
+}
+
+export const defaultOsisOfficers: OsisOfficer[] = [
+  { id: 'osis-1', position: 'Ketua OSIS', name: 'Muhammad Naufal Rizky', className: 'VIII-A' },
+  { id: 'osis-2', position: 'Wakil Ketua', name: 'Aisyah Nur Aini', className: 'VIII-B' },
+  { id: 'osis-3', position: 'Sekretaris', name: 'Siti Rahmawati', className: 'VIII-A' },
+  { id: 'osis-4', position: 'Bendahara', name: 'Ahmad Farhan', className: 'VIII-C' },
+];
+
+export const defaultIpnuInfo: IpnuInfo = {
+  title: 'Pimpinan Komisariat IPNU & IPPNU SMP 45 2 Kedungpring',
+  period: 'Masa Bakti 2026/2027',
+  description: 'Selain OSIS, siswa SMP 45 2 Kedungpring juga dibina dalam wadah PK IPNU (Ikatan Pelajar Nahdlatul Ulama) dan IPPNU (Ikatan Pelajar Putri Nahdlatul Ulama) untuk mengukuhkan wawasan Aswaja & An-Nahdliyah.',
+  sections: ['Keagamaan', 'Olahraga & Kesehatan', 'Kesenian & Budaya', 'Humas & Publikasi Digital'],
+  leaderName: 'M. Zidan Al-Farizi (Ketua PK IPNU)',
+  leaderClass: 'IX-A',
+};
+
 export const defaultAgendas: AgendaItem[] = [
   {
     id: 'ag-1',
@@ -236,6 +268,8 @@ export function useAdminDataStore() {
   const [testimonials, setTestimonials] = useState(defaultTestimonials);
   const [facilities, setFacilities] = useState(defaultFacilities);
   const [faqs, setFaqs] = useState(defaultFaqs);
+  const [osisOfficers, setOsisOfficers] = useState<OsisOfficer[]>(defaultOsisOfficers);
+  const [ipnuInfo, setIpnuInfo] = useState<IpnuInfo>(defaultIpnuInfo);
 
   // Sync back helper
   const saveToStorage = (key: string, data: unknown) => {
@@ -267,6 +301,8 @@ export function useAdminDataStore() {
       setTestimonials(getStoredValue('smp45_testimonials', defaultTestimonials));
       setFacilities(getStoredValue('smp45_facilities', defaultFacilities));
       setFaqs(getStoredValue('smp45_faqs', defaultFaqs));
+      setOsisOfficers(getStoredValue('smp45_osis_officers', defaultOsisOfficers));
+      setIpnuInfo(getStoredValue('smp45_ipnu_info', defaultIpnuInfo));
     };
 
     reloadDataFromStorage();
@@ -337,5 +373,15 @@ export function useAdminDataStore() {
     },
     faqs,
     setFaqs,
+    osisOfficers,
+    setOsisOfficers: (data: OsisOfficer[]) => {
+      setOsisOfficers(data);
+      saveToStorage('smp45_osis_officers', data);
+    },
+    ipnuInfo,
+    setIpnuInfo: (data: IpnuInfo) => {
+      setIpnuInfo(data);
+      saveToStorage('smp45_ipnu_info', data);
+    },
   };
 }

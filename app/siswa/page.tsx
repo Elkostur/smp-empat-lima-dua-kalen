@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { SectionHeading } from '@/components/common/SectionHeading';
-import { extracurricularsData } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 import {
   Compass,
   Shield,
@@ -42,6 +42,7 @@ const dailySchedule = [
 
 export default function SiswaPage() {
   const [activeTab, setActiveTab] = useState<'ekskul' | 'osis' | 'jadwal'>('ekskul');
+  const { extracurriculars, osisOfficers, ipnuInfo } = useAdminDataStore();
 
   return (
     <main className="min-h-screen bg-slate-50/50 pb-20">
@@ -63,7 +64,7 @@ export default function SiswaPage() {
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
             }`}
           >
-            <span>Ekstrakurikuler (12 Cabang)</span>
+            <span>Ekstrakurikuler ({extracurriculars.length} Cabang)</span>
           </button>
           <button
             onClick={() => setActiveTab('osis')}
@@ -92,12 +93,12 @@ export default function SiswaPage() {
           <div className="space-y-8">
             <SectionHeading
               badge="Minat & Bakat"
-              title="12 Cabang Ekstrakurikuler Unggulan"
+              title={`${extracurriculars.length} Cabang Ekstrakurikuler Unggulan`}
               subtitle="Mengembangkan potensi non-akademik, olahraga, seni, kepramukaan, dan bela diri."
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {extracurricularsData.map((item) => (
+              {extracurriculars.map((item) => (
                 <div
                   key={item.id}
                   className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-school-green-600 transition-all duration-300 flex flex-col justify-between group"
@@ -159,47 +160,98 @@ export default function SiswaPage() {
 
         {/* Tab 2: OSIS & IPNU/IPPNU */}
         {activeTab === 'osis' && (
-          <div className="space-y-8 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+          <div className="space-y-8">
             <SectionHeading
-              badge="Kepemimpinan"
+              badge="Kepemimpinan & Organisasi"
               title="Organisasi Siswa Intra Sekolah (OSIS) & IPNU-IPPNU"
-              subtitle="Melatih jiwa kepemimpinan, kerja sama tim, dan keorganisasian santri sejak dini."
+              subtitle="Melatih jiwa kepemimpinan, kerja sama tim, dan penanaman nilai Ahlussunnah wal Jamaah sejak dini."
             />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="bg-school-green-50 p-6 rounded-2xl border border-school-green-200 space-y-4">
-                <span className="px-3 py-1 bg-school-green-700 text-white font-extrabold text-xs rounded-full">
-                  Struktur Pengurus OSIS Masa Bakti 2026/2027
-                </span>
-                <ul className="space-y-2 text-sm text-slate-700">
-                  <li className="flex justify-between py-1 border-b border-school-green-200">
-                    <span className="font-semibold text-slate-500">Ketua OSIS</span>
-                    <span className="font-bold text-slate-900">Muhammad Naufal Rizky (VIII-A)</span>
-                  </li>
-                  <li className="flex justify-between py-1 border-b border-school-green-200">
-                    <span className="font-semibold text-slate-500">Wakil Ketua</span>
-                    <span className="font-bold text-slate-900">Aisyah Nur Aini (VIII-B)</span>
-                  </li>
-                  <li className="flex justify-between py-1 border-b border-school-green-200">
-                    <span className="font-semibold text-slate-500">Sekretaris</span>
-                    <span className="font-bold text-slate-900">Siti Rahmawati (VIII-A)</span>
-                  </li>
-                  <li className="flex justify-between py-1 border-b border-school-green-200">
-                    <span className="font-semibold text-slate-500">Bendahara</span>
-                    <span className="font-bold text-slate-900">Ahmad Farhan (VIII-C)</span>
-                  </li>
-                </ul>
+              {/* OSIS Card */}
+              <div className="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm hover:border-school-green-600 transition-all space-y-6 flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2.5 bg-school-green-50 text-school-green-700 rounded-2xl border border-school-green-200">
+                        <Users className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-extrabold text-slate-900">Pengurus OSIS</h3>
+                        <p className="text-xs text-slate-500">Masa Bakti 2026/2027</p>
+                      </div>
+                    </div>
+                    <span className="px-3 py-1 bg-school-green-700 text-white font-extrabold text-[11px] rounded-full shadow-sm">
+                      Resmi
+                    </span>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {osisOfficers.map((officer) => (
+                      <div
+                        key={officer.id}
+                        className="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-between hover:bg-emerald-50/40 transition-colors"
+                      >
+                        <div className="space-y-0.5">
+                          <span className="text-[11px] font-bold text-school-green-700 uppercase tracking-wide">
+                            {officer.position}
+                          </span>
+                          <h4 className="text-sm font-extrabold text-slate-900">{officer.name}</h4>
+                        </div>
+                        <span className="px-2.5 py-1 bg-white border border-slate-200 text-slate-700 font-bold text-xs rounded-xl shadow-xs">
+                          Kelas {officer.className}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 text-[11px] text-slate-500 flex items-center justify-between">
+                  <span>Pembina: Kesiswaan &amp; Guru Pembimbing</span>
+                  <span className="text-school-green-700 font-bold">SMP 45 2 Kedungpring</span>
+                </div>
               </div>
 
-              <div className="bg-school-gold-50 p-6 rounded-2xl border border-school-gold-200 space-y-4">
-                <span className="px-3 py-1 bg-school-gold-500 text-slate-900 font-extrabold text-xs rounded-full">
-                  Pimpinan Komisariat IPNU & IPPNU
-                </span>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Selain OSIS, siswa SMP 45 2 Kedungpring juga dibina dalam wadah PK IPNU (Ikatan Pelajar Nahdlatul Ulama) dan IPPNU (Ikatan Pelajar Putri Nahdlatul Ulama) untuk mengukuhkan wawasan An-Nahdliyah.
-                </p>
-                <div className="pt-2 text-xs font-semibold text-school-gold-600">
-                  Seksi Bidang: Keagamaan, Olahraga, Kesenian, Humas & Publikasi Digital.
+              {/* IPNU & IPPNU Card */}
+              <div className="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm hover:border-[#D4AF37] transition-all space-y-6 flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2.5 bg-amber-50 text-amber-700 rounded-2xl border border-amber-200">
+                        <Award className="w-6 h-6 text-[#D4AF37]" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-extrabold text-slate-900">PK IPNU &amp; IPPNU</h3>
+                        <p className="text-xs text-slate-500">{ipnuInfo.period}</p>
+                      </div>
+                    </div>
+                    <span className="px-3 py-1 bg-[#D4AF37] text-slate-900 font-extrabold text-[11px] rounded-full shadow-sm">
+                      Ma&apos;arif NU
+                    </span>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+                    {ipnuInfo.description}
+                  </p>
+
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-extrabold text-slate-800 uppercase tracking-wide">
+                      Seksi Bidang &amp; Departemen:
+                    </h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {ipnuInfo.sections.map((sec, sIdx) => (
+                        <div key={sIdx} className="p-2.5 rounded-xl bg-amber-50/55 border border-amber-100 text-xs font-bold text-slate-800 flex items-center gap-2">
+                          <CheckCircle className="w-3.5 h-3.5 text-school-gold-600 shrink-0" />
+                          <span>{sec}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 text-xs flex items-center justify-between">
+                  <span className="text-slate-500">Ketua Komisariat: <strong className="text-slate-900">{ipnuInfo.leaderName}</strong></span>
+                  <span className="px-2.5 py-1 bg-amber-100/70 text-amber-900 font-bold rounded-lg text-[11px]">Kelas {ipnuInfo.leaderClass}</span>
                 </div>
               </div>
             </div>

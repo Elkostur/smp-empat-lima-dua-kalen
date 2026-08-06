@@ -7,6 +7,8 @@ import {
   PpdbApplicant,
   HeroSlide,
   AgendaItem,
+  OsisOfficer,
+  IpnuInfo,
 } from '@/lib/adminStore';
 import {
   NewsItem,
@@ -166,6 +168,61 @@ export default function AdminDashboardPage() {
   // Form states
   const [schoolInfoForm, setSchoolInfoForm] = useState(store.schoolInfo);
 
+  // OSIS & IPNU Management States & Handlers
+  const [osisModalOpen, setOsisModalOpen] = useState(false);
+  const [editingOsisOfficer, setEditingOsisOfficer] = useState<OsisOfficer | null>(null);
+
+  const handleSaveOsisOfficer = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const position = formData.get('position') as string;
+    const name = formData.get('name') as string;
+    const className = formData.get('className') as string;
+
+    if (editingOsisOfficer) {
+      const updated = store.osisOfficers.map((o) => (o.id === editingOsisOfficer.id ? { ...o, position, name, className } : o));
+      store.setOsisOfficers(updated);
+      setToastMessage('Struktur pengurus OSIS berhasil diperbarui!');
+    } else {
+      const newOfficer: OsisOfficer = {
+        id: 'osis-' + Date.now(),
+        position,
+        name,
+        className,
+      };
+      store.setOsisOfficers([...store.osisOfficers, newOfficer]);
+      setToastMessage('Pengurus OSIS baru berhasil ditambahkan!');
+    }
+    setOsisModalOpen(false);
+    setEditingOsisOfficer(null);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+
+  const handleDeleteOsisOfficer = (id: string) => {
+    if (confirm('Hapus pengurus ini dari struktur OSIS?')) {
+      const updated = store.osisOfficers.filter((o) => o.id !== id);
+      store.setOsisOfficers(updated);
+      setToastMessage('Pengurus OSIS berhasil dihapus');
+      setTimeout(() => setToastMessage(null), 3000);
+    }
+  };
+
+  const handleSaveIpnuInfo = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get('title') as string;
+    const period = formData.get('period') as string;
+    const description = formData.get('description') as string;
+    const leaderName = formData.get('leaderName') as string;
+    const leaderClass = formData.get('leaderClass') as string;
+    const sectionsRaw = formData.get('sections') as string;
+    const sections = sectionsRaw.split('\n').map((s) => s.trim()).filter(Boolean);
+
+    store.setIpnuInfo({ title, period, description, sections, leaderName, leaderClass });
+    setToastMessage('Informasi PK IPNU & IPPNU berhasil diperbarui!');
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+
   // Facility Actions
   const handleSaveFacility = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -275,12 +332,18 @@ export default function AdminDashboardPage() {
     const shortDesc = formData.get('shortDesc') as string;
     const fullDesc = formData.get('fullDesc') as string;
     const iconName = (formData.get('iconName') as string) || 'GraduationCap';
+    const schedule = (formData.get('schedule') as string) || 'Setiap Hari Efektif';
+    const highlightsRaw = (formData.get('highlights') as string) || '';
+    const highlights = highlightsRaw
+      .split('\n')
+      .map((h) => h.trim())
+      .filter(Boolean);
     const imageUrl = programImageUrl || editingProgram?.imageUrl || 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800';
 
     if (editingProgram) {
       const updated = store.programs.map((p) =>
         p.id === editingProgram.id
-          ? { ...p, title, badge, shortDesc, fullDesc, iconName, imageUrl }
+          ? { ...p, title, badge, shortDesc, fullDesc, iconName, imageUrl, highlights, schedule }
           : p
       );
       store.setPrograms(updated);
@@ -293,8 +356,8 @@ export default function AdminDashboardPage() {
         shortDesc,
         fullDesc: fullDesc || shortDesc,
         iconName,
-        highlights: ['Bimbingan Terpadu', 'Sertifikat Resmi'],
-        schedule: 'Setiap Hari Efektif',
+        highlights,
+        schedule,
         imageUrl,
       };
       store.setPrograms([...store.programs, newProg]);
@@ -319,13 +382,18 @@ export default function AdminDashboardPage() {
     const coach = formData.get('coach') as string;
     const schedule = formData.get('schedule') as string;
     const description = formData.get('description') as string;
+    const achievementsRaw = (formData.get('achievements') as string) || '';
+    const achievements = achievementsRaw
+      .split('\n')
+      .map((a) => a.trim())
+      .filter(Boolean);
     const iconName = (formData.get('iconName') as string) || 'Award';
     const imageUrl = ekskulImageUrl || editingEkskul?.imageUrl || 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800';
 
     if (editingEkskul) {
       const updated = store.extracurriculars.map((ek) =>
         ek.id === editingEkskul.id
-          ? { ...ek, name, coach, schedule, description, iconName, imageUrl }
+          ? { ...ek, name, coach, schedule, description, iconName, imageUrl, achievements }
           : ek
       );
       store.setExtracurriculars(updated);
@@ -338,7 +406,7 @@ export default function AdminDashboardPage() {
         schedule,
         description,
         iconName,
-        achievements: ['Juara Tingkat Kabupaten'],
+        achievements,
         imageUrl,
       };
       store.setExtracurriculars([...store.extracurriculars, newEkskul]);
@@ -2333,6 +2401,141 @@ export default function AdminDashboardPage() {
                     ))}
                   </div>
                 </div>
+
+                {/* OSIS & IPNU Structure Management */}
+                <div className="space-y-4 pt-6 border-t border-slate-200">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                        <Users className="w-4 h-4 text-school-green-700" />
+                        <span>Struktur Kepengurusan OSIS &amp; IPNU/IPPNU</span>
+                      </h3>
+                      <p className="text-xs text-slate-500">Atur pengurus OSIS dan informasi komisariat IPNU yang tampil di halaman siswa.</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingOsisOfficer(null);
+                        setOsisModalOpen(true);
+                      }}
+                      className="px-3.5 py-2 rounded-xl bg-school-green-700 hover:bg-school-green-800 text-white font-extrabold text-xs shadow-md flex items-center gap-1 w-fit"
+                    >
+                      <Plus className="w-4 h-4 text-school-gold-400" />
+                      <span>Tambah Pengurus OSIS</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* OSIS Officers Table / Cards */}
+                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                      <h4 className="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Daftar Pengurus OSIS</h4>
+                      <div className="space-y-2">
+                        {store.osisOfficers.map((officer) => (
+                          <div key={officer.id} className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between gap-2">
+                            <div>
+                              <span className="text-[10px] font-bold text-school-green-700">{officer.position}</span>
+                              <h5 className="text-xs font-extrabold text-slate-900">{officer.name} (Kelas {officer.className})</h5>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => {
+                                  setEditingOsisOfficer(officer);
+                                  setOsisModalOpen(true);
+                                }}
+                                className="px-2 py-1 text-[11px] font-bold text-school-green-700 hover:bg-emerald-50 rounded"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => handleDeleteOsisOfficer(officer.id)}
+                                className="px-2 py-1 text-[11px] font-bold text-red-600 hover:bg-red-50 rounded"
+                              >
+                                Hapus
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* IPNU Info Form */}
+                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                      <h4 className="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Pimpinan Komisariat IPNU &amp; IPPNU</h4>
+                      <form onSubmit={handleSaveIpnuInfo} className="space-y-3 text-xs">
+                        <div className="space-y-1">
+                          <label className="font-bold text-slate-700">Judul / Nama Instansi</label>
+                          <input
+                            type="text"
+                            name="title"
+                            defaultValue={store.ipnuInfo.title}
+                            required
+                            className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-semibold bg-white"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="space-y-1">
+                            <label className="font-bold text-slate-700">Masa Bakti</label>
+                            <input
+                              type="text"
+                              name="period"
+                              defaultValue={store.ipnuInfo.period}
+                              required
+                              className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-semibold bg-white"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="font-bold text-slate-700">Kelas Ketua PK</label>
+                            <input
+                              type="text"
+                              name="leaderClass"
+                              defaultValue={store.ipnuInfo.leaderClass}
+                              required
+                              className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-semibold bg-white"
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <label className="font-bold text-slate-700">Ketua Komisariat</label>
+                          <input
+                            type="text"
+                            name="leaderName"
+                            defaultValue={store.ipnuInfo.leaderName}
+                            required
+                            className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-semibold bg-white"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="font-bold text-slate-700">Deskripsi &amp; Visi Pembinaan</label>
+                          <textarea
+                            name="description"
+                            rows={2}
+                            defaultValue={store.ipnuInfo.description}
+                            required
+                            className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-medium bg-white"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="font-bold text-slate-700">Seksi Bidang (Satu per baris)</label>
+                          <textarea
+                            name="sections"
+                            rows={3}
+                            defaultValue={store.ipnuInfo.sections.join('\n')}
+                            required
+                            className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-medium bg-white"
+                          />
+                        </div>
+                        <div className="pt-2 flex justify-end">
+                          <button
+                            type="submit"
+                            className="px-4 py-2 rounded-xl bg-school-green-700 hover:bg-school-green-800 text-white font-extrabold shadow-sm"
+                          >
+                            Simpan Info IPNU
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -3226,7 +3429,7 @@ export default function AdminDashboardPage() {
       {/* MODAL: ADD / EDIT HERO SLIDE */}
       {slideModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg p-6 space-y-6">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg p-6 space-y-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-school-green-700" />
@@ -3337,183 +3540,232 @@ export default function AdminDashboardPage() {
 
       {/* MODAL: ADD / EDIT PROGRAM */}
       {programModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg p-6 space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg max-h-[90vh] sm:max-h-[88vh] flex flex-col overflow-hidden">
+            <div className="bg-white px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 z-10">
               <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
                 <GraduationCap className="w-5 h-5 text-school-green-700" />
                 <span>{editingProgram ? 'Edit Program Unggulan' : 'Tambah Program Unggulan Baru'}</span>
               </h3>
-              <button onClick={() => setProgramModalOpen(false)} className="p-1 text-slate-400 hover:text-slate-600">
+              <button 
+                type="button"
+                onClick={() => setProgramModalOpen(false)} 
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                aria-label="Tutup"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveProgram} className="space-y-4 text-xs">
-              <div className="space-y-1">
-                <label className="font-bold text-slate-700">Nama Program *</label>
-                <input
-                  type="text"
-                  name="title"
-                  required
-                  defaultValue={editingProgram?.title || ''}
-                  placeholder="Contoh: Kelas Tahfidz Al-Qur'an Interaktif"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-3">
+            <div className="p-6 overflow-y-auto flex-1">
+              <form onSubmit={handleSaveProgram} className="space-y-4 text-xs">
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-700">Badge Tagline *</label>
+                  <label className="font-bold text-slate-700">Nama Program *</label>
                   <input
                     type="text"
-                    name="badge"
+                    name="title"
                     required
-                    defaultValue={editingProgram?.badge || 'Program Unggulan'}
-                    placeholder="Contoh: Unggulan / Karakter"
+                    defaultValue={editingProgram?.title || ''}
+                    placeholder="Contoh: Kelas Tahfidz Al-Qur'an Interaktif"
                     className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
                   />
                 </div>
-                <div className="pt-1">
-                  <ImageUploadInput
-                    label="Gambar Banner Program *"
-                    value={programImageUrl}
-                    onChange={setProgramImageUrl}
+
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="space-y-1">
+                    <label className="font-bold text-slate-700">Badge Tagline *</label>
+                    <input
+                      type="text"
+                      name="badge"
+                      required
+                      defaultValue={editingProgram?.badge || 'Program Unggulan'}
+                      placeholder="Contoh: Unggulan / Karakter"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                    />
+                  </div>
+                  <div className="pt-1">
+                    <ImageUploadInput
+                      label="Gambar Banner Program *"
+                      value={programImageUrl}
+                      onChange={setProgramImageUrl}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Deskripsi Ringkas *</label>
+                  <textarea
+                    name="shortDesc"
+                    required
+                    rows={2}
+                    defaultValue={editingProgram?.shortDesc || ''}
+                    placeholder="Deskripsi singkat untuk kartu depan..."
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
                   />
                 </div>
-              </div>
 
-              <div className="space-y-1">
-                <label className="font-bold text-slate-700">Deskripsi Ringkas *</label>
-                <textarea
-                  name="shortDesc"
-                  required
-                  rows={2}
-                  defaultValue={editingProgram?.shortDesc || ''}
-                  placeholder="Deskripsi singkat untuk kartu depan..."
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
-                />
-              </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Deskripsi Lengkap</label>
+                  <textarea
+                    name="fullDesc"
+                    rows={3}
+                    defaultValue={editingProgram?.fullDesc || ''}
+                    placeholder="Rincian manfaat dan fasilitas program..."
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
+                  />
+                </div>
 
-              <div className="space-y-1">
-                <label className="font-bold text-slate-700">Deskripsi Lengkap</label>
-                <textarea
-                  name="fullDesc"
-                  rows={3}
-                  defaultValue={editingProgram?.fullDesc || ''}
-                  placeholder="Rincian manfaat dan fasilitas program..."
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
-                />
-              </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Waktu Pelaksanaan *</label>
+                  <input
+                    type="text"
+                    name="schedule"
+                    required
+                    defaultValue={editingProgram?.schedule || 'Setiap Hari Efektif'}
+                    placeholder="Contoh: Setiap Hari Senin - Jumat (07.00 - 07.45 WIB)"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                  />
+                </div>
 
-              <div className="pt-2 flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setProgramModalOpen(false)}
-                  className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-school-green-700 hover:bg-school-green-800 text-white font-extrabold shadow-md"
-                >
-                  Simpan Program
-                </button>
-              </div>
-            </form>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Keunggulan &amp; Fasilitas (Satu baris per poin) *</label>
+                  <textarea
+                    name="highlights"
+                    required
+                    rows={4}
+                    defaultValue={editingProgram?.highlights?.join('\n') || 'Bimbingan Terpadu\nSertifikat Resmi'}
+                    placeholder="Masukkan poin keunggulan, pisahkan dengan baris baru..."
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
+                  />
+                </div>
+
+                <div className="pt-4 flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setProgramModalOpen(false)}
+                    className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2.5 rounded-xl bg-school-green-700 hover:bg-school-green-800 text-white font-extrabold shadow-md transition-colors"
+                  >
+                    Simpan Program
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
 
       {/* MODAL: ADD / EDIT EKSKUL */}
       {ekskulModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-md p-6 space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-md max-h-[90vh] sm:max-h-[88vh] flex flex-col overflow-hidden">
+            <div className="bg-white px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 z-10">
               <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
                 <Award className="w-5 h-5 text-school-green-700" />
                 <span>{editingEkskul ? 'Edit Ekstrakurikuler' : 'Tambah Ekstrakurikuler Baru'}</span>
               </h3>
-              <button onClick={() => setEkskulModalOpen(false)} className="p-1 text-slate-400 hover:text-slate-600">
+              <button 
+                type="button"
+                onClick={() => setEkskulModalOpen(false)} 
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                aria-label="Tutup"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveEkskul} className="space-y-4 text-xs">
-              <div className="space-y-1">
-                <label className="font-bold text-slate-700">Nama Ekstrakurikuler *</label>
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  defaultValue={editingEkskul?.name || ''}
-                  placeholder="Contoh: Pramuka Penggalang"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
+            <div className="p-6 overflow-y-auto flex-1">
+              <form onSubmit={handleSaveEkskul} className="space-y-4 text-xs">
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-700">Pembina / Pelatih *</label>
+                  <label className="font-bold text-slate-700">Nama Ekstrakurikuler *</label>
                   <input
                     type="text"
-                    name="coach"
+                    name="name"
                     required
-                    defaultValue={editingEkskul?.coach || ''}
-                    placeholder="Nama Pembina"
+                    defaultValue={editingEkskul?.name || ''}
+                    placeholder="Contoh: Pramuka Penggalang"
                     className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
                   />
                 </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="font-bold text-slate-700">Pembina / Pelatih *</label>
+                    <input
+                      type="text"
+                      name="coach"
+                      required
+                      defaultValue={editingEkskul?.coach || ''}
+                      placeholder="Nama Pembina"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-slate-700">Jadwal Latihan *</label>
+                    <input
+                      type="text"
+                      name="schedule"
+                      required
+                      defaultValue={editingEkskul?.schedule || 'Jumat, 14.30 WIB'}
+                      placeholder="Jumat, 15.00 WIB"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                    />
+                  </div>
+                </div>
+
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-700">Jadwal Latihan *</label>
-                  <input
-                    type="text"
-                    name="schedule"
+                  <label className="font-bold text-slate-700">Deskripsi Kegiatan *</label>
+                  <textarea
+                    name="description"
                     required
-                    defaultValue={editingEkskul?.schedule || 'Jumat, 14.30 WIB'}
-                    placeholder="Jumat, 15.00 WIB"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                    rows={2}
+                    defaultValue={editingEkskul?.description || ''}
+                    placeholder="Keterangan singkat fokus latihan..."
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
                   />
                 </div>
-              </div>
 
-              <div className="space-y-1">
-                <label className="font-bold text-slate-700">Deskripsi Kegiatan *</label>
-                <textarea
-                  name="description"
-                  required
-                  rows={2}
-                  defaultValue={editingEkskul?.description || ''}
-                  placeholder="Keterangan singkat fokus latihan..."
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
-                />
-              </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Prestasi / Keunggulan Ekskul (Satu baris per poin)</label>
+                  <textarea
+                    name="achievements"
+                    rows={3}
+                    defaultValue={editingEkskul?.achievements?.join('\n') || ''}
+                    placeholder="Contoh: Juara 1 LKBB Tingkat Kabupaten&#10;Juara Umum Scout Competition"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
+                  />
+                </div>
 
-              <div className="pt-1">
-                <ImageUploadInput
-                  label="Gambar Kegiatan Ekskul"
-                  value={ekskulImageUrl}
-                  onChange={setEkskulImageUrl}
-                />
-              </div>
+                <div className="pt-1">
+                  <ImageUploadInput
+                    label="Gambar Kegiatan Ekskul"
+                    value={ekskulImageUrl}
+                    onChange={setEkskulImageUrl}
+                  />
+                </div>
 
-              <div className="pt-2 flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setEkskulModalOpen(false)}
-                  className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-school-green-700 hover:bg-school-green-800 text-white font-extrabold shadow-md"
-                >
-                  Simpan Ekskul
-                </button>
-              </div>
-            </form>
+                <div className="pt-4 flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setEkskulModalOpen(false)}
+                    className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2.5 rounded-xl bg-school-green-700 hover:bg-school-green-800 text-white font-extrabold shadow-md transition-colors"
+                  >
+                    Simpan Ekskul
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
@@ -3521,7 +3773,7 @@ export default function AdminDashboardPage() {
       {/* MODAL: ADD / EDIT TESTIMONIAL */}
       {testiModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-md p-6 space-y-6">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-md p-6 space-y-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
                 <MessageSquare className="w-5 h-5 text-school-green-700" />
@@ -4004,77 +4256,159 @@ export default function AdminDashboardPage() {
 
       {/* MODAL: ADD / EDIT FACILITY */}
       {facilityModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg p-6 space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg max-h-[90vh] sm:max-h-[88vh] flex flex-col overflow-hidden">
+            <div className="bg-white px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 z-10">
               <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
                 <Building className="w-5 h-5 text-school-green-700" />
                 <span>{editingFacility ? 'Edit Data Fasilitas' : 'Tambah Fasilitas Baru'}</span>
               </h3>
-              <button onClick={() => setFacilityModalOpen(false)} className="p-1 rounded-lg text-slate-400 hover:text-slate-600">
+              <button
+                type="button"
+                onClick={() => setFacilityModalOpen(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                aria-label="Tutup"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveFacility} className="space-y-4 text-xs">
-              <div className="space-y-1">
-                <label className="font-bold text-slate-700">Nama Fasilitas *</label>
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  defaultValue={editingFacility?.name || ''}
-                  placeholder="Contoh: Laboratorium Komputer Digital"
-                  className="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+            <div className="p-6 overflow-y-auto flex-1">
+              <form onSubmit={handleSaveFacility} className="space-y-4 text-xs">
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Nama Fasilitas *</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    defaultValue={editingFacility?.name || ''}
+                    placeholder="Contoh: Laboratorium Komputer Digital"
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Jumlah / Keterangan Kuantitas *</label>
+                  <input
+                    type="text"
+                    name="count"
+                    required
+                    defaultValue={editingFacility?.count || '1 Ruang'}
+                    placeholder="Contoh: 1 Ruang, 30 Unit, 1 Lapangan"
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Deskripsi Singkat *</label>
+                  <textarea
+                    name="description"
+                    rows={3}
+                    required
+                    defaultValue={editingFacility?.description || ''}
+                    placeholder="Penjelasan singkat mengenai keunggulan atau spesifikasi sarana ini..."
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
+                  />
+                </div>
+
+                <ImageUploadInput
+                  label="Foto / Gambar Fasilitas"
+                  value={facilityImageUrl || editingFacility?.imageUrl || ''}
+                  onChange={(url) => setFacilityImageUrl(url)}
                 />
-              </div>
 
-              <div className="space-y-1">
-                <label className="font-bold text-slate-700">Jumlah / Keterangan Kuantitas *</label>
-                <input
-                  type="text"
-                  name="count"
-                  required
-                  defaultValue={editingFacility?.count || '1 Ruang'}
-                  placeholder="Contoh: 1 Ruang, 30 Unit, 1 Lapangan"
-                  className="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
-                />
-              </div>
+                <div className="pt-4 flex justify-end gap-2 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={() => setFacilityModalOpen(false)}
+                    className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2.5 rounded-xl bg-school-green-700 hover:bg-school-green-800 text-white font-extrabold shadow-md transition-colors"
+                  >
+                    Simpan Fasilitas
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
-              <div className="space-y-1">
-                <label className="font-bold text-slate-700">Deskripsi Singkat *</label>
-                <textarea
-                  name="description"
-                  rows={3}
-                  required
-                  defaultValue={editingFacility?.description || ''}
-                  placeholder="Penjelasan singkat mengenai keunggulan atau spesifikasi sarana ini..."
-                  className="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
-                />
-              </div>
+      {/* MODAL: ADD / EDIT OSIS OFFICER */}
+      {osisModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-md max-h-[90vh] sm:max-h-[88vh] flex flex-col overflow-hidden">
+            <div className="bg-white px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 z-10">
+              <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
+                <Users className="w-5 h-5 text-school-green-700" />
+                <span>{editingOsisOfficer ? 'Edit Pengurus OSIS' : 'Tambah Pengurus OSIS Baru'}</span>
+              </h3>
+              <button
+                type="button"
+                onClick={() => setOsisModalOpen(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                aria-label="Tutup"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
-              <ImageUploadInput
-                label="Foto / Gambar Fasilitas"
-                value={facilityImageUrl || editingFacility?.imageUrl || ''}
-                onChange={(url) => setFacilityImageUrl(url)}
-              />
-
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
-                <button
-                  type="button"
-                  onClick={() => setFacilityModalOpen(false)}
-                  className="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-bold hover:bg-slate-100"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-school-green-700 hover:bg-school-green-800 text-white font-extrabold shadow-md"
-                >
-                  Simpan Fasilitas
-                </button>
-              </div>
-            </form>
+            <div className="p-6 overflow-y-auto flex-1">
+              <form onSubmit={handleSaveOsisOfficer} className="space-y-4 text-xs">
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Jabatan *</label>
+                  <input
+                    type="text"
+                    name="position"
+                    required
+                    defaultValue={editingOsisOfficer?.position || ''}
+                    placeholder="Contoh: Ketua OSIS / Wakil Ketua / Sekretaris"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Nama Lengkap *</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    defaultValue={editingOsisOfficer?.name || ''}
+                    placeholder="Contoh: Muhammad Naufal Rizky"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Kelas *</label>
+                  <input
+                    type="text"
+                    name="className"
+                    required
+                    defaultValue={editingOsisOfficer?.className || ''}
+                    placeholder="Contoh: VIII-A"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                  />
+                </div>
+                <div className="pt-4 flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setOsisModalOpen(false)}
+                    className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2.5 rounded-xl bg-school-green-700 hover:bg-school-green-800 text-white font-extrabold shadow-md transition-colors"
+                  >
+                    Simpan Pengurus
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}

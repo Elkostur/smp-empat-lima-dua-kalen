@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { SectionHeading } from '@/components/common/SectionHeading';
@@ -38,8 +38,8 @@ export default function PpdbPage() {
 
   // Security & Anti-Bot State
   const [honeypot, setHoneypot] = useState(''); // Hidden trap field for bots
-  const [captchaNum1, setCaptchaNum1] = useState(3);
-  const [captchaNum2, setCaptchaNum2] = useState(4);
+  const [captchaNum1, setCaptchaNum1] = useState<number | null>(null);
+  const [captchaNum2, setCaptchaNum2] = useState<number | null>(null);
   const [userCaptcha, setUserCaptcha] = useState('');
   const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
 
@@ -101,13 +101,20 @@ export default function PpdbPage() {
   };
 
   // Generate new math captcha on load
-  const refreshCaptcha = () => {
+  const refreshCaptcha = React.useCallback(() => {
     const n1 = Math.floor(Math.random() * 8) + 2;
     const n2 = Math.floor(Math.random() * 8) + 1;
     setCaptchaNum1(n1);
     setCaptchaNum2(n2);
     setUserCaptcha('');
-  };
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      refreshCaptcha();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [refreshCaptcha]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -196,8 +203,9 @@ export default function PpdbPage() {
 
     if (formMode === 'express') {
       // Validate CAPTCHA
-      if (parseInt(userCaptcha.trim(), 10) !== captchaNum1 + captchaNum2) {
-        setErrorMessage(`Jawaban verifikasi keamanan salah. Berapa ${captchaNum1} + ${captchaNum2}?`);
+      if (captchaNum1 === null || captchaNum2 === null || parseInt(userCaptcha.trim(), 10) !== captchaNum1 + captchaNum2) {
+        setErrorMessage(`Jawaban verifikasi keamanan salah. Berapa ${captchaNum1 ?? 3} + ${captchaNum2 ?? 4}?`);
+        refreshCaptcha();
         return;
       }
 
@@ -225,8 +233,9 @@ export default function PpdbPage() {
       setFormStep((prev) => (prev + 1) as 1 | 2 | 3 | 4);
     } else if (formStep === 3) {
       // Validate CAPTCHA
-      if (parseInt(userCaptcha.trim(), 10) !== captchaNum1 + captchaNum2) {
-        setErrorMessage(`Jawaban verifikasi keamanan salah. Berapa ${captchaNum1} + ${captchaNum2}?`);
+      if (captchaNum1 === null || captchaNum2 === null || parseInt(userCaptcha.trim(), 10) !== captchaNum1 + captchaNum2) {
+        setErrorMessage(`Jawaban verifikasi keamanan salah. Berapa ${captchaNum1 ?? 3} + ${captchaNum2 ?? 4}?`);
+        refreshCaptcha();
         return;
       }
 
@@ -574,12 +583,13 @@ export default function PpdbPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="px-4 py-2.5 bg-white rounded-xl text-sm sm:text-base font-black text-school-green-950 tracking-wider border border-emerald-300 shadow-sm">
-                    Berapa {captchaNum1} + {captchaNum2} = ?
+                  <span className="px-4 py-2.5 bg-white rounded-xl text-sm sm:text-base font-black text-school-green-950 tracking-wider border border-emerald-300 shadow-sm min-w-[150px] text-center">
+                    {captchaNum1 !== null && captchaNum2 !== null ? `Berapa ${captchaNum1} + ${captchaNum2} = ?` : 'Membuat Soal...'}
                   </span>
                   <input
                     type="number"
                     required
+                    disabled={captchaNum1 === null}
                     placeholder="Hasil..."
                     value={userCaptcha}
                     onChange={(e) => setUserCaptcha(e.target.value)}
@@ -872,12 +882,13 @@ export default function PpdbPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="px-4 py-2.5 bg-white rounded-xl text-sm sm:text-base font-black text-school-green-950 tracking-wider border border-emerald-300 shadow-sm">
-                    Berapa {captchaNum1} + {captchaNum2} = ?
+                  <span className="px-4 py-2.5 bg-white rounded-xl text-sm sm:text-base font-black text-school-green-950 tracking-wider border border-emerald-300 shadow-sm min-w-[150px] text-center">
+                    {captchaNum1 !== null && captchaNum2 !== null ? `Berapa ${captchaNum1} + ${captchaNum2} = ?` : 'Membuat Soal...'}
                   </span>
                   <input
                     type="number"
                     required
+                    disabled={captchaNum1 === null}
                     placeholder="Hasil..."
                     value={userCaptcha}
                     onChange={(e) => setUserCaptcha(e.target.value)}

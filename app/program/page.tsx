@@ -1,18 +1,15 @@
-import type { Metadata } from 'next';
+'use client';
+
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { SectionHeading } from '@/components/common/SectionHeading';
-import { programsData } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 import { BookOpen, CheckCircle, GraduationCap, ArrowRight, Sparkles } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: 'Program Unggulan - SMP Empat Lima 2 Kedungpring',
-  description:
-    'Detail Program Tahfidz Al-Qur\'an Juz 30, Pembiasaan Sholat Dhuha, Smart School Digital Class, dan Klub Olimpiade Sains SMP 45 2 Kedungpring.',
-};
-
 export default function ProgramPage() {
+  const { programs } = useAdminDataStore();
+
   return (
     <main className="min-h-screen bg-slate-50/50 pb-20">
       <PageHeader
@@ -23,7 +20,7 @@ export default function ProgramPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
-        {programsData.map((prog, idx) => (
+        {programs.map((prog, idx) => (
           <div
             key={prog.id}
             className={`grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-6 sm:p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 ${
