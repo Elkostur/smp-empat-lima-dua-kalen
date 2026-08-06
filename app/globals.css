@@ -2,6 +2,19 @@
 @import "tw-animate-css";
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Cinzel:wght@600;700;800&display=swap');
 
+@theme {
+  --color-school-green-950: #05160E;
+  --color-school-green-900: #071f14;
+  --color-school-green-800: #0A2418;
+  --color-school-green-700: #0D2D1D;
+  --color-school-green-600: #153D29;
+  --color-school-green-500: #1B4D35;
+  --color-school-gold-600: #b89326;
+  --color-school-gold-500: #D4AF37;
+  --color-school-gold-400: #E5C158;
+  --color-school-gold-300: #F3E5AB;
+}
+
 @layer base {
   :root {
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;

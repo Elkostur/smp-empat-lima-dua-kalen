@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { galleryData, GalleryItem } from '@/data/schoolData';
@@ -12,8 +12,27 @@ const galleryCategories = ['Semua', 'Kegiatan', 'Prestasi', 'Keagamaan', 'Fasili
 export default function GaleriPage() {
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
+  const [galleryList, setGalleryList] = useState<GalleryItem[]>(galleryData);
 
-  const filteredItems = galleryData.filter(
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem('smp45_gallery');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setTimeout(() => {
+              setGalleryList(parsed);
+            }, 0);
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
+
+  const filteredItems = galleryList.filter(
     (item) => selectedCategory === 'Semua' || item.category === selectedCategory
   );
 

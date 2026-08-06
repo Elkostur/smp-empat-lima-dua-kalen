@@ -8,9 +8,31 @@ import { Calendar, User, ArrowRight, Tag } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
 import { newsData } from '@/data/schoolData';
 
+import { useState, useEffect } from 'react';
+
 export const LatestNewsSection: React.FC = () => {
-  const featured = newsData.filter((n) => n.featured)[0] || newsData[0];
-  const secondaryNews = newsData.filter((n) => n.id !== featured.id).slice(0, 3);
+  const [newsList, setNewsList] = useState<typeof newsData>(newsData);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem('smp45_news');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setTimeout(() => {
+              setNewsList(parsed);
+            }, 0);
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
+
+  const featured = newsList.filter((n) => n.featured)[0] || newsList[0];
+  const secondaryNews = featured ? newsList.filter((n) => n.id !== featured.id).slice(0, 3) : [];
 
   return (
     <section className="py-16 md:py-24 bg-[#0D2D1D] text-white border-b border-white/5">

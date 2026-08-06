@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   MapPin,
@@ -20,6 +20,26 @@ import { SchoolLogo } from '../common/SchoolLogo';
 import { schoolInfo } from '@/data/schoolData';
 
 export const Footer: React.FC = () => {
+  const [info, setInfo] = useState(schoolInfo);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem('smp45_school_info');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed && typeof parsed === 'object') {
+            setTimeout(() => {
+              setInfo((prev) => ({ ...prev, ...parsed }));
+            }, 0);
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
+
   return (
     <footer className="bg-[#05160E] text-white pt-16 pb-24 md:pb-12 border-t border-[#D4AF37]/30 relative overflow-hidden">
       {/* Background Decorative Pattern */}
@@ -39,7 +59,7 @@ export const Footer: React.FC = () => {
 
             <div className="pt-2 flex items-center gap-3">
               <a
-                href={schoolInfo.socials.instagram}
+                href={info.socials.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-[#0A2418] text-[#D4AF37] border border-[#D4AF37]/20 hover:bg-[#D4AF37] hover:text-[#0D2D1D] flex items-center justify-center transition-all duration-200"
@@ -48,7 +68,7 @@ export const Footer: React.FC = () => {
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href={schoolInfo.socials.facebook}
+                href={info.socials.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-[#0A2418] text-[#D4AF37] border border-[#D4AF37]/20 hover:bg-[#D4AF37] hover:text-[#0D2D1D] flex items-center justify-center transition-all duration-200"
@@ -57,7 +77,7 @@ export const Footer: React.FC = () => {
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href={schoolInfo.socials.youtube}
+                href={info.socials.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-[#0A2418] text-[#D4AF37] border border-[#D4AF37]/20 hover:bg-[#D4AF37] hover:text-[#0D2D1D] flex items-center justify-center transition-all duration-200"
@@ -133,24 +153,24 @@ export const Footer: React.FC = () => {
             <div className="space-y-3 text-xs sm:text-sm text-slate-300">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
-                <span>{schoolInfo.address}, {schoolInfo.district}, {schoolInfo.regency}, {schoolInfo.province} ({schoolInfo.postalCode})</span>
+                <span>{info.address}, {info.district}, {info.regency}, {info.province} ({info.postalCode})</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                <span>Telp: {schoolInfo.phone}</span>
+                <span>Telp: {info.phone}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                <span>{schoolInfo.email}</span>
+                <span>{info.email}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Clock className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                <span>{schoolInfo.operatingHours}</span>
+                <span>{info.operatingHours}</span>
               </div>
 
               <div className="pt-2">
                 <a
-                  href={`https://wa.me/${schoolInfo.whatsapp}?text=Halo%20Admin%20SMP%20Empat%20Lima%202%20Kedungpring`}
+                  href={`https://wa.me/${info.whatsapp}?text=Halo%20Admin%20SMP%20Empat%20Lima%202%20Kedungpring`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-full bg-[#153D29] hover:bg-[#1B4D35] text-white font-bold text-xs transition-colors border border-[#D4AF37]/30"

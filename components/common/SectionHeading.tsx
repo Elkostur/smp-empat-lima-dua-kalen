@@ -30,9 +30,17 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
     >
       {badge && (
         <span
-          className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-3 bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/30 max-w-full flex-wrap text-center"
+          className={`inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black tracking-widest uppercase mb-3 max-w-full flex-wrap text-center border ${
+            light
+              ? 'bg-amber-100 text-amber-900 border-amber-300/80 shadow-sm'
+              : 'bg-[#D4AF37]/15 text-[#D4AF37] border-[#D4AF37]/30'
+          }`}
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse shrink-0" />
+          <span
+            className={`w-1.5 h-1.5 rounded-full animate-pulse shrink-0 ${
+              light ? 'bg-amber-600' : 'bg-[#D4AF37]'
+            }`}
+          />
           <span className="break-words">{badge}</span>
         </span>
       )}
@@ -53,8 +61,8 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
 
       {subtitle && (
         <p
-          className={`mt-3 text-sm sm:text-base md:text-lg max-w-2xl ${
-            light ? 'text-slate-600' : 'text-slate-300'
+          className={`mt-3 text-sm sm:text-base md:text-lg max-w-2xl font-medium ${
+            light ? 'text-slate-800' : 'text-slate-200'
           } ${centered ? 'mx-auto' : ''}`}
         >
           {subtitle}

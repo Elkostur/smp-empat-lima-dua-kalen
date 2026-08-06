@@ -31,6 +31,7 @@ export interface SchoolInfo {
   tagline: string;
   vision: string;
   missions: string[];
+  history: string;
   googleMapsEmbedUrl: string;
   socials: {
     facebook: string;
@@ -44,7 +45,7 @@ export interface NewsItem {
   id: string;
   slug: string;
   title: string;
-  category: 'Pengumuman' | 'Berita' | 'Prestasi' | 'Kegiatan' | 'Artikel';
+  category: 'Pengumuman' | 'Kegiatan' | 'Prestasi' | 'Keagamaan & Tahfidz' | 'Ekstrakurikuler' | 'Artikel & Opini';
   date: string;
   author: string;
   authorRole: string;
@@ -143,6 +144,7 @@ export const schoolInfo: SchoolInfo = {
     'Mewujudkan sarana prasarana sekolah yang kondusif, bersih, hijau, dan modern berbasis digital school.',
     'Membangun kerjasama yang harmonis antara sekolah, yayasan, orang tua murid, dan masyarakat.',
   ],
+  history: `SMP "Empat Lima" 2 Kedungpring didirikan sebagai bentuk komitmen nyata Yayasan Pendidikan Ma'arif Empat Lima Kalen dalam menghadirkan sarana pendidikan menengah pertama berkualitas berbasis nilai-nilai Islam Ahlussunnah wal Jama'ah An-Nahdliyah di wilayah Kedungpring dan sekitarnya.\n\nSejak awal berdiri, sekolah kami konsisten memadukan Kurikulum Nasional (Kurikulum Merdeka) dengan pembiasaan keagamaan khas pesantren, seperti Sholat Dhuha berjamaah, Istighosah rutin, hafalan Al-Qur'an Juz 30, dan penguatan karakter kemandirian santri.\n\nDidukung oleh tenaga pendidik profesional lulusan perguruan tinggi ternama serta sarana pendukung digital, SMP Empat Lima 2 Kedungpring terus berkembang menjadi sekolah pilihan utama masyarakat Kedungpring, Sugio, Kalen, dan sekitarnya.`,
   googleMapsEmbedUrl:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.8263889123!2d112.1852!3d-7.1895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwMTEnMjIuMiJTIDExM8KwMTEnMDYuNyJF!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid',
   socials: {
@@ -249,7 +251,7 @@ export const newsData: NewsItem[] = [
     id: '3',
     slug: 'peringatan-tahun-baru-islam-1448-h-dan-santunan-anak-yatim',
     title: 'Gema Muharram: SMP 45 2 Kedungpring Gelar Istighosah dan Santunan Puluhan Anak Yatim',
-    category: 'Kegiatan',
+    category: 'Keagamaan & Tahfidz',
     date: '20 Juli 2026',
     author: 'Siti Rahmawati, S.Pd.I.',
     authorRole: 'Guru Agama & Pembina IPNU-IPPNU',
@@ -267,7 +269,7 @@ export const newsData: NewsItem[] = [
     id: '4',
     slug: 'pelatihan-coding-dan-literasi-digital-bersama-mahasiswa',
     title: 'Tingkatkan Skill Abad 21, Siswa Mengikuti Pelatihan Dasar Coding dan Desain Grafis Digital',
-    category: 'Berita',
+    category: 'Kegiatan',
     date: '12 Juli 2026',
     author: 'Budi Santoso, S.Kom.',
     authorRole: 'Guru TIK & IT Manager',

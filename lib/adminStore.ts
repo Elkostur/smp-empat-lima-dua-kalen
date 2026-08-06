@@ -90,6 +90,14 @@ export interface PpdbApplicant {
   registrationDate: string;
   status: 'Menunggu Verifikasi' | 'Diterima' | 'Perlu Perbaikan' | 'Ditolak';
   notes?: string;
+  registrationType?: 'express' | 'full';
+  birthPlace?: string;
+  birthDate?: string;
+  address?: string;
+  fatherName?: string;
+  motherName?: string;
+  parentOccupation?: string;
+  isDataComplete?: boolean;
 }
 
 export const initialApplicants: PpdbApplicant[] = [
@@ -106,6 +114,14 @@ export const initialApplicants: PpdbApplicant[] = [
     registrationDate: '2026-08-01 09:30',
     status: 'Diterima',
     notes: 'Berkas pendaftaran lengkap. Bebas biaya pendaftaran Gel. 1.',
+    registrationType: 'full',
+    birthPlace: 'Lamongan',
+    birthDate: '2013-05-12',
+    address: 'Dusun Kalen RT 02 RW 01 Desa Kalen, Kedungpring',
+    fatherName: 'H. Suwarno',
+    motherName: 'Hj. Aminah',
+    parentOccupation: 'Wiraswasta',
+    isDataComplete: true,
   },
   {
     id: 'ppdb-102',
@@ -120,20 +136,36 @@ export const initialApplicants: PpdbApplicant[] = [
     registrationDate: '2026-08-02 11:15',
     status: 'Menunggu Verifikasi',
     notes: 'Memiliki sertifikat juz 30. Siapkan wawancara tes hafalan.',
+    registrationType: 'full',
+    birthPlace: 'Lamongan',
+    birthDate: '2013-08-20',
+    address: 'Desa Maindu RT 01 RW 03, Kedungpring',
+    fatherName: 'Ahmad Mujib',
+    motherName: 'Siti Rahmah',
+    parentOccupation: 'Petani',
+    isDataComplete: true,
   },
   {
     id: 'ppdb-103',
     registrationNo: 'PPDB2026-003',
     fullName: 'Ahmad Fadhil Ramadhan',
-    nisn: '0127493821',
+    nisn: '-',
     gender: 'Laki-Laki',
     originSchool: 'SDN Sugio 02',
     parentName: 'Rahmat Hidayat',
     phone: '085811223344',
     track: 'Prestasi',
     registrationDate: '2026-08-03 14:20',
-    status: 'Diterima',
-    notes: 'Juara 1 Lomba Sains SD/MI se-Kecamatan Kedungpring.',
+    status: 'Menunggu Verifikasi',
+    notes: 'Pendaftaran Cepat. NISN, Tempat Lahir & Alamat belum diisi.',
+    registrationType: 'express',
+    birthPlace: '',
+    birthDate: '',
+    address: '',
+    fatherName: 'Rahmat Hidayat',
+    motherName: '',
+    parentOccupation: '',
+    isDataComplete: false,
   },
   {
     id: 'ppdb-104',
@@ -148,12 +180,20 @@ export const initialApplicants: PpdbApplicant[] = [
     registrationDate: '2026-08-04 08:45',
     status: 'Menunggu Verifikasi',
     notes: 'Rekomendasi Pengurus MWC NU Kedungpring.',
+    registrationType: 'full',
+    birthPlace: 'Lamongan',
+    birthDate: '2013-02-14',
+    address: 'Jl. Raya Kedungpring No. 45',
+    fatherName: 'Bambang Sugianto',
+    motherName: 'Endang Lestari',
+    parentOccupation: 'PNS',
+    isDataComplete: true,
   },
   {
     id: 'ppdb-105',
     registrationNo: 'PPDB2026-005',
     fullName: 'Bagas Aditya Pratama',
-    nisn: '0112349876',
+    nisn: '-',
     gender: 'Laki-Laki',
     originSchool: 'MI Bustanul Ulum',
     parentName: 'Agus Setiawan',
@@ -161,7 +201,15 @@ export const initialApplicants: PpdbApplicant[] = [
     track: 'Reguler',
     registrationDate: '2026-08-04 15:10',
     status: 'Perlu Perbaikan',
-    notes: 'Foto Kartu Keluarga agak buram, butuh upload ulang.',
+    notes: 'Pendaftaran Cepat via WA. Perlu konfirmasi NISN & Alamat.',
+    registrationType: 'express',
+    birthPlace: '',
+    birthDate: '',
+    address: '',
+    fatherName: 'Agus Setiawan',
+    motherName: '',
+    parentOccupation: '',
+    isDataComplete: false,
   },
 ];
 
@@ -176,27 +224,60 @@ function getStoredValue<T>(key: string, defaultValue: T): T {
 }
 
 export function useAdminDataStore() {
-  const [schoolInfo, setSchoolInfo] = useState<SchoolInfo>(() => getStoredValue('smp45_school_info', defaultSchoolInfo));
-  const [heroSlides, setHeroSlides] = useState(() => getStoredValue('smp45_hero_slides', defaultHeroSlides));
-  const [news, setNews] = useState<NewsItem[]>(() => getStoredValue('smp45_news', defaultNewsItems));
-  const [applicants, setApplicants] = useState<PpdbApplicant[]>(() => getStoredValue('smp45_applicants', initialApplicants));
-  const [programs, setPrograms] = useState<ProgramItem[]>(() => getStoredValue('smp45_programs', defaultPrograms));
-  const [extracurriculars, setExtracurriculars] = useState<ExtracurricularItem[]>(() => getStoredValue('smp45_ekskul', defaultEkskul));
-  const [staff, setStaff] = useState<StaffItem[]>(() => getStoredValue('smp45_staff', defaultStaff));
-  const [gallery, setGallery] = useState<GalleryItem[]>(() => getStoredValue('smp45_gallery', defaultGallery));
-  const [agendas, setAgendas] = useState<AgendaItem[]>(() => getStoredValue('smp45_agendas', defaultAgendas));
-  const [testimonials, setTestimonials] = useState(() => getStoredValue('smp45_testimonials', defaultTestimonials));
-  const [facilities, setFacilities] = useState(() => getStoredValue('smp45_facilities', defaultFacilities));
-  const [faqs, setFaqs] = useState(() => getStoredValue('smp45_faqs', defaultFaqs));
+  const [schoolInfo, setSchoolInfo] = useState<SchoolInfo>(defaultSchoolInfo);
+  const [heroSlides, setHeroSlides] = useState(defaultHeroSlides);
+  const [news, setNews] = useState<NewsItem[]>(defaultNewsItems);
+  const [applicants, setApplicants] = useState<PpdbApplicant[]>(initialApplicants);
+  const [programs, setPrograms] = useState<ProgramItem[]>(defaultPrograms);
+  const [extracurriculars, setExtracurriculars] = useState<ExtracurricularItem[]>(defaultEkskul);
+  const [staff, setStaff] = useState<StaffItem[]>(defaultStaff);
+  const [gallery, setGallery] = useState<GalleryItem[]>(defaultGallery);
+  const [agendas, setAgendas] = useState<AgendaItem[]>(defaultAgendas);
+  const [testimonials, setTestimonials] = useState(defaultTestimonials);
+  const [facilities, setFacilities] = useState(defaultFacilities);
+  const [faqs, setFaqs] = useState(defaultFaqs);
 
   // Sync back helper
   const saveToStorage = (key: string, data: unknown) => {
     try {
       localStorage.setItem(key, JSON.stringify(data));
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('storage'));
+        window.dispatchEvent(new Event('smp45_data_updated'));
+      }
     } catch {
       // ignore
     }
   };
+
+  // Hydrate from localStorage on mount and listen for storage changes across tabs or pages
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const reloadDataFromStorage = () => {
+      setSchoolInfo(getStoredValue('smp45_school_info', defaultSchoolInfo));
+      setHeroSlides(getStoredValue('smp45_hero_slides', defaultHeroSlides));
+      setNews(getStoredValue('smp45_news', defaultNewsItems));
+      setApplicants(getStoredValue('smp45_applicants', initialApplicants));
+      setPrograms(getStoredValue('smp45_programs', defaultPrograms));
+      setExtracurriculars(getStoredValue('smp45_ekskul', defaultEkskul));
+      setStaff(getStoredValue('smp45_staff', defaultStaff));
+      setGallery(getStoredValue('smp45_gallery', defaultGallery));
+      setAgendas(getStoredValue('smp45_agendas', defaultAgendas));
+      setTestimonials(getStoredValue('smp45_testimonials', defaultTestimonials));
+      setFacilities(getStoredValue('smp45_facilities', defaultFacilities));
+      setFaqs(getStoredValue('smp45_faqs', defaultFaqs));
+    };
+
+    reloadDataFromStorage();
+
+    window.addEventListener('storage', reloadDataFromStorage);
+    window.addEventListener('smp45_data_updated', reloadDataFromStorage);
+    return () => {
+      window.removeEventListener('storage', reloadDataFromStorage);
+      window.removeEventListener('smp45_data_updated', reloadDataFromStorage);
+    };
+  }, []);
 
   return {
     schoolInfo,
@@ -250,7 +331,10 @@ export function useAdminDataStore() {
       saveToStorage('smp45_testimonials', data);
     },
     facilities,
-    setFacilities,
+    setFacilities: (data: typeof defaultFacilities) => {
+      setFacilities(data);
+      saveToStorage('smp45_facilities', data);
+    },
     faqs,
     setFaqs,
   };

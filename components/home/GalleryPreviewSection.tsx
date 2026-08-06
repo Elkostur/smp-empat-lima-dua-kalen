@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'motion/react';
@@ -11,7 +11,27 @@ import { LightboxModal } from '../galeri/LightboxModal';
 
 export const GalleryPreviewSection: React.FC = () => {
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
-  const items = galleryData.slice(0, 6);
+  const [galleryList, setGalleryList] = useState<GalleryItem[]>(galleryData);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem('smp45_gallery');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setTimeout(() => {
+              setGalleryList(parsed);
+            }, 0);
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
+
+  const items = galleryList.slice(0, 6);
 
   return (
     <section className="py-16 md:py-24 bg-[#0D2D1D] text-white border-b border-white/5">

@@ -5,9 +5,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import { Quote, ArrowRight, CheckCircle, Award } from 'lucide-react';
-import { schoolInfo } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export const PrincipalGreeting: React.FC = () => {
+  const { schoolInfo } = useAdminDataStore();
+
   return (
     <section className="py-16 md:py-24 bg-[#0D2D1D] text-white relative overflow-hidden border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

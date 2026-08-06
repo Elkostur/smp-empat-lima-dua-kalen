@@ -1,21 +1,52 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { newsData, NewsItem } from '@/data/schoolData';
 import { Calendar, User, Search, Tag, ArrowRight, BookOpen } from 'lucide-react';
 
-const categories = ['Semua', 'Pengumuman', 'Prestasi', 'Kegiatan', 'Artikel'];
+const categories = [
+  'Semua',
+  'Pengumuman',
+  'Kegiatan',
+  'Prestasi',
+  'Keagamaan & Tahfidz',
+  'Ekstrakurikuler',
+  'Artikel & Opini',
+];
 
 export default function BeritaPage() {
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [searchQuery, setSearchQuery] = useState('');
+  const [newsList, setNewsList] = useState<NewsItem[]>(newsData);
 
-  const filteredNews = newsData.filter((item) => {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem('smp45_news');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setTimeout(() => {
+              setNewsList(parsed);
+            }, 0);
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
+
+  const filteredNews = newsList.filter((item) => {
+    const itemCat = item.category as string;
     const matchesCategory =
-      selectedCategory === 'Semua' || item.category === selectedCategory;
+      selectedCategory === 'Semua' ||
+      itemCat === selectedCategory ||
+      (selectedCategory === 'Artikel & Opini' && itemCat === 'Artikel') ||
+      (selectedCategory === 'Kegiatan' && itemCat === 'Berita');
     const matchesSearch =
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||

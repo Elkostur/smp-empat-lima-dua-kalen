@@ -35,6 +35,25 @@ export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [info, setInfo] = useState(schoolInfo);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem('smp45_school_info');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed && typeof parsed === 'object') {
+            setTimeout(() => {
+              setInfo((prev) => ({ ...prev, ...parsed }));
+            }, 0);
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,15 +80,15 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-6">
             <span className="inline-flex items-center gap-1.5 text-slate-300">
               <Phone className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>{schoolInfo.phone}</span>
+              <span>{info.phone}</span>
             </span>
             <span className="inline-flex items-center gap-1.5 text-slate-300">
               <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>{schoolInfo.email}</span>
+              <span>{info.email}</span>
             </span>
             <span className="inline-flex items-center gap-1.5 text-slate-300">
               <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>{schoolInfo.operatingHours}</span>
+              <span>{info.operatingHours}</span>
             </span>
           </div>
 
