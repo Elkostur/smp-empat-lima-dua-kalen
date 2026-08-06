@@ -1,0 +1,97 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Cinzel:wght@600;700;800&display=swap');
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Cinzel', serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: #0D2D1D;
+    color: #f8fafc;
+  }
+}
+
+/* Custom Sleek Interface Theme Classes */
+.bg-school-green-900 { background-color: #05160E; }
+.bg-school-green-800 { background-color: #0A2418; }
+.bg-school-green-700 { background-color: #0D2D1D; }
+.bg-school-green-600 { background-color: #153D29; }
+.bg-school-green-500 { background-color: #1B4D35; }
+.bg-school-green-50  { background-color: #0A2418; }
+
+.text-school-green-800 { color: #34d399; }
+.text-school-green-700 { color: #10b981; }
+.text-school-green-600 { color: #34d399; }
+
+.border-school-green-700 { border-color: rgba(212, 175, 55, 0.25); }
+.border-school-green-600 { border-color: rgba(255, 255, 255, 0.1); }
+
+/* School Gold Palette */
+.bg-school-gold-600 { background-color: #b89326; }
+.bg-school-gold-500 { background-color: #D4AF37; }
+.bg-school-gold-400 { background-color: #E5C158; }
+.bg-school-gold-100 { background-color: rgba(212, 175, 55, 0.15); }
+.bg-school-gold-50  { background-color: rgba(212, 175, 55, 0.08); }
+
+.text-school-gold-600 { color: #E5C158; }
+.text-school-gold-500 { color: #D4AF37; }
+.text-school-gold-400 { color: #F3E5AB; }
+
+.border-school-gold-500 { border-color: #D4AF37; }
+.border-school-gold-400 { border-color: rgba(212, 175, 55, 0.4); }
+.border-school-gold-300 { border-color: rgba(212, 175, 55, 0.25); }
+
+/* Custom Gradient Utilities */
+.bg-gradient-school {
+  background: linear-gradient(135deg, #0A2418 0%, #0D2D1D 50%, #153D29 100%);
+}
+
+.bg-gradient-gold {
+  background: linear-gradient(135deg, #D4AF37 0%, #E5C158 50%, #C49F27 100%);
+}
+
+.bg-gradient-school-dark {
+  background: linear-gradient(180deg, #05160E 0%, #0A2418 100%);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFF3C4 0%, #D4AF37 50%, #B38F1E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar for better UI */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05160E;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E5C158;
+}
+
+/* Mobile Touch Constraints & Utility */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+

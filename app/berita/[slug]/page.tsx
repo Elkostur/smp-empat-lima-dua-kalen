@@ -1,0 +1,154 @@
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { PageHeader } from '@/components/layout/PageHeader';
+import { newsData } from '@/data/schoolData';
+import { Calendar, User, ArrowLeft, Tag, Share2, Facebook, Twitter, MessageCircle } from 'lucide-react';
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const article = newsData.find((n) => n.slug === slug);
+
+  if (!article) {
+    return {
+      title: 'Artikel Tidak Ditemukan - SMP Empat Lima 2 Kedungpring',
+    };
+  }
+
+  return {
+    title: `${article.title} - SMP Empat Lima 2 Kedungpring`,
+    description: article.summary,
+    openGraph: {
+      title: article.title,
+      description: article.summary,
+      images: [article.image],
+    },
+  };
+}
+
+export default async function BeritaDetailPage({ params }: PageProps) {
+  const { slug } = await params;
+  const article = newsData.find((n) => n.slug === slug);
+
+  if (!article) {
+    notFound();
+  }
+
+  const relatedNews = newsData
+    .filter((n) => n.id !== article.id)
+    .slice(0, 3);
+
+  return (
+    <main className="min-h-screen bg-white pb-20">
+      <PageHeader
+        title={article.title}
+        subtitle={`${article.category} • Dipublikasikan pada ${article.date}`}
+        badge={article.category}
+        breadcrumbs={[
+          { label: 'Berita', href: '/berita' },
+          { label: 'Detail Artikel' },
+        ]}
+      />
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Back Link */}
+        <Link
+          href="/berita"
+          className="inline-flex items-center gap-2 text-xs font-bold text-school-green-700 hover:text-school-green-800 mb-6"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Kembali ke Daftar Berita</span>
+        </Link>
+
+        {/* Featured Image */}
+        <div className="relative h-72 sm:h-96 w-full rounded-2xl overflow-hidden shadow-md mb-8 bg-slate-100">
+          <Image
+            src={article.image}
+            alt={article.title}
+            fill
+            className="object-cover"
+            priority
+            referrerPolicy="no-referrer"
+          />
+        </div>
+
+        {/* Article Meta Author */}
+        <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200 mb-8 text-xs text-slate-600">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1.5 font-semibold text-slate-800">
+              <User className="w-4 h-4 text-school-green-700" />
+              <span>{article.author} ({article.authorRole})</span>
+            </span>
+            <span>•</span>
+            <span className="flex items-center gap-1.5">
+              <Calendar className="w-4 h-4 text-school-green-700" />
+              <span>{article.date}</span>
+            </span>
+          </div>
+
+          <span className="px-2.5 py-1 bg-school-gold-100 text-school-gold-600 font-bold rounded">
+            {article.readTime} membaca
+          </span>
+        </div>
+
+        {/* Article Body HTML Content */}
+        <div
+          className="prose prose-slate max-w-none prose-headings:font-extrabold prose-headings:text-slate-900 prose-p:text-slate-700 prose-p:leading-relaxed prose-li:text-slate-700 text-sm sm:text-base space-y-4"
+          dangerouslySetInnerHTML={{ __html: article.content }}
+        />
+
+        {/* Tags */}
+        <div className="mt-10 pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2 flex-wrap">
+            <Tag className="w-4 h-4 text-slate-400 shrink-0" />
+            {article.tags.map((tag, idx) => (
+              <span
+                key={idx}
+                className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-semibold"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Related Articles */}
+        <div className="mt-16 pt-12 border-t-2 border-slate-100 space-y-6">
+          <h3 className="text-xl font-extrabold text-slate-900">
+            Berita Terkait Lainnya
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {relatedNews.map((rel) => (
+              <div
+                key={rel.id}
+                className="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 p-3 space-y-2 group"
+              >
+                <div className="relative h-32 w-full rounded-lg overflow-hidden bg-slate-200">
+                  <Image
+                    src={rel.image}
+                    alt={rel.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <span className="text-[10px] font-bold text-school-gold-600 uppercase">
+                  {rel.category}
+                </span>
+                <h4 className="text-xs font-extrabold text-slate-900 line-clamp-2 group-hover:text-school-green-700">
+                  <Link href={`/berita/${rel.slug}`}>{rel.title}</Link>
+                </h4>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}

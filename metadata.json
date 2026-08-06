@@ -1,0 +1,6 @@
+{
+  "name": "SMP Empat Lima 2 Kedungpring",
+  "description": "Website Resmi SMP Empat Lima 2 Kedungpring - Yayasan Pendidikan Ma'arif Empat Lima Kalen. Berita, Profil, PPDB Online, Galeri, Staff, dan Informasi Sekolah.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
