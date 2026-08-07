@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { newsData } from '@/data/schoolData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://smp452kedungpring.sch.id';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://smp-empat-lima-dua-kalen.vercel.app';
 
   const staticRoutes = [
     '',

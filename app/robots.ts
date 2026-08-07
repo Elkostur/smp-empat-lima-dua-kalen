@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://smp452kedungpring.sch.id';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://smp-empat-lima-dua-kalen.vercel.app';
 
   return {
     rules: {

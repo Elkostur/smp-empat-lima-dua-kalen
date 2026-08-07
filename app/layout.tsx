@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'id_ID',
-    url: process.env.NEXT_PUBLIC_APP_URL || 'https://smp452kedungpring.sch.id',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'https://smp-empat-lima-dua-kalen.vercel.app',
     title: 'SMP Empat Lima 2 Kedungpring - Website Resmi Sekolah',
     description:
       'Sekolah Menengah Pertama unggulan berakhlak mulia, cerdas, & berkarakter Islami di Kedungpring - Lamongan.',

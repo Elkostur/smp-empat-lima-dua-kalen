@@ -10,7 +10,7 @@ export const SchoolSchema: React.FC = () => {
     '@type': 'EducationalOrganization',
     name: schoolInfo.name,
     alternateName: [schoolInfo.shortName, schoolInfo.foundation],
-    url: process.env.NEXT_PUBLIC_APP_URL || 'https://smp452kedungpring.sch.id',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'https://smp-empat-lima-dua-kalen.vercel.app',
     logo: `${process.env.NEXT_PUBLIC_APP_URL || ''}/logo.png`,
     description: schoolInfo.tagline,
     address: {
