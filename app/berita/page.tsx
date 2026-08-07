@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { BlurImage } from '@/components/common/BlurImage';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { newsData, NewsItem } from '@/data/schoolData';
 import { Calendar, User, Search, Tag, ArrowRight, BookOpen } from 'lucide-react';
@@ -109,12 +109,11 @@ export default function BeritaPage() {
               >
                 <div>
                   <div className="relative h-52 w-full bg-slate-100 overflow-hidden">
-                    <Image
+                    <BlurImage
                       src={item.image}
                       alt={item.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      referrerPolicy="no-referrer"
                     />
                     <span className="absolute top-3 left-3 px-3 py-1 bg-school-green-800 text-amber-300 font-extrabold text-[11px] rounded-full shadow-md">
                       {item.category}

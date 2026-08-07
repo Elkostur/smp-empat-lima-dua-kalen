@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { BlurImage } from '@/components/common/BlurImage';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { galleryData, GalleryItem } from '@/data/schoolData';
 import { LightboxModal } from '@/components/galeri/LightboxModal';
@@ -71,12 +71,11 @@ export default function GaleriPage() {
               onClick={() => setActiveItem(item)}
               className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-900 cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200"
             >
-              <Image
+              <BlurImage
                 src={item.imageUrl}
                 alt={item.title}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
-                referrerPolicy="no-referrer"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-between">

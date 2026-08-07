@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { BlurImage } from '@/components/common/BlurImage';
 import { motion } from 'motion/react';
 import { Calendar, User, ArrowRight, Tag } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
@@ -54,12 +54,11 @@ export const LatestNewsSection: React.FC = () => {
             className="lg:col-span-7 bg-[#153D29] rounded-2xl border border-[#D4AF37]/20 overflow-hidden shadow-xl hover:border-[#D4AF37]/60 transition-all duration-300 group"
           >
             <div className="relative h-64 sm:h-80 w-full overflow-hidden bg-[#0A2418]">
-              <Image
+              <BlurImage
                 src={featured.image}
                 alt={featured.title}
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                referrerPolicy="no-referrer"
               />
               <span className="absolute top-4 left-4 px-3 py-1 bg-[#05160E]/90 border border-[#D4AF37]/40 text-[#D4AF37] font-extrabold text-xs rounded-full shadow-md">
                 {featured.category}
@@ -125,12 +124,11 @@ export const LatestNewsSection: React.FC = () => {
                 className="p-4 rounded-xl border border-[#D4AF37]/20 bg-[#153D29] hover:border-[#D4AF37]/60 hover:shadow-md transition-all duration-200 flex gap-4 items-center group"
               >
                 <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0 bg-[#0A2418]">
-                  <Image
+                  <BlurImage
                     src={item.image}
                     alt={item.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    referrerPolicy="no-referrer"
                   />
                 </div>
 

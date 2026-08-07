@@ -72,6 +72,10 @@ export const Navbar: React.FC = () => {
     queueMicrotask(() => setIsMobileMenuOpen(false));
   }, [pathname]);
 
+  if (pathname === '/admin') {
+    return null;
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full shadow-sm transition-all duration-300">
       {/* Top Announcement & Quick Contact Bar */}

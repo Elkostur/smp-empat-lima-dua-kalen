@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { BlurImage } from '@/components/common/BlurImage';
 import { motion } from 'motion/react';
 import { Maximize2, ArrowRight } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
@@ -54,12 +54,11 @@ export const GalleryPreviewSection: React.FC = () => {
               onClick={() => setActiveItem(item)}
               className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#0A2418] cursor-pointer shadow-lg border border-[#D4AF37]/20 hover:border-[#D4AF37]/70 transition-all duration-300"
             >
-              <Image
+              <BlurImage
                 src={item.imageUrl}
                 alt={item.title}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
-                referrerPolicy="no-referrer"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-[#05160E]/90 via-[#05160E]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-between">

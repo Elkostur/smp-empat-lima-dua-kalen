@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
+import { BlurImage } from '@/components/common/BlurImage';
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import { Quote, ArrowRight, CheckCircle, Award } from 'lucide-react';
@@ -28,12 +28,11 @@ export const PrincipalGreeting: React.FC = () => {
               <div className="absolute -inset-3 bg-[#D4AF37]/20 rounded-3xl transform rotate-2 opacity-80" />
 
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-[#D4AF37]/40 bg-[#0A2418] aspect-[4/5]">
-                <Image
+                <BlurImage
                   src={schoolInfo.principalPhoto}
                   alt={schoolInfo.principal}
                   fill
                   className="object-cover object-center"
-                  referrerPolicy="no-referrer"
                 />
                 
                 {/* Badge Overlay */}

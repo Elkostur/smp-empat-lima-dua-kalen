@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   MapPin,
   Phone,
@@ -20,6 +21,7 @@ import { SchoolLogo } from '../common/SchoolLogo';
 import { schoolInfo } from '@/data/schoolData';
 
 export const Footer: React.FC = () => {
+  const pathname = usePathname();
   const [info, setInfo] = useState(schoolInfo);
 
   useEffect(() => {
@@ -39,6 +41,10 @@ export const Footer: React.FC = () => {
       }
     }
   }, []);
+
+  if (pathname === '/admin') {
+    return null;
+  }
 
   return (
     <footer className="bg-[#05160E] text-white pt-16 pb-24 md:pb-12 border-t border-[#D4AF37]/30 relative overflow-hidden">

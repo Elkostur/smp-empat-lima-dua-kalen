@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { BlurImage } from '@/components/common/BlurImage';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, GraduationCap, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import { heroSlides } from '@/data/schoolData';
@@ -70,13 +70,12 @@ export const HeroSlider: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="absolute inset-0"
         >
-          <Image
+          <BlurImage
             src={slide.bgImage}
             alt={slide.title}
             fill
             className="object-cover object-center"
             priority={currentSlide === 0}
-            referrerPolicy="no-referrer"
           />
           {/* Overlay Gradient for readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#05160E]/95 via-[#0A2418]/85 to-transparent" />

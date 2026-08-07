@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
+import { BlurImage } from '@/components/common/BlurImage';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Calendar, Tag } from 'lucide-react';
 import { GalleryItem } from '@/data/schoolData';
@@ -34,12 +34,11 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({ item, onClose }) =
 
           {/* Image */}
           <div className="relative w-full h-80 sm:h-[450px] bg-black">
-            <Image
+            <BlurImage
               src={item.imageUrl}
               alt={item.title}
               fill
               className="object-contain"
-              referrerPolicy="no-referrer"
             />
           </div>
 

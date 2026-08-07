@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+export const dynamic = 'force-dynamic';
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   useAdminDataStore,
@@ -88,6 +90,20 @@ export default function AdminDashboardPage() {
     | 'testimonials'
     | 'settings'
   >('overview');
+
+  useEffect(() => {
+    const handleSetTab = (e: any) => {
+      if (e.detail) {
+        setActiveTab(e.detail);
+      }
+    };
+    window.addEventListener('set-admin-tab', handleSetTab as EventListener);
+    return () => window.removeEventListener('set-admin-tab', handleSetTab as EventListener);
+  }, []);
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('admin-tab-changed', { detail: activeTab }));
+  }, [activeTab]);
 
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
