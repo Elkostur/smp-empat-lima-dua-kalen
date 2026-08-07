@@ -1,70 +1,29 @@
-import type { Metadata } from 'next';
-import { programsData, schoolInfo } from '@/data/schoolData';
+'use client';
+
+import React from 'react';
 import { BlurImage } from '@/components/common/BlurImage';
 import { PageHeader } from '@/components/layout/PageHeader';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CheckCircle, GraduationCap, ArrowLeft, Sparkles, Clock } from 'lucide-react';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 interface ProgramDetailProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: ProgramDetailProps): Promise<Metadata> {
-  const resolvedParams = await params;
+export default function ProgramDetailPage({ params }: ProgramDetailProps) {
+  const resolvedParams = React.use(params);
   const slug = resolvedParams.slug;
-  const program = programsData.find((p) => p.id === slug);
 
-  if (!program) {
-    return {
-      title: `Program Tidak Ditemukan - ${schoolInfo.shortName}`,
-      description: schoolInfo.tagline,
-    };
-  }
-
-  const imageUrl = program.imageUrl.startsWith('http')
-    ? program.imageUrl
-    : `${process.env.NEXT_PUBLIC_APP_URL || 'https://smp452kedungpring.sch.id'}${program.imageUrl}`;
-
-  return {
-    title: `${program.title} | ${schoolInfo.shortName}`,
-    description: program.shortDesc,
-    keywords: `${program.title}, program unggulan, ${schoolInfo.shortName}, sekolah islam lamongan`,
-    openGraph: {
-      title: `${program.title} - ${schoolInfo.name}`,
-      description: program.shortDesc,
-      url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://smp452kedungpring.sch.id'}/program/${program.id}`,
-      siteName: schoolInfo.name,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: program.title,
-        },
-      ],
-      locale: 'id_ID',
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: program.title,
-      description: program.shortDesc,
-      images: [imageUrl],
-    },
-  };
-}
-
-export default async function ProgramDetailPage({ params }: ProgramDetailProps) {
-  const resolvedParams = await params;
-  const slug = resolvedParams.slug;
-  const program = programsData.find((p) => p.id === slug);
+  const { programs } = useAdminDataStore();
+  const program = programs.find((p) => p.id === slug);
 
   if (!program) {
     notFound();
   }
 
-  const otherPrograms = programsData.filter((p) => p.id !== program.id);
+  const otherPrograms = programs.filter((p) => p.id !== program.id);
 
   return (
     <main className="min-h-screen bg-slate-50/50 pb-20">
@@ -120,7 +79,7 @@ export default async function ProgramDetailPage({ params }: ProgramDetailProps) 
 
           <div className="space-y-3 pt-4 border-t border-slate-100">
             <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
-              Keunggulan & Fasilitas Program:
+              Keunggulan &amp; Fasilitas Program:
             </h3>
             <div className="grid grid-cols-1 gap-3">
               {program.highlights.map((item, idx) => (

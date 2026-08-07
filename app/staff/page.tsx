@@ -3,24 +3,51 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { staffData, StaffItem } from '@/data/schoolData';
+import { StaffItem } from '@/data/schoolData';
 import { GraduationCap, BookOpen, Quote, Mail, Phone, Award } from 'lucide-react';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 const departments = [
   'Semua',
   'Kepala Sekolah',
+  'Wakil Kepala',
   'Guru Mata Pelajaran',
   'Guru BK',
   'Tenaga Kependidikan',
 ];
 
+const DEPARTMENT_ORDER: Record<string, number> = {
+  'Kepala Sekolah': 1,
+  'Wakil Kepala': 2,
+  'Guru Mata Pelajaran': 3,
+  'Guru BK': 4,
+  'Tenaga Kependidikan': 5,
+};
+
 export default function StaffPage() {
   const [selectedDepartment, setSelectedDepartment] = useState('Semua');
+  const { staff: staffList } = useAdminDataStore();
 
-  const filteredStaff = staffData.filter(
-    (staff) =>
-      selectedDepartment === 'Semua' || staff.department === selectedDepartment
-  );
+  const filteredStaff = staffList
+    .filter(
+      (staff) =>
+        selectedDepartment === 'Semua' || staff.department === selectedDepartment
+    )
+    .sort((a, b) => {
+      let rankA = DEPARTMENT_ORDER[a.department] || 99;
+      let rankB = DEPARTMENT_ORDER[b.department] || 99;
+
+      const roleA = (a.role || '').toLowerCase();
+      const roleB = (b.role || '').toLowerCase();
+
+      if (roleA.includes('kepala sekolah') && !roleA.includes('wakil')) rankA = 1;
+      else if (roleA.includes('wakil') || roleA.includes('waka')) rankA = 2;
+
+      if (roleB.includes('kepala sekolah') && !roleB.includes('wakil')) rankB = 1;
+      else if (roleB.includes('wakil') || roleB.includes('waka')) rankB = 2;
+
+      return rankA - rankB;
+    });
 
   return (
     <main className="min-h-screen bg-slate-50/50 pb-20">
@@ -68,10 +95,17 @@ export default function StaffPage() {
                   />
                 </div>
 
-                <div className="text-center space-y-1">
-                  <span className="inline-block px-3 py-0.5 text-[10px] font-extrabold bg-school-green-50 text-school-green-700 rounded-full border border-school-green-200 uppercase">
-                    {staff.role}
-                  </span>
+                <div className="text-center space-y-1.5">
+                  <div className="flex items-center justify-center gap-1.5 flex-wrap">
+                    <span className="inline-block px-3 py-0.5 text-[10px] font-extrabold bg-school-green-50 text-school-green-700 rounded-full border border-school-green-200 uppercase">
+                      {staff.role}
+                    </span>
+                    {staff.bidang && (
+                      <span className="inline-block px-2.5 py-0.5 text-[10px] font-extrabold bg-school-gold-50 text-school-gold-700 rounded-full border border-school-gold-300 uppercase">
+                        Bid. {staff.bidang}
+                      </span>
+                    )}
+                  </div>
                   <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-school-green-700 transition-colors">
                     {staff.name}
                   </h3>

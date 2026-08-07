@@ -1,47 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
 import { Clock, MapPin } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
-import { defaultAgendas, AgendaItem } from '@/lib/adminStore';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export const AgendaSection: React.FC = () => {
-  const [agendas, setAgendas] = useState<AgendaItem[]>(defaultAgendas);
-
-  useEffect(() => {
-    const loadAgendas = () => {
-      if (typeof window !== 'undefined') {
-        try {
-          const stored = localStorage.getItem('smp45_agendas');
-          if (stored) {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              setAgendas(parsed);
-              return;
-            }
-          }
-        } catch {
-          // ignore
-        }
-        setAgendas(defaultAgendas);
-      }
-    };
-
-    const timer = setTimeout(() => {
-      loadAgendas();
-    }, 0);
-
-    const handleStorage = () => {
-      loadAgendas();
-    };
-
-    window.addEventListener('storage', handleStorage);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('storage', handleStorage);
-    };
-  }, []);
+  const { agendas } = useAdminDataStore();
 
   return (
     <section className="py-16 bg-[#0A2418] border-t border-b border-white/5 text-white">

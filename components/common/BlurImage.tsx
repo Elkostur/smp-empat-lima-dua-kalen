@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image, { ImageProps } from 'next/image';
 
 interface BlurImageProps extends ImageProps {
@@ -35,6 +35,11 @@ export const BlurImage: React.FC<BlurImageProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [imgSrc, setImgSrc] = useState(src);
+
+  useEffect(() => {
+    setImgSrc(src);
+    setIsLoading(true);
+  }, [src]);
 
   return (
     <Image

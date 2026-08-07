@@ -4,9 +4,10 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import { GraduationCap, ArrowRight, Sparkles, CheckCircle, PhoneCall } from 'lucide-react';
-import { schoolInfo } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export const PpdbBanner: React.FC = () => {
+  const { schoolInfo } = useAdminDataStore();
   return (
     <section className="py-16 bg-[#05160E] text-white relative overflow-hidden border-y border-[#D4AF37]/30">
       {/* Background Decorative Gold Orbs */}
@@ -19,7 +20,7 @@ export const PpdbBanner: React.FC = () => {
             <div className="lg:col-span-8 space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#D4AF37] text-[#0D2D1D] shadow-md max-w-full flex-wrap leading-snug">
                 <Sparkles className="w-3.5 h-3.5 text-[#0D2D1D] shrink-0" />
-                <span>Penerimaan Peserta Didik Baru (PPDB) 2026/2027</span>
+                <span>Penerimaan Peserta Didik Baru (PPDB) 2027/2028</span>
               </div>
 
               <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white">

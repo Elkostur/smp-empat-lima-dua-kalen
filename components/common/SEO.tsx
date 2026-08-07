@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { schoolInfo } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export const SchoolSchema: React.FC = () => {
+  const { schoolInfo } = useAdminDataStore();
   const schemaData = {
     '@context': 'https://schema.org',
     '@type': 'EducationalOrganization',

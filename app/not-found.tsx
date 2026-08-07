@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { SchoolLogo } from '@/components/common/SchoolLogo';
 import { Home, ArrowLeft } from 'lucide-react';
-import { schoolInfo } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export default function NotFound() {
+  const { schoolInfo } = useAdminDataStore();
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#05160E] via-[#0A2418] to-[#05160E] flex flex-col items-center justify-center px-4 text-center">
       <div className="space-y-6 max-w-md mx-auto">

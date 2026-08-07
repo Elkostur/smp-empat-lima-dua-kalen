@@ -2,7 +2,8 @@
 
 import React, { useState, useRef } from 'react';
 import { Upload, Link as LinkIcon, Image as ImageIcon, CheckCircle2, Loader2, RefreshCw, Trash2, Zap } from 'lucide-react';
-import { convertFileToWebP } from '@/lib/imageUtils';
+import { convertFileToWebP, convertFileToWebPBlob } from '@/lib/imageUtils';
+import { uploadToCloudinary } from '@/lib/services/media.service';
 
 interface ImageUploadInputProps {
   label: string;
@@ -21,7 +22,7 @@ export const ImageUploadInput: React.FC<ImageUploadInputProps> = ({
   required = false,
   maxWidth = 1400,
   quality = 0.80,
-  helpText = 'Format otomatis dikonversi ke .WebP super cepat & hemat memori.',
+  helpText = 'Upload otomatis tersimpan di Cloudinary CDN & dikonversi ke WebP.',
 }) => {
   const [activeTab, setActiveTab] = useState<'upload' | 'url'>('upload');
   const [isConverting, setIsConverting] = useState(false);
@@ -47,13 +48,39 @@ export const ImageUploadInput: React.FC<ImageUploadInputProps> = ({
       setErrorMsg(null);
       const origSizeFormatted = formatFileSize(file.size);
 
-      const webpDataUrl = await convertFileToWebP(file, maxWidth, quality);
+      // 1. Convert image to WebP Blob client-side first
+      let fileToUpload: File = file;
+      try {
+        const webpBlob = await convertFileToWebPBlob(file, maxWidth, quality);
+        const webpFileName = file.name.replace(/\.[^/.]+$/, '') + '.webp';
+        fileToUpload = new File([webpBlob], webpFileName, { type: 'image/webp' });
+      } catch (convErr) {
+        console.warn('WebP conversion fallback to original file:', convErr);
+      }
 
-      // Estimate webp base64 size in bytes
+      // 2. Attempt Cloudinary Upload with compressed WebP file
+      try {
+        const cloudRes = await uploadToCloudinary(fileToUpload);
+        if (cloudRes.secure_url) {
+          onChange(cloudRes.secure_url);
+          const savedPercent = Math.max(0, Math.round(((file.size - cloudRes.bytes) / file.size) * 100));
+          setCompressionInfo({
+            origSize: origSizeFormatted,
+            webpSize: formatFileSize(cloudRes.bytes),
+            reduction: savedPercent > 0 ? `${savedPercent}% (Cloudinary CDN .webp)` : 'Cloudinary CDN .webp',
+          });
+          setIsConverting(false);
+          return;
+        }
+      } catch (cloudErr) {
+        console.warn('Cloudinary upload failed, falling back to local WebP Data URL:', cloudErr);
+      }
+
+      // Fallback: WebP Data URL
+      const webpDataUrl = await convertFileToWebP(file, maxWidth, quality);
       const base64Length = webpDataUrl.length - (webpDataUrl.indexOf(',') + 1);
       const webpSizeBytes = Math.ceil((base64Length * 3) / 4);
       const webpSizeFormatted = formatFileSize(webpSizeBytes);
-
       const savedPercent = Math.max(0, Math.round(((file.size - webpSizeBytes) / file.size) * 100));
 
       setCompressionInfo({

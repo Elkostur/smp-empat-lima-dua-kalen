@@ -1,7 +1,5 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
@@ -67,8 +65,15 @@ import {
   ArrowRight,
 } from 'lucide-react';
 
-function generateUniqueId(prefix: string): string {
-  return `${prefix}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+function generateUniqueId(_prefix?: string): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
 
 function generateUniqueNumberId(): number {
@@ -201,7 +206,7 @@ export default function AdminDashboardPage() {
       setToastMessage('Struktur pengurus OSIS berhasil diperbarui!');
     } else {
       const newOfficer: OsisOfficer = {
-        id: 'osis-' + Date.now(),
+        id: generateUniqueId('osis'),
         position,
         name,
         className,
@@ -611,14 +616,15 @@ export default function AdminDashboardPage() {
     const name = formData.get('name') as string;
     const role = formData.get('role') as string;
     const department = formData.get('department') as StaffItem['department'];
-    const subject = formData.get('subject') as string;
+    const bidang = (formData.get('bidang') as string) || undefined;
+    const subject = (formData.get('subject') as string) || undefined;
     const education = formData.get('education') as string;
     const photo = staffPhoto || editingStaff?.photo || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800';
 
     if (editingStaff) {
       const updated = store.staff.map((s) =>
         s.id === editingStaff.id
-          ? { ...s, name, role, department, subject, education, photo }
+          ? { ...s, name, role, department, bidang, subject, education, photo }
           : s
       );
       store.setStaff(updated);
@@ -629,6 +635,7 @@ export default function AdminDashboardPage() {
         name,
         role,
         department,
+        bidang,
         subject,
         education,
         photo,
@@ -844,7 +851,7 @@ export default function AdminDashboardPage() {
     ];
 
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data PPDB 2026');
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data PPDB 2027');
 
     const fileName = `PPDB_SMP_45_2_Kedungpring_${new Date().toISOString().split('T')[0]}.xlsx`;
     XLSX.writeFile(workbook, fileName);
@@ -870,7 +877,7 @@ export default function AdminDashboardPage() {
       doc.setFontSize(11);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(40, 40, 40);
-      doc.text('REKAPITULASI DATA PESERTA DIDIK BARU (PPDB) TA 2026/2027', 14, 21);
+      doc.text('REKAPITULASI DATA PESERTA DIDIK BARU (PPDB) TA 2027/2028', 14, 21);
 
       const nowFormatted = new Date().toLocaleDateString('id-ID', {
         day: 'numeric',
@@ -979,14 +986,38 @@ export default function AdminDashboardPage() {
     return matchSearch && matchStatus && matchTrack && matchCompleteness;
   });
 
-  const filteredStaff = store.staff.filter((item) => {
-    const matchSearch =
-      item.name.toLowerCase().includes(staffSearch.toLowerCase()) ||
-      item.role.toLowerCase().includes(staffSearch.toLowerCase()) ||
-      (item.subject && item.subject.toLowerCase().includes(staffSearch.toLowerCase()));
-    const matchDept = staffDeptFilter === 'Semua' || item.department === staffDeptFilter;
-    return matchSearch && matchDept;
-  });
+  const DEPARTMENT_ORDER: Record<string, number> = {
+    'Kepala Sekolah': 1,
+    'Wakil Kepala': 2,
+    'Guru Mata Pelajaran': 3,
+    'Guru BK': 4,
+    'Tenaga Kependidikan': 5,
+  };
+
+  const filteredStaff = store.staff
+    .filter((item) => {
+      const matchSearch =
+        item.name.toLowerCase().includes(staffSearch.toLowerCase()) ||
+        item.role.toLowerCase().includes(staffSearch.toLowerCase()) ||
+        (item.subject && item.subject.toLowerCase().includes(staffSearch.toLowerCase()));
+      const matchDept = staffDeptFilter === 'Semua' || item.department === staffDeptFilter;
+      return matchSearch && matchDept;
+    })
+    .sort((a, b) => {
+      let rankA = DEPARTMENT_ORDER[a.department] || 99;
+      let rankB = DEPARTMENT_ORDER[b.department] || 99;
+
+      const roleA = (a.role || '').toLowerCase();
+      const roleB = (b.role || '').toLowerCase();
+
+      if (roleA.includes('kepala sekolah') && !roleA.includes('wakil')) rankA = 1;
+      else if (roleA.includes('wakil') || roleA.includes('waka')) rankA = 2;
+
+      if (roleB.includes('kepala sekolah') && !roleB.includes('wakil')) rankB = 1;
+      else if (roleB.includes('wakil') || roleB.includes('waka')) rankB = 2;
+
+      return rankA - rankB;
+    });
 
   const filteredGallery = store.gallery.filter((item) => {
     return galleryCatFilter === 'Semua' || item.category === galleryCatFilter;
@@ -1167,7 +1198,7 @@ export default function AdminDashboardPage() {
             >
               <span className="flex items-center gap-2.5">
                 <UserCheck className="w-4 h-4 shrink-0" />
-                <span>Data PPDB 2026</span>
+                <span>Data PPDB 2027</span>
               </span>
               {pendingPpdbCount > 0 ? (
                 <span className="px-2 py-0.5 rounded-full text-[10px] bg-amber-500 text-slate-900 font-extrabold animate-pulse">
@@ -1404,7 +1435,7 @@ export default function AdminDashboardPage() {
                   <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                     <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
                       <UserCheck className="w-5 h-5 text-school-green-700" />
-                      <span>Pendaftar PPDB Terbaru (2026/2027)</span>
+                      <span>Pendaftar PPDB Terbaru (2027/2028)</span>
                     </h3>
                     <button
                       onClick={() => setActiveTab('ppdb')}
@@ -1837,6 +1868,44 @@ export default function AdminDashboardPage() {
                     onChange={(url) => setSchoolInfoForm({ ...schoolInfoForm, principalPhoto: url })}
                   />
                 </div>
+
+                <div className="space-y-1 text-xs pt-2">
+                  <label className="font-bold text-slate-700">URL Video YouTube Dokumentasi Sekolah (Halaman Galeri)</label>
+                  <input
+                    type="text"
+                    value={schoolInfoForm.youtubeVideoUrl || ''}
+                    onChange={(e) => setSchoolInfoForm({ ...schoolInfoForm, youtubeVideoUrl: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-normal text-slate-800 focus:outline-none focus:border-school-green-700"
+                    placeholder="Contoh: https://www.youtube.com/watch?v=dQw4w9WgXcQ atau https://youtu.be/..."
+                  />
+                  <p className="text-[11px] text-slate-500">
+                    Tempelkan link video YouTube profil/dokumentasi sekolah. Video ini akan tampil di bagian bawah Halaman Galeri.
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 flex justify-end">
+                  <button
+                    onClick={() => {
+                      const cleanedMissions = Array.isArray(schoolInfoForm.missions)
+                        ? schoolInfoForm.missions
+                        : typeof schoolInfoForm.missions === 'string'
+                        ? (schoolInfoForm.missions as string).split('\n').map((m) => m.trim()).filter(Boolean)
+                        : [];
+
+                      const updatedData = {
+                        ...schoolInfoForm,
+                        missions: cleanedMissions,
+                      };
+                      store.setSchoolInfo(updatedData);
+                      setSchoolInfoForm(updatedData);
+                      showToast('Foto Kepala Sekolah & Informasi Profil berhasil disimpan!');
+                    }}
+                    className="px-5 py-2.5 rounded-xl bg-school-green-700 hover:bg-school-green-800 text-white font-extrabold text-xs shadow-md flex items-center gap-2"
+                  >
+                    <Save className="w-4 h-4 text-school-gold-400" />
+                    <span>Simpan Perubahan Profil & Foto Kepala Sekolah</span>
+                  </button>
+                </div>
               </div>
 
               {/* Hero Banner Manager */}
@@ -2090,7 +2159,7 @@ export default function AdminDashboardPage() {
                   <div>
                     <h2 className="text-lg font-extrabold text-slate-900 flex items-center gap-2">
                       <UserCheck className="w-5 h-5 text-school-green-700" />
-                      <span>Portal Verifikasi &amp; Data Pendaftar PPDB 2026/2027</span>
+                      <span>Portal Verifikasi &amp; Data Pendaftar PPDB 2027/2028</span>
                     </h2>
                     <p className="text-xs text-slate-500">
                       Kelola formulir pendaftaran, lakukan verifikasi status, dan ekspor data calon siswa baru.
@@ -2604,6 +2673,7 @@ export default function AdminDashboardPage() {
                   >
                     <option value="Semua">Kategori: Semua</option>
                     <option value="Kepala Sekolah">Kepala Sekolah</option>
+                    <option value="Wakil Kepala">Wakil Kepala (Waka)</option>
                     <option value="Guru Mata Pelajaran">Guru Mata Pelajaran</option>
                     <option value="Guru BK">Guru BK</option>
                     <option value="Tenaga Kependidikan">Tenaga Kependidikan</option>
@@ -2623,9 +2693,16 @@ export default function AdminDashboardPage() {
                         className="w-16 h-16 rounded-2xl object-cover shrink-0 bg-slate-200 shadow-sm"
                       />
                       <div className="space-y-0.5 overflow-hidden flex-1">
-                        <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-emerald-100 text-emerald-800">
-                          {person.department}
-                        </span>
+                        <div className="flex items-center gap-1 flex-wrap">
+                          <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-emerald-100 text-emerald-800">
+                            {person.department}
+                          </span>
+                          {person.bidang && (
+                            <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-school-gold-100 text-school-gold-700 border border-school-gold-300">
+                              Bid. {person.bidang}
+                            </span>
+                          )}
+                        </div>
                         <h4 className="font-extrabold text-slate-900 text-xs truncate">{person.name}</h4>
                         <p className="text-[11px] font-bold text-school-green-700 truncate">{person.role}</p>
                         <p className="text-[10px] text-slate-500 truncate">{person.education}</p>
@@ -3486,7 +3563,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     name="badge"
                     required
-                    defaultValue={editingSlide?.badge || 'Tahun Ajaran 2026/2027'}
+                    defaultValue={editingSlide?.badge || 'Tahun Ajaran 2027/2028'}
                     placeholder="Contoh: Bebas Pendaftaran"
                     className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
                   />
@@ -4027,6 +4104,7 @@ export default function AdminDashboardPage() {
                   className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
                 >
                   <option value="Kepala Sekolah">Kepala Sekolah</option>
+                  <option value="Wakil Kepala">Wakil Kepala Sekolah (Waka)</option>
                   <option value="Guru Mata Pelajaran">Guru Mata Pelajaran</option>
                   <option value="Guru BK">Guru BK</option>
                   <option value="Tenaga Kependidikan">Tenaga Kependidikan</option>
@@ -4034,14 +4112,35 @@ export default function AdminDashboardPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="font-bold text-slate-700">Mata Pelajaran (Jika Guru)</label>
+                <label className="font-bold text-slate-700">
+                  Bidang Tugas <span className="text-slate-400 font-normal">(khusus Wakil Kepala)</span>
+                </label>
+                <select
+                  name="bidang"
+                  defaultValue={editingStaff?.bidang || ''}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
+                >
+                  <option value="">— Tidak Ada / Bukan Waka —</option>
+                  <option value="Kurikulum">Kurikulum</option>
+                  <option value="Kesiswaan">Kesiswaan</option>
+                  <option value="Sarana & Prasarana">Sarana &amp; Prasarana</option>
+                  <option value="Humas">Hubungan Masyarakat (Humas)</option>
+                  <option value="Keagamaan">Keagamaan / Kepesantrenan</option>
+                  <option value="Ekstrakurikuler">Ekstrakurikuler</option>
+                </select>
+                <p className="text-[10px] text-slate-400">Pilih bidang hanya jika jabatan ini adalah Wakil Kepala. Seorang Waka tetap dapat mengajar mata pelajaran.</p>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-slate-700">Mata Pelajaran yang Diajar <span className="text-slate-400 font-normal">(opsional)</span></label>
                 <input
                   type="text"
                   name="subject"
                   defaultValue={editingStaff?.subject || ''}
-                  placeholder="Contoh: Bahasa Indonesia / PAI"
+                  placeholder="Contoh: Bahasa Indonesia / PAI / IPA"
                   className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
                 />
+                <p className="text-[10px] text-slate-400">Boleh diisi meskipun berstatus Waka — jika yang bersangkutan masih mengajar mata pelajaran tertentu.</p>
               </div>
 
               <div className="space-y-1">

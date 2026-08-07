@@ -4,35 +4,42 @@ import React from 'react';
 import Link from 'next/link';
 import { BlurImage } from '@/components/common/BlurImage';
 import { motion } from 'motion/react';
-import { Calendar, User, ArrowRight, Tag } from 'lucide-react';
+import { Calendar, User, ArrowRight, Newspaper } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
-import { newsData } from '@/data/schoolData';
-
-import { useState, useEffect } from 'react';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export const LatestNewsSection: React.FC = () => {
-  const [newsList, setNewsList] = useState<typeof newsData>(newsData);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const stored = localStorage.getItem('smp45_news');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setTimeout(() => {
-              setNewsList(parsed);
-            }, 0);
-          }
-        }
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, []);
+  const { news: newsList } = useAdminDataStore();
 
   const featured = newsList.filter((n) => n.featured)[0] || newsList[0];
   const secondaryNews = featured ? newsList.filter((n) => n.id !== featured.id).slice(0, 3) : [];
+
+  // Empty state — news list is empty or still loading from Supabase
+  if (!featured) {
+    return (
+      <section className="py-16 md:py-24 bg-[#0D2D1D] text-white border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            light={false}
+            badge="Kabar & Pengumuman"
+            title="Berita Terbaru SMP Empat Lima 2 Kedungpring"
+            subtitle="Informasi kegiatan sekolah, prestasi siswa/guru, serta pengumuman penting lembaga."
+          />
+          <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
+            <Newspaper className="w-12 h-12 text-[#D4AF37]/40" />
+            <p className="text-slate-400 text-sm">Belum ada berita yang tersedia.</p>
+            <Link
+              href="/berita"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#D4AF37] text-[#D4AF37] font-bold text-xs hover:bg-[#D4AF37] hover:text-[#0D2D1D] transition-colors"
+            >
+              <span>Lihat Halaman Berita</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16 md:py-24 bg-[#0D2D1D] text-white border-b border-white/5">
@@ -87,7 +94,7 @@ export const LatestNewsSection: React.FC = () => {
 
               <div className="pt-2 flex items-center justify-between border-t border-white/10">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  {featured.tags.slice(0, 3).map((tag, tIdx) => (
+                  {(featured.tags ?? []).slice(0, 3).map((tag, tIdx) => (
                     <span
                       key={tIdx}
                       className="px-2 py-0.5 bg-[#0A2418] border border-white/10 text-slate-300 rounded text-[11px] font-medium"
@@ -114,38 +121,42 @@ export const LatestNewsSection: React.FC = () => {
               Berita Lainnya
             </h4>
 
-            {secondaryNews.map((item, idx) => (
-              <motion.article
-                key={item.id}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className="p-4 rounded-xl border border-[#D4AF37]/20 bg-[#153D29] hover:border-[#D4AF37]/60 hover:shadow-md transition-all duration-200 flex gap-4 items-center group"
-              >
-                <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0 bg-[#0A2418]">
-                  <BlurImage
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-
-                <div className="space-y-1.5 flex-1 min-w-0">
-                  <div className="flex items-center gap-2 text-[11px] text-slate-300">
-                    <span className="px-2 py-0.5 bg-[#D4AF37]/15 text-[#D4AF37] rounded font-bold border border-[#D4AF37]/30">
-                      {item.category}
-                    </span>
-                    <span>{item.date}</span>
+            {secondaryNews.length > 0 ? (
+              secondaryNews.map((item, idx) => (
+                <motion.article
+                  key={item.id}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.1 }}
+                  className="p-4 rounded-xl border border-[#D4AF37]/20 bg-[#153D29] hover:border-[#D4AF37]/60 hover:shadow-md transition-all duration-200 flex gap-4 items-center group"
+                >
+                  <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0 bg-[#0A2418]">
+                    <BlurImage
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
 
-                  <h5 className="text-sm font-bold text-white group-hover:text-[#D4AF37] transition-colors line-clamp-2 leading-snug">
-                    <Link href={`/berita/${item.slug}`}>{item.title}</Link>
-                  </h5>
-                </div>
-              </motion.article>
-            ))}
+                  <div className="space-y-1.5 flex-1 min-w-0">
+                    <div className="flex items-center gap-2 text-[11px] text-slate-300">
+                      <span className="px-2 py-0.5 bg-[#D4AF37]/15 text-[#D4AF37] rounded font-bold border border-[#D4AF37]/30">
+                        {item.category}
+                      </span>
+                      <span>{item.date}</span>
+                    </div>
+
+                    <h5 className="text-sm font-bold text-white group-hover:text-[#D4AF37] transition-colors line-clamp-2 leading-snug">
+                      <Link href={`/berita/${item.slug}`}>{item.title}</Link>
+                    </h5>
+                  </div>
+                </motion.article>
+              ))
+            ) : (
+              <p className="text-slate-400 text-sm py-4">Tidak ada berita lainnya.</p>
+            )}
 
             <div className="pt-2">
               <Link

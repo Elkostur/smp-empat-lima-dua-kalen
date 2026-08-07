@@ -33,6 +33,7 @@ export interface SchoolInfo {
   missions: string[];
   history: string;
   googleMapsEmbedUrl: string;
+  youtubeVideoUrl?: string;
   socials: {
     facebook: string;
     instagram: string;
@@ -61,8 +62,9 @@ export interface StaffItem {
   id: string;
   name: string;
   role: string;
-  department: 'Kepala Sekolah' | 'Guru Mata Pelajaran' | 'Guru BK' | 'Tenaga Kependidikan';
-  subject?: string;
+  department: 'Kepala Sekolah' | 'Wakil Kepala' | 'Guru Mata Pelajaran' | 'Guru BK' | 'Tenaga Kependidikan';
+  bidang?: string;   // Bidang tugas Waka: 'Kurikulum', 'Kesiswaan', 'Sarana Prasarana', 'Humas', dll
+  subject?: string;  // Mata pelajaran yang diajar (bisa diisi walaupun Waka)
   education: string;
   photo: string;
   quote?: string;
@@ -147,6 +149,7 @@ export const schoolInfo: SchoolInfo = {
   history: `SMP "Empat Lima" 2 Kedungpring didirikan sebagai bentuk komitmen nyata Yayasan Pendidikan Ma'arif Empat Lima Kalen dalam menghadirkan sarana pendidikan menengah pertama berkualitas berbasis nilai-nilai Islam Ahlussunnah wal Jama'ah An-Nahdliyah di wilayah Kedungpring dan sekitarnya.\n\nSejak awal berdiri, sekolah kami konsisten memadukan Kurikulum Nasional (Kurikulum Merdeka) dengan pembiasaan keagamaan khas pesantren, seperti Sholat Dhuha berjamaah, Istighosah rutin, hafalan Al-Qur'an Juz 30, dan penguatan karakter kemandirian santri.\n\nDidukung oleh tenaga pendidik profesional lulusan perguruan tinggi ternama serta sarana pendukung digital, SMP Empat Lima 2 Kedungpring terus berkembang menjadi sekolah pilihan utama masyarakat Kedungpring, Sugio, Kalen, dan sekitarnya.`,
   googleMapsEmbedUrl:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.8263889123!2d112.1852!3d-7.1895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwMTEnMjIuMiJTIDExM8KwMTEnMDYuNyJF!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid',
+  youtubeVideoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
   socials: {
     facebook: 'https://facebook.com/smp452kedungpring',
     instagram: 'https://instagram.com/smp452_kedungpring',
@@ -165,10 +168,10 @@ export const schoolStats = [
 
 export const heroSlides: HeroSlide[] = [
   {
-    id: 1,
+    id: '11111111-1111-4111-a111-111111111101',
     title: 'Selamat Datang di Website Resmi SMP "Empat Lima" 2 Kedungpring',
     subtitle: "Yayasan Pendidikan Ma'arif Empat Lima Kalen - Kedungpring, Lamongan",
-    badge: 'Tahun Ajaran 2026/2027',
+    badge: 'Tahun Ajaran 2027/2028',
     description:
       'Membentuk Generasi Cerdas Berakhlakul Karimah, Berprestasi Tinggi, dan Memegang Teguh Nilai-Nilai Keislaman An-Nahdliyah.',
     ctaPrimary: 'Pendaftaran PPDB Online',
@@ -176,7 +179,7 @@ export const heroSlides: HeroSlide[] = [
     bgImage: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1600&auto=format&fit=crop',
   },
   {
-    id: 2,
+    id: '11111111-1111-4111-a111-111111111102',
     title: 'Penerimaan Peserta Didik Baru (PPDB) Telah Dibuka!',
     subtitle: 'Gelombang 1: Dapatkan Beasiswa Khusus Bebas Biaya Pendaftaran & Seragam',
     badge: 'PPDB Online Buka',
@@ -187,7 +190,7 @@ export const heroSlides: HeroSlide[] = [
     bgImage: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1600&auto=format&fit=crop',
   },
   {
-    id: 3,
+    id: '11111111-1111-4111-a111-111111111103',
     title: 'Program Unggulan Tahfidz Al-Qur\'an & Pembiasaan Karakter',
     subtitle: 'Pembiasaan Sholat Dhuha, Dzuhur Berjamaah & Amaliyah Yaumiyah',
     badge: 'Pendidikan Karakter',
@@ -201,11 +204,11 @@ export const heroSlides: HeroSlide[] = [
 
 export const newsData: NewsItem[] = [
   {
-    id: '1',
-    slug: 'pembukaan-ppdb-tahun-ajaran-2026-2027',
-    title: 'Resmi Dibuka! Penerimaan Peserta Didik Baru (PPDB) SMP Empat Lima 2 Kedungpring Tahun Ajaran 2026/2027',
+    id: '22222222-2222-4222-a222-222222222201',
+    slug: 'pembukaan-ppdb-tahun-ajaran-2027-2028',
+    title: 'Resmi Dibuka! Penerimaan Peserta Didik Baru (PPDB) SMP Empat Lima 2 Kedungpring Tahun Ajaran 2027/2028',
     category: 'Pengumuman',
-    date: '02 Agustus 2026',
+    date: '02 Agustus 2027',
     author: 'Panitia PPDB',
     authorRole: 'Humas Sekolah',
     readTime: '3 menit',
@@ -214,7 +217,7 @@ export const newsData: NewsItem[] = [
     summary:
       'SMP "Empat Lima" 2 Kedungpring secara resmi membuka pendaftaran peserta didik baru gelombang 1 dengan berbagai kemudahan dan fasilitas beasiswa menarik.',
     content: `
-      <p>Yayasan Pendidikan Ma'arif Empat Lima Kalen Kedungpring mengumumkan pembukaan Penerimaan Peserta Didik Baru (PPDB) untuk Tahun Ajaran 2026/2027. Pendaftaran gelombang pertama berlangsung mulai tanggal 1 Agustus hingga 30 September 2026.</p>
+      <p>Yayasan Pendidikan Ma'arif Empat Lima Kalen Kedungpring mengumumkan pembukaan Penerimaan Peserta Didik Baru (PPDB) untuk Tahun Ajaran 2027/2028. Pendaftaran gelombang pertama berlangsung mulai tanggal 1 Agustus hingga 30 September 2027.</p>
       
       <h3>Keuntungan Mendaftar di Gelombang 1:</h3>
       <ul>
@@ -228,7 +231,7 @@ export const newsData: NewsItem[] = [
     tags: ['PPDB', 'Pendaftaran', 'Kedungpring', 'Siswa Baru'],
   },
   {
-    id: '2',
+    id: '22222222-2222-4222-a222-222222222202',
     slug: 'juara-1-lomba-pencak-silat-pagar-nusa-kabupaten-lamongan',
     title: 'Siswa SMP 45 2 Kedungpring Sabet Juara 1 Lomba Pencak Silat Pagar Nusa Tingkat Kabupaten Lamongan',
     category: 'Prestasi',
@@ -248,7 +251,7 @@ export const newsData: NewsItem[] = [
     tags: ['Prestasi', 'PagarNusa', 'PencakSilat', 'Lamongan'],
   },
   {
-    id: '3',
+    id: '22222222-2222-4222-a222-222222222203',
     slug: 'peringatan-tahun-baru-islam-1448-h-dan-santunan-anak-yatim',
     title: 'Gema Muharram: SMP 45 2 Kedungpring Gelar Istighosah dan Santunan Puluhan Anak Yatim',
     category: 'Keagamaan & Tahfidz',
@@ -266,7 +269,7 @@ export const newsData: NewsItem[] = [
     tags: ['Muharram', 'Santunan', 'Keagamaan', 'Maarif'],
   },
   {
-    id: '4',
+    id: '22222222-2222-4222-a222-222222222204',
     slug: 'pelatihan-coding-dan-literasi-digital-bersama-mahasiswa',
     title: 'Tingkatkan Skill Abad 21, Siswa Mengikuti Pelatihan Dasar Coding dan Desain Grafis Digital',
     category: 'Kegiatan',
@@ -283,7 +286,7 @@ export const newsData: NewsItem[] = [
     tags: ['DigitalSchool', 'Coding', 'Workshop', 'TIK'],
   },
   {
-    id: '5',
+    id: '22222222-2222-4222-a222-222222222205',
     slug: 'kegiatan-perkemahan-jumat-sabtu-gudep-maarif',
     title: 'Membentuk Jiwa Kemandirian, Gudep Pramuka Ma\'arif Gelar Perkemahan Perjusami',
     category: 'Kegiatan',
@@ -374,7 +377,7 @@ export const programsData: ProgramItem[] = [
 
 export const staffData: StaffItem[] = [
   {
-    id: '1',
+    id: '33333333-3333-4333-a333-333333333301',
     name: 'Drs. H. Ahmad Masrukin, M.Pd.',
     role: 'Kepala Sekolah',
     department: 'Kepala Sekolah',
@@ -384,27 +387,29 @@ export const staffData: StaffItem[] = [
     quote: 'Mendidik dengan hati, membimbing dengan keteladanan.',
   },
   {
-    id: '2',
+    id: '33333333-3333-4333-a333-333333333302',
     name: 'Hj. Siti Mahmudah, S.Pd., M.M.',
     role: 'Wakil Kepala Sekolah Bidang Kurikulum',
-    department: 'Guru Mata Pelajaran',
+    department: 'Wakil Kepala',
+    bidang: 'Kurikulum',
     subject: 'Bahasa Indonesia & Literasi',
     education: 'S1 Pendidikan Bahasa Indonesia - Unesa',
     photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop',
     quote: 'Membaca membuka jendela dunia, menulis mengukir sejarah.',
   },
   {
-    id: '3',
+    id: '33333333-3333-4333-a333-333333333303',
     name: 'Ahmad Nur Mufid, S.Si.',
     role: 'Waka Kesiswaan & Guru IPA',
-    department: 'Guru Mata Pelajaran',
+    department: 'Wakil Kepala',
+    bidang: 'Kesiswaan',
     subject: 'Ilmu Pengetahuan Alam (IPA)',
     education: 'S1 Fisika - Universitas Brawijaya',
     photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop',
     quote: 'Kedisiplinan dan rasa ingin tahu adalah kunci keunggulan.',
   },
   {
-    id: '4',
+    id: '33333333-3333-4333-a333-333333333304',
     name: 'Siti Rahmawati, S.Pd.I.',
     role: 'Guru PAI & Pembina IPNU-IPPNU',
     department: 'Guru Mata Pelajaran',
@@ -414,7 +419,7 @@ export const staffData: StaffItem[] = [
     quote: 'Menanamkan akhlakul karimah adalah fondasi utama belajar.',
   },
   {
-    id: '5',
+    id: '33333333-3333-4333-a333-333333333305',
     name: 'Budi Santoso, S.Kom.',
     role: 'Guru TIK & Pengelola Laboratorium Komputer',
     department: 'Guru Mata Pelajaran',
@@ -424,7 +429,7 @@ export const staffData: StaffItem[] = [
     quote: 'Teknologi di tangan anak saleh akan membawa kemaslahatan.',
   },
   {
-    id: '6',
+    id: '33333333-3333-4333-a333-333333333306',
     name: 'Dewi Anggraini, S.Pd.',
     role: 'Guru Bahasa Inggris',
     department: 'Guru Mata Pelajaran',
@@ -434,7 +439,7 @@ export const staffData: StaffItem[] = [
     quote: 'Mastering English bridges local wisdom to global reach.',
   },
   {
-    id: '7',
+    id: '33333333-3333-4333-a333-333333333307',
     name: 'M. Ali Shodiq, S.Pd.',
     role: 'Guru Matematika & Pembina Pramuka',
     department: 'Guru Mata Pelajaran',
@@ -444,7 +449,7 @@ export const staffData: StaffItem[] = [
     quote: 'Matematika melatih logika berpikir sistematis dan jujur.',
   },
   {
-    id: '8',
+    id: '33333333-3333-4333-a333-333333333308',
     name: 'Rina Fatmawati, S.Psi.',
     role: 'Guru Bimbingan Konseling (BK)',
     department: 'Guru BK',
@@ -454,7 +459,7 @@ export const staffData: StaffItem[] = [
     quote: 'Setiap anak unik dan berharga. Kami siap mendengarkan.',
   },
   {
-    id: '9',
+    id: '33333333-3333-4333-a333-333333333309',
     name: 'Haji Bambang Sugeng, S.E.',
     role: 'Kepala Tata Usaha (TU)',
     department: 'Tenaga Kependidikan',
@@ -539,7 +544,7 @@ export const extracurricularsData: ExtracurricularItem[] = [
 
 export const galleryData: GalleryItem[] = [
   {
-    id: 'g1',
+    id: '44444444-4444-4444-a444-444444444401',
     title: 'Pembukaan Tahun Ajaran Baru & MATSAMA Ma\'arif',
     category: 'Kegiatan',
     imageUrl: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1000&auto=format&fit=crop',
@@ -547,7 +552,7 @@ export const galleryData: GalleryItem[] = [
     description: 'Masa Ta\'arif Siswa Madrasah/Sekolah (MATSAMA) pengenalan lingkungan SMP 45 2 Kedungpring.',
   },
   {
-    id: 'g2',
+    id: '44444444-4444-4444-a444-444444444402',
     title: 'Upacara Bendera Senin & Penghargaan Siswa Berprestasi',
     category: 'Prestasi',
     imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1000&auto=format&fit=crop',
@@ -555,7 +560,7 @@ export const galleryData: GalleryItem[] = [
     description: 'Penyerahan piala dan sertifikat penghargaan juara pencak silat Pagar Nusa pada upacara Senin.',
   },
   {
-    id: 'g3',
+    id: '44444444-4444-4444-a444-444444444403',
     title: 'Pembiasaan Sholat Dhuha Berjamaah di Musholla',
     category: 'Keagamaan',
     imageUrl: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1000&auto=format&fit=crop',
@@ -563,7 +568,7 @@ export const galleryData: GalleryItem[] = [
     description: 'Siswa khusyuk melaksanakan Sholat Dhuha berjamaah dilanjutkan pembacaan Asmaul Husna.',
   },
   {
-    id: 'g4',
+    id: '44444444-4444-4444-a444-444444444404',
     title: 'Laboratorium Komputer Modern CBT & Coding',
     category: 'Fasilitas',
     imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop',
@@ -571,7 +576,7 @@ export const galleryData: GalleryItem[] = [
     description: 'Ruang Lab Komputer dengan PC modern dan AC untuk menunjang ujian dan pembelajaran digital.',
   },
   {
-    id: 'g5',
+    id: '44444444-4444-4444-a444-444444444405',
     title: 'Atraksi Drumband Bahana Empat Lima pada Pawai Karnaval',
     category: 'Ekstrakurikuler',
     imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=1000&auto=format&fit=crop',
@@ -579,7 +584,7 @@ export const galleryData: GalleryItem[] = [
     description: 'Grup Drumband SMP 45 2 Kedungpring unjuk kebolehan pada HUT RI Kecamatan Kedungpring.',
   },
   {
-    id: 'g6',
+    id: '44444444-4444-4444-a444-444444444406',
     title: 'Pondok Ramadhan & Khatmil Qur\'an Bersama Guru',
     category: 'Keagamaan',
     imageUrl: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?q=80&w=1000&auto=format&fit=crop',
@@ -587,7 +592,7 @@ export const galleryData: GalleryItem[] = [
     description: 'Kegiatan Tadarus Al-Qur\'an dan kajian kitab fiqih praktis selama bulan suci Ramadhan.',
   },
   {
-    id: 'g7',
+    id: '44444444-4444-4444-a444-444444444407',
     title: 'Gedung Sekolah Asri & Ruang Kelas Sejuk',
     category: 'Fasilitas',
     imageUrl: 'https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1000&auto=format&fit=crop',
@@ -595,7 +600,7 @@ export const galleryData: GalleryItem[] = [
     description: 'Gedung bertingkat dengan konsep ramah lingkungan, banyak pepohonan rindang dan taman bersih.',
   },
   {
-    id: 'g8',
+    id: '44444444-4444-4444-a444-444444444408',
     title: 'Pertandingan Futsal Persahabatan Antar Pelajar',
     category: 'Ekstrakurikuler',
     imageUrl: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1000&auto=format&fit=crop',
@@ -606,14 +611,14 @@ export const galleryData: GalleryItem[] = [
 
 export const facilitiesData: FacilityItem[] = [
   {
-    id: '1',
+    id: '55555555-5555-4555-a555-555555555501',
     name: 'Ruang Kelas Nyaman & Multimedia Projector',
     description: 'Seluruh ruang kelas dilengkapi dengan kipas/AC, pencahayaan alami yang baik, serta LCD projector untuk pembelajaran visual.',
     imageUrl: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=800&auto=format&fit=crop',
     count: '12 Ruang Kelas',
   },
   {
-    id: '2',
+    id: '55555555-5555-4555-a555-555555555502',
     name: 'Laboratorium Komputer & Bahasa Digital',
     description: 'Dilengkapi 30+ unit komputer ber-spesifikasi tinggi, koneksi internet serat optik, dan software pendukung pembelajaran.',
     imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop',
@@ -679,7 +684,7 @@ export const ppdbFaqs: PpdbFaqItem[] = [
 
 export const testimonials = [
   {
-    id: '1',
+    id: '66666666-6666-4666-a666-666666666601',
     name: 'Ahmad Khoirul Anam, S.T.',
     role: 'Alumni Angkatan 2018 (Sekarang Software Engineer)',
     quote:
@@ -687,7 +692,7 @@ export const testimonials = [
     photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop',
   },
   {
-    id: '2',
+    id: '66666666-6666-4666-a666-666666666602',
     name: 'Hj. Nurul Hidayah',
     role: 'Wali Murid Ananda Annisa (Kelas IX-A)',
     quote:
@@ -695,7 +700,7 @@ export const testimonials = [
     photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop',
   },
   {
-    id: '3',
+    id: '66666666-6666-4666-a666-666666666603',
     name: 'Siti Nur Aini',
     role: 'Siswa Kelas IX / Peraih Juara MTQ Pelajar',
     quote:

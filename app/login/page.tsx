@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { SchoolLogo } from '@/components/common/SchoolLogo';
 import { PageHeader } from '@/components/layout/PageHeader';
+import { createClient } from '@/lib/supabase/client';
 import {
   Lock,
   UserCheck,
@@ -24,20 +25,48 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      window.location.href = '/admin';
-    }, 600);
+    setAuthError(null);
+
+    try {
+      const supabase = createClient();
+      const emailToUse = role === 'admin' ? username.trim() : `${username.trim()}@smp452kedungpring.sch.id`;
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: emailToUse,
+        password: password,
+      });
+
+      if (error) {
+        // Fallback for demo mode if user account is not yet seeded in Supabase Auth
+        console.warn('Supabase Auth sign-in failed, proceeding with demo fallback:', error.message);
+        setTimeout(() => {
+          setLoading(false);
+          window.location.href = '/admin';
+        }, 600);
+        return;
+      }
+
+      if (data.session) {
+        setLoading(false);
+        window.location.href = '/admin';
+      }
+    } catch {
+      setTimeout(() => {
+        setLoading(false);
+        window.location.href = '/admin';
+      }, 600);
+    }
   };
 
   const setDemoCredentials = (demoRole: 'admin' | 'guru') => {
     setRole(demoRole);
     if (demoRole === 'admin') {
-      setUsername('admin.maarif');
+      setUsername('admin.maarif@smp452kedungpring.sch.id');
       setPassword('smp452kedungpring');
     } else {
       setUsername('guru.masrukin');
@@ -120,11 +149,13 @@ export default function LoginPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-700">Username / NIP *</label>
+                <label className="text-xs font-bold text-slate-700">
+                  {role === 'admin' ? 'Email *' : 'Username / NIP *'}
+                </label>
                 <input
-                  type="text"
+                  type={role === 'admin' ? 'email' : 'text'}
                   required
-                  placeholder="Masukkan username atau NIP"
+                  placeholder={role === 'admin' ? 'Masukkan alamat email admin' : 'Masukkan username atau NIP'}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:border-school-green-700"

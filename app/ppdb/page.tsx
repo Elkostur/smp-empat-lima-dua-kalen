@@ -4,8 +4,9 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { SectionHeading } from '@/components/common/SectionHeading';
-import { schoolInfo, ppdbFaqs } from '@/data/schoolData';
-import { PpdbApplicant, initialApplicants } from '@/lib/adminStore';
+import { ppdbFaqs as defaultPpdbFaqs } from '@/data/schoolData';
+import { PpdbApplicant, initialApplicants, useAdminDataStore } from '@/lib/adminStore';
+import { submitPpdbApplication, checkApplicantStatus } from '@/lib/services/ppdb.service';
 import {
   GraduationCap,
   Calendar,
@@ -28,6 +29,8 @@ import {
 } from 'lucide-react';
 
 export default function PpdbPage() {
+  const { schoolInfo, faqs: storeFaqs } = useAdminDataStore();
+  const ppdbFaqs = storeFaqs && storeFaqs.length > 0 ? storeFaqs : defaultPpdbFaqs;
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
   const [formStep, setFormStep] = useState<1 | 2 | 3 | 4>(1);
 
@@ -66,37 +69,45 @@ export default function PpdbPage() {
   const [foundApplicant, setFoundApplicant] = useState<PpdbApplicant | null>(null);
   const [lookupError, setLookupError] = useState('');
 
-  const handleLookupApplicant = (e: React.FormEvent) => {
+  const handleLookupApplicant = async (e: React.FormEvent) => {
     e.preventDefault();
     setLookupError('');
     setFoundApplicant(null);
 
     const query = lookupQuery.trim().toLowerCase();
     if (!query) {
-      setLookupError('Masukkan Nomor Registrasi (contoh: PPDB2026-003) atau Nomor WhatsApp Anda.');
+      setLookupError('Masukkan Nomor Registrasi (contoh: PPDB2027-003) atau Nomor WhatsApp Anda.');
       return;
     }
 
+    // Try Supabase lookup
+    const supabaseApplicant = await checkApplicantStatus(query);
+    if (supabaseApplicant) {
+      setFoundApplicant(supabaseApplicant);
+      return;
+    }
+
+    // Fallback to local list
     let currentList: PpdbApplicant[] = initialApplicants;
     try {
       const storedStr = typeof window !== 'undefined' ? localStorage.getItem('smp45_applicants') : null;
       if (storedStr) {
         currentList = JSON.parse(storedStr);
       }
-    } catch (err) {
-      console.error(err);
+    } catch (e) {
+      // ignore
     }
 
     const matched = currentList.find(
-      (a) =>
-        a.registrationNo.toLowerCase() === query ||
-        a.phone.replace(/[^0-9]/g, '').includes(query.replace(/[^0-9]/g, ''))
+      (item) =>
+        item.registrationNo.toLowerCase().includes(query) ||
+        item.phone.replace(/[^0-9]/g, '').includes(query.replace(/[^0-9]/g, ''))
     );
 
     if (matched) {
       setFoundApplicant(matched);
     } else {
-      setLookupError('Data pendaftaran tidak ditemukan. Pastikan Nomor Registrasi atau Nomor WA yang Anda masukkan benar.');
+      setLookupError('Data pendaftaran tidak ditemukan. Pastikan Nomor Registrasi atau Nomor WA sudah benar.');
     }
   };
 
@@ -127,7 +138,7 @@ export default function PpdbPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const saveApplicantToStore = (regCode: string) => {
+  const saveApplicantToStore = async (regCode: string) => {
     let trackVal: 'Reguler' | 'Prestasi' | 'Tahfidz Qur\'an' | 'Undangan Yayasan' = 'Reguler';
     const trackLower = (formData.jalurPendaftaran || '').toLowerCase();
     if (trackLower.includes('tahfidz')) {
@@ -143,31 +154,43 @@ export default function PpdbPage() {
     const nowObj = new Date();
     const dateStr = `${nowObj.getFullYear()}-${String(nowObj.getMonth() + 1).padStart(2, '0')}-${String(nowObj.getDate()).padStart(2, '0')} ${String(nowObj.getHours()).padStart(2, '0')}:${String(nowObj.getMinutes()).padStart(2, '0')}`;
 
-    const isComplete = formMode === 'full' && !!formData.nisn.trim() && !!formData.alamatLengkap.trim();
+    const isFull = formMode === 'full';
+    const isComplete = isFull && !!formData.nisn.trim() && !!formData.alamatLengkap.trim();
 
     const newApplicant: PpdbApplicant = {
-      id: `ppdb-${Date.now()}`,
+      id: typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => ((Math.random() * 16) | 0).toString(16)),
       registrationNo: regCode,
       fullName: formData.namaLengkap.trim() || 'Calon Siswa Baru',
       nisn: formData.nisn.trim() || '-',
       gender: genderVal,
-      originSchool: formData.asalSekolah.trim() || 'SD/MI',
+      originSchool: formData.asalSekolah.trim(),
       parentName: formData.namaAyah.trim() || formData.namaIbu.trim() || 'Orang Tua',
-      phone: formData.noWhatsapp.trim() || '-',
+      phone: formData.noWhatsapp.trim(),
       track: trackVal,
-      registrationDate: dateStr,
+      registrationDate: new Date().toISOString().replace('T', ' ').substring(0, 16),
       status: 'Menunggu Verifikasi',
-      notes: `Pendaftaran Online (${formMode === 'express' ? 'Daftar Cepat' : 'Form Lengkap'}). ${isComplete ? 'Data Lengkap 100%' : 'Data Belum Lengkap (Perlu Dilengkapi)'}`,
+      notes: isFull ? 'Pendaftaran Formulir Lengkap' : 'Pendaftaran Cepat. Perlu verifikasi berkas tambahan.',
       registrationType: formMode,
-      birthPlace: formData.tempatLahir.trim(),
-      birthDate: formData.tanggalLahir.trim(),
-      address: formData.alamatLengkap.trim(),
-      fatherName: formData.namaAyah.trim(),
-      motherName: formData.namaIbu.trim(),
-      parentOccupation: formData.pekerjaanOrangTua.trim(),
-      isDataComplete: isComplete,
+      birthPlace: isFull ? formData.tempatLahir.trim() : '',
+      birthDate: isFull ? formData.tanggalLahir : '',
+      address: isFull ? formData.alamatLengkap.trim() : '',
+      fatherName: isFull ? formData.namaAyah.trim() : '',
+      motherName: isFull ? formData.namaIbu.trim() : '',
+      parentOccupation: isFull ? formData.pekerjaanOrangTua.trim() : '',
+      isDataComplete: isFull,
     };
 
+    // 1. Submit to Supabase
+    try {
+      const res = await submitPpdbApplication(newApplicant);
+      if (res.success && res.registrationNo) {
+        setNomorPendaftaran(res.registrationNo);
+      }
+    } catch (err) {
+      console.warn('Supabase PPDB insert fallback to local:', err);
+    }
+
+    // 2. Persist to local fallback
     try {
       const storedStr = typeof window !== 'undefined' ? localStorage.getItem('smp45_applicants') : null;
       let currentList: PpdbApplicant[] = initialApplicants;
@@ -217,11 +240,11 @@ export default function PpdbPage() {
       }
 
       setIsSubmitting(true);
-      setTimeout(() => {
-        const regCode = `PPDB2026-${Math.floor(1000 + Math.random() * 9000)}`;
+      setTimeout(async () => {
+        const regCode = `PPDB2027-${Math.floor(1000 + Math.random() * 9000)}`;
         setNomorPendaftaran(regCode);
         setLastSubmitTime(now);
-        saveApplicantToStore(regCode);
+        await saveApplicantToStore(regCode);
         setIsSubmitting(false);
         setFormStep(4);
       }, 800);
@@ -246,11 +269,11 @@ export default function PpdbPage() {
       }
 
       setIsSubmitting(true);
-      setTimeout(() => {
-        const regCode = `PPDB2026-${Math.floor(1000 + Math.random() * 9000)}`;
+      setTimeout(async () => {
+        const regCode = `PPDB2027-${Math.floor(1000 + Math.random() * 9000)}`;
         setNomorPendaftaran(regCode);
         setLastSubmitTime(now);
-        saveApplicantToStore(regCode);
+        await saveApplicantToStore(regCode);
         setIsSubmitting(false);
         setFormStep(4);
       }, 800);
@@ -260,7 +283,7 @@ export default function PpdbPage() {
   return (
     <main className="min-h-screen bg-slate-50/50 pb-20">
       <PageHeader
-        title="Penerimaan Peserta Didik Baru (PPDB) TA 2026/2027"
+        title="Penerimaan Peserta Didik Baru (PPDB) TA 2027/2028"
         subtitle="Selamat datang calon siswa baru! Mari bergabung menjadi bagian dari keluarga besar SMP Empat Lima 2 Kedungpring."
         badge="PPDB Online Buka"
         breadcrumbs={[{ label: 'PPDB' }]}
@@ -307,7 +330,7 @@ export default function PpdbPage() {
                 Sedang Buka
               </span>
               <h3 className="text-xl font-extrabold text-slate-900">Gelombang I (Jalur Khusus & Reguler)</h3>
-              <p className="text-xs text-slate-600">01 Agustus 2026 - 30 September 2026</p>
+              <p className="text-xs text-slate-600">01 Agustus 2027 - 30 September 2027</p>
               <ul className="space-y-2 text-xs text-slate-700 font-medium pt-2 border-t border-slate-100">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-school-green-700" />
@@ -319,7 +342,7 @@ export default function PpdbPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-school-green-700" />
-                  <span>Pengumuman Kelulusan: 02 Oktober 2026</span>
+                  <span>Pengumuman Kelulusan: 02 Oktober 2027</span>
                 </li>
               </ul>
             </div>
@@ -329,7 +352,7 @@ export default function PpdbPage() {
                 Mendatang
               </span>
               <h3 className="text-xl font-extrabold text-slate-900">Gelombang II (Jalur Reguler)</h3>
-              <p className="text-xs text-slate-600">01 Oktober 2026 - 30 November 2026</p>
+              <p className="text-xs text-slate-600">01 Oktober 2027 - 30 November 2027</p>
               <ul className="space-y-2 text-xs text-slate-700 font-medium pt-2 border-t border-slate-100">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-school-green-700" />
@@ -341,7 +364,7 @@ export default function PpdbPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-school-green-700" />
-                  <span>Pengumuman Kelulusan: 05 Desember 2026</span>
+                  <span>Pengumuman Kelulusan: 05 Desember 2027</span>
                 </li>
               </ul>
             </div>
@@ -398,7 +421,7 @@ export default function PpdbPage() {
             <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-school-gold-400/10 rounded-full blur-2xl pointer-events-none" />
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-school-gold-400/20 text-amber-300 font-extrabold text-xs uppercase rounded-full border border-school-gold-400/40 backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-              <span>Formulir Pendaftaran Online TA 2026/2027</span>
+              <span>Formulir Pendaftaran Online TA 2027/2028</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               Pendaftaran Siswa Baru SMP Empat Lima 2
@@ -996,7 +1019,7 @@ export default function PpdbPage() {
                 Cek Status Kelulusan &amp; Verifikasi
               </h3>
               <p className="text-xs sm:text-sm text-emerald-100/90 font-medium max-w-2xl">
-                Masukkan <strong className="text-amber-300 font-bold">Nomor Registrasi</strong> (contoh: PPDB2026-003) atau <strong className="text-amber-300 font-bold">Nomor WhatsApp</strong> yang digunakan saat pendaftaran untuk mengecek hasil verifikasi Panitia PPDB.
+                Masukkan <strong className="text-amber-300 font-bold">Nomor Registrasi</strong> (contoh: PPDB2027-003) atau <strong className="text-amber-300 font-bold">Nomor WhatsApp</strong> yang digunakan saat pendaftaran untuk mengecek hasil verifikasi Panitia PPDB.
               </p>
             </div>
           </div>
@@ -1008,7 +1031,7 @@ export default function PpdbPage() {
                 type="text"
                 value={lookupQuery}
                 onChange={(e) => setLookupQuery(e.target.value)}
-                placeholder="Masukkan No. Registrasi (PPDB2026-xxx) / No. WA..."
+                placeholder="Masukkan No. Registrasi (PPDB2027-xxx) / No. WA..."
                 className="flex-1 px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-emerald-200/60 font-semibold text-xs sm:text-sm focus:outline-none focus:border-amber-400 backdrop-blur-md"
               />
               <button
@@ -1133,7 +1156,7 @@ export default function PpdbPage() {
           />
 
           <div className="space-y-3 max-w-3xl mx-auto">
-            {ppdbFaqs.map((faq, idx) => {
+            {ppdbFaqs.map((faq: { question: string; answer: string }, idx: number) => {
               const isOpen = activeFaq === idx;
               return (
                 <div

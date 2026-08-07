@@ -1,48 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BlurImage } from '@/components/common/BlurImage';
 import { motion } from 'motion/react';
 import { Star } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
-import { testimonials as defaultTestimonials } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export const TestimonialsSection: React.FC = () => {
-  const [testiList, setTestiList] = useState<typeof defaultTestimonials>(defaultTestimonials);
-
-  useEffect(() => {
-    const loadTestimonials = () => {
-      if (typeof window !== 'undefined') {
-        try {
-          const stored = localStorage.getItem('smp45_testimonials');
-          if (stored) {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              setTestiList(parsed);
-              return;
-            }
-          }
-        } catch {
-          // ignore
-        }
-        setTestiList(defaultTestimonials);
-      }
-    };
-
-    const timer = setTimeout(() => {
-      loadTestimonials();
-    }, 0);
-
-    const handleStorage = () => {
-      loadTestimonials();
-    };
-
-    window.addEventListener('storage', handleStorage);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('storage', handleStorage);
-    };
-  }, []);
+  const { testimonials: testiList } = useAdminDataStore();
 
   return (
     <section className="py-16 md:py-24 bg-[#0D2D1D] text-white border-b border-white/5">

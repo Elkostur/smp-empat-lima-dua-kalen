@@ -5,38 +5,11 @@ import Link from 'next/link';
 import { BlurImage } from '@/components/common/BlurImage';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, GraduationCap, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
-import { heroSlides } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export const HeroSlider: React.FC = () => {
-  const [slides, setSlides] = useState(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem('smp45_hero_slides');
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-        }
-      } catch {
-        // fallback
-      }
-    }
-    return heroSlides;
-  });
+  const { heroSlides: slides } = useAdminDataStore();
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const handleStorage = () => {
-      try {
-        const saved = localStorage.getItem('smp45_hero_slides');
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) setSlides(parsed);
-        }
-      } catch {}
-    };
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, []);
 
   useEffect(() => {
     if (!slides || slides.length === 0) return;
@@ -56,7 +29,7 @@ export const HeroSlider: React.FC = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  const slide = slides[currentSlide % slides.length] || heroSlides[0];
+  const slide = slides[currentSlide % Math.max(slides.length, 1)] || slides[0];
 
   return (
     <section className="relative w-full h-[520px] sm:h-[600px] lg:h-[650px] overflow-hidden bg-[#05160E] text-white">
@@ -178,7 +151,7 @@ export const HeroSlider: React.FC = () => {
 
       {/* Slide Indicators Dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
-        {heroSlides.map((_, idx) => (
+        {slides.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setCurrentSlide(idx)}

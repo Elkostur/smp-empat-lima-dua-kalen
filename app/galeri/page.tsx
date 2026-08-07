@@ -1,36 +1,72 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BlurImage } from '@/components/common/BlurImage';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { galleryData, GalleryItem } from '@/data/schoolData';
+import { GalleryItem } from '@/data/schoolData';
 import { LightboxModal } from '@/components/galeri/LightboxModal';
-import { Maximize2, Video, Camera } from 'lucide-react';
+import { Maximize2, Play } from 'lucide-react';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 const galleryCategories = ['Semua', 'Kegiatan', 'Prestasi', 'Keagamaan', 'Fasilitas', 'Ekstrakurikuler'];
+
+function extractYouTubeId(url: string): string {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
+  const match = trimmed.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  return match ? match[1] : '';
+}
+
+function YouTubeEmbed({ videoUrl }: { videoUrl?: string }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoId = extractYouTubeId(videoUrl || '') || 'dQw4w9WgXcQ';
+  const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+  if (isPlaying) {
+    return (
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`}
+        title="Dokumentasi Video SMP Empat Lima 2 Kedungpring"
+        className="w-full h-full border-0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    );
+  }
+
+  return (
+    <div
+      onClick={() => setIsPlaying(true)}
+      role="button"
+      tabIndex={0}
+      aria-label="Putar Video Dokumentasi Sekolah"
+      className="relative w-full h-full cursor-pointer group bg-slate-950 overflow-hidden"
+    >
+      <BlurImage
+        src={thumbnailUrl}
+        alt="Thumbnail Video Dokumentasi Sekolah"
+        fill
+        className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
+      />
+      <div className="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors flex items-center justify-center">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600 group-hover:bg-red-500 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+          <Play className="w-8 h-8 sm:w-10 sm:h-10 fill-current ml-1" />
+        </div>
+      </div>
+      <div className="absolute bottom-4 left-4 right-4 text-center">
+        <span className="px-3 py-1.5 bg-black/70 backdrop-blur-md border border-white/20 text-white text-xs font-extrabold rounded-full shadow-md inline-block">
+          ▶ Klik untuk Memutar Video YouTube
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export default function GaleriPage() {
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
-  const [galleryList, setGalleryList] = useState<GalleryItem[]>(galleryData);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const stored = localStorage.getItem('smp45_gallery');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setTimeout(() => {
-              setGalleryList(parsed);
-            }, 0);
-          }
-        }
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, []);
+  const { gallery: galleryList, schoolInfo } = useAdminDataStore();
 
   const filteredItems = galleryList.filter(
     (item) => selectedCategory === 'Semua' || item.category === selectedCategory
@@ -112,13 +148,7 @@ export default function GaleriPage() {
           </div>
 
           <div className="max-w-3xl mx-auto aspect-video rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 relative">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=0"
-              title="Profil Video SMP Empat Lima 2 Kedungpring"
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            <YouTubeEmbed videoUrl={schoolInfo.youtubeVideoUrl} />
           </div>
         </div>
       </div>

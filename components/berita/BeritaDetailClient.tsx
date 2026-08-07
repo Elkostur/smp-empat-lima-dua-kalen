@@ -1,53 +1,23 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BlurImage } from '@/components/common/BlurImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { newsData, NewsItem } from '@/data/schoolData';
 import { Calendar, User, ArrowLeft, Tag } from 'lucide-react';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 interface BeritaDetailClientProps {
   slug: string;
 }
 
 export default function BeritaDetailClient({ slug }: BeritaDetailClientProps) {
-  const [newsList, setNewsList] = useState<NewsItem[]>(newsData);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setMounted(true);
-    }, 0);
-    if (typeof window !== 'undefined') {
-      try {
-        const stored = localStorage.getItem('smp45_news');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setTimeout(() => {
-              setNewsList(parsed);
-            }, 0);
-          }
-        }
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, []);
+  const { news: newsList } = useAdminDataStore();
 
   const article = newsList.find((n) => n.slug === slug);
 
   if (!article) {
-    if (!mounted) {
-      return (
-        <div className="min-h-screen bg-white pb-20 flex flex-col items-center justify-center space-y-4">
-          <div className="w-12 h-12 border-4 border-school-green-700 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-sm font-bold text-slate-500">Memuat artikel...</p>
-        </div>
-      );
-    }
     notFound();
   }
 

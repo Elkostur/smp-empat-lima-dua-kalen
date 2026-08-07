@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { BlurImage } from '@/components/common/BlurImage';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { newsData, NewsItem } from '@/data/schoolData';
+import { NewsItem } from '@/data/schoolData';
 import { Calendar, User, Search, Tag, ArrowRight, BookOpen } from 'lucide-react';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 const categories = [
   'Semua',
@@ -20,25 +21,7 @@ const categories = [
 export default function BeritaPage() {
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [searchQuery, setSearchQuery] = useState('');
-  const [newsList, setNewsList] = useState<NewsItem[]>(newsData);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const stored = localStorage.getItem('smp45_news');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setTimeout(() => {
-              setNewsList(parsed);
-            }, 0);
-          }
-        }
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, []);
+  const { news: newsList } = useAdminDataStore();
 
   const filteredNews = newsList.filter((item) => {
     const itemCat = item.category as string;

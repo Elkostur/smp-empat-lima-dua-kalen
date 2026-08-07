@@ -14,9 +14,10 @@ import {
   Calendar,
   FileText,
 } from 'lucide-react';
-import { schoolInfo } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export const MobileQuickBar: React.FC = () => {
+  const { schoolInfo } = useAdminDataStore();
   const pathname = usePathname();
   const isAdmin = pathname === '/admin';
   const [adminTab, setAdminTab] = useState('overview');

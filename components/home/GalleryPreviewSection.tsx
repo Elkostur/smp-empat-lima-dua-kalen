@@ -1,35 +1,18 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { BlurImage } from '@/components/common/BlurImage';
 import { motion } from 'motion/react';
 import { Maximize2, ArrowRight } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
-import { galleryData, GalleryItem } from '@/data/schoolData';
+import { GalleryItem } from '@/data/schoolData';
 import { LightboxModal } from '../galeri/LightboxModal';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export const GalleryPreviewSection: React.FC = () => {
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
-  const [galleryList, setGalleryList] = useState<GalleryItem[]>(galleryData);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const stored = localStorage.getItem('smp45_gallery');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setTimeout(() => {
-              setGalleryList(parsed);
-            }, 0);
-          }
-        }
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, []);
+  const { gallery: galleryList } = useAdminDataStore();
 
   const items = galleryList.slice(0, 6);
 

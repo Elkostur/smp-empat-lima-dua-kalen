@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -18,29 +18,11 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { SchoolLogo } from '../common/SchoolLogo';
-import { schoolInfo } from '@/data/schoolData';
+import { useAdminDataStore } from '@/lib/adminStore';
 
 export const Footer: React.FC = () => {
   const pathname = usePathname();
-  const [info, setInfo] = useState(schoolInfo);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const stored = localStorage.getItem('smp45_school_info');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (parsed && typeof parsed === 'object') {
-            setTimeout(() => {
-              setInfo((prev) => ({ ...prev, ...parsed }));
-            }, 0);
-          }
-        }
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, []);
+  const { schoolInfo: info } = useAdminDataStore();
 
   if (pathname === '/admin') {
     return null;
