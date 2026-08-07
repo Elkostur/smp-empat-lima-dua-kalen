@@ -30,6 +30,11 @@ export const metadata: Metadata = {
   authors: [{ name: 'SMP Empat Lima 2 Kedungpring' }],
   creator: 'SMP Empat Lima 2 Kedungpring',
   publisher: 'Yayasan Pendidikan Ma\'arif Empat Lima Kalen',
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'id_ID',

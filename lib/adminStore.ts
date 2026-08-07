@@ -220,20 +220,48 @@ function getStoredValue<T>(key: string, defaultValue: T): T {
 }
 
 export function useAdminDataStore() {
-  const [schoolInfo, setSchoolInfoState] = useState<SchoolInfo>(defaultSchoolInfo);
-  const [heroSlides, setHeroSlidesState] = useState(defaultHeroSlides);
-  const [news, setNewsState] = useState<NewsItem[]>(defaultNewsItems);
-  const [applicants, setApplicantsState] = useState<PpdbApplicant[]>(initialApplicants);
-  const [programs, setProgramsState] = useState<ProgramItem[]>(defaultPrograms);
-  const [extracurriculars, setExtracurricularsState] = useState<ExtracurricularItem[]>(defaultEkskul);
-  const [staff, setStaffState] = useState<StaffItem[]>(defaultStaff);
-  const [gallery, setGalleryState] = useState<GalleryItem[]>(defaultGallery);
-  const [agendas, setAgendasState] = useState<AgendaItem[]>(defaultAgendas);
-  const [testimonials, setTestimonialsState] = useState(defaultTestimonials);
-  const [facilities, setFacilitiesState] = useState(defaultFacilities);
-  const [faqs, setFaqsState] = useState(defaultFaqs);
-  const [osisOfficers, setOsisOfficersState] = useState<OsisOfficer[]>(defaultOsisOfficers);
-  const [ipnuInfo, setIpnuInfoState] = useState<IpnuInfo>(defaultIpnuInfo);
+  const [schoolInfo, setSchoolInfoState] = useState<SchoolInfo>(() =>
+    getStoredValue('smp45_school_info', defaultSchoolInfo)
+  );
+  const [heroSlides, setHeroSlidesState] = useState(() =>
+    getStoredValue('smp45_hero_slides', defaultHeroSlides)
+  );
+  const [news, setNewsState] = useState<NewsItem[]>(() =>
+    getStoredValue('smp45_news', defaultNewsItems)
+  );
+  const [applicants, setApplicantsState] = useState<PpdbApplicant[]>(() =>
+    getStoredValue('smp45_applicants', initialApplicants)
+  );
+  const [programs, setProgramsState] = useState<ProgramItem[]>(() =>
+    getStoredValue('smp45_programs', defaultPrograms)
+  );
+  const [extracurriculars, setExtracurricularsState] = useState<ExtracurricularItem[]>(() =>
+    getStoredValue('smp45_ekskul', defaultEkskul)
+  );
+  const [staff, setStaffState] = useState<StaffItem[]>(() =>
+    getStoredValue('smp45_staff', defaultStaff)
+  );
+  const [gallery, setGalleryState] = useState<GalleryItem[]>(() =>
+    getStoredValue('smp45_gallery', defaultGallery)
+  );
+  const [agendas, setAgendasState] = useState<AgendaItem[]>(() =>
+    getStoredValue('smp45_agendas', defaultAgendas)
+  );
+  const [testimonials, setTestimonialsState] = useState(() =>
+    getStoredValue('smp45_testimonials', defaultTestimonials)
+  );
+  const [facilities, setFacilitiesState] = useState(() =>
+    getStoredValue('smp45_facilities', defaultFacilities)
+  );
+  const [faqs, setFaqsState] = useState(() =>
+    getStoredValue('smp45_faqs', defaultFaqs)
+  );
+  const [osisOfficers, setOsisOfficersState] = useState<OsisOfficer[]>(() =>
+    getStoredValue('smp45_osis_officers', defaultOsisOfficers)
+  );
+  const [ipnuInfo, setIpnuInfoState] = useState<IpnuInfo>(() =>
+    getStoredValue('smp45_ipnu_info', defaultIpnuInfo)
+  );
 
   // Sync back local storage helper
   const saveToStorage = (key: string, data: unknown) => {
@@ -291,24 +319,63 @@ export function useAdminDataStore() {
       if (!isMounted) return;
 
       // Supabase is the source of truth.
-      // Only fallback to defaults if the DB call itself failed (returned null).
-      // An empty array [] from DB means admin deleted everything — respect that.
-      if (dbInfo) setSchoolInfoState(dbInfo);
-      else setSchoolInfoState(defaultSchoolInfo);
-
-      setHeroSlidesState(dbSlides ?? defaultHeroSlides);
-      setNewsState(dbNews ?? defaultNewsItems);
-      setApplicantsState(dbApplicants ?? initialApplicants);
-      setStaffState(dbStaff ?? defaultStaff);
-      setGalleryState(dbGallery ?? defaultGallery);
-      setAgendasState(dbAgendas ?? defaultAgendas);
-      setOsisOfficersState(dbOsis ?? defaultOsisOfficers);
-      setIpnuInfoState(dbIpnu ?? defaultIpnuInfo);
-      setProgramsState(dbPrograms ?? defaultPrograms);
-      setExtracurricularsState(dbEkskul ?? defaultEkskul);
-      setFacilitiesState(dbFacilities ?? defaultFacilities);
-      setTestimonialsState(dbTestimonials ?? defaultTestimonials);
-      setFaqsState(dbFaqs ?? defaultFaqs);
+      // Update state AND cache to localStorage so subsequent reloads are instant
+      if (dbInfo) {
+        setSchoolInfoState(dbInfo);
+        saveToStorage('smp45_school_info', dbInfo);
+      }
+      if (dbSlides) {
+        setHeroSlidesState(dbSlides);
+        saveToStorage('smp45_hero_slides', dbSlides);
+      }
+      if (dbNews) {
+        setNewsState(dbNews);
+        saveToStorage('smp45_news', dbNews);
+      }
+      if (dbApplicants) {
+        setApplicantsState(dbApplicants);
+        saveToStorage('smp45_applicants', dbApplicants);
+      }
+      if (dbStaff) {
+        setStaffState(dbStaff);
+        saveToStorage('smp45_staff', dbStaff);
+      }
+      if (dbGallery) {
+        setGalleryState(dbGallery);
+        saveToStorage('smp45_gallery', dbGallery);
+      }
+      if (dbAgendas) {
+        setAgendasState(dbAgendas);
+        saveToStorage('smp45_agendas', dbAgendas);
+      }
+      if (dbOsis) {
+        setOsisOfficersState(dbOsis);
+        saveToStorage('smp45_osis_officers', dbOsis);
+      }
+      if (dbIpnu) {
+        setIpnuInfoState(dbIpnu);
+        saveToStorage('smp45_ipnu_info', dbIpnu);
+      }
+      if (dbPrograms) {
+        setProgramsState(dbPrograms);
+        saveToStorage('smp45_programs', dbPrograms);
+      }
+      if (dbEkskul) {
+        setExtracurricularsState(dbEkskul);
+        saveToStorage('smp45_ekskul', dbEkskul);
+      }
+      if (dbFacilities) {
+        setFacilitiesState(dbFacilities);
+        saveToStorage('smp45_facilities', dbFacilities);
+      }
+      if (dbTestimonials) {
+        setTestimonialsState(dbTestimonials);
+        saveToStorage('smp45_testimonials', dbTestimonials);
+      }
+      if (dbFaqs) {
+        setFaqsState(dbFaqs);
+        saveToStorage('smp45_faqs', dbFaqs);
+      }
     }
 
     loadFromSupabase();

@@ -7,15 +7,12 @@ import { PageHeader } from '@/components/layout/PageHeader';
 import { createClient } from '@/lib/supabase/client';
 import {
   Lock,
-  UserCheck,
   Eye,
   EyeOff,
   ShieldCheck,
-  CheckCircle,
-  Key,
   LogOut,
   Sliders,
-  FileEdit,
+  AlertCircle,
 } from 'lucide-react';
 
 export default function LoginPage() {
@@ -42,12 +39,10 @@ export default function LoginPage() {
       });
 
       if (error) {
-        // Fallback for demo mode if user account is not yet seeded in Supabase Auth
-        console.warn('Supabase Auth sign-in failed, proceeding with demo fallback:', error.message);
-        setTimeout(() => {
-          setLoading(false);
-          window.location.href = '/admin';
-        }, 600);
+        // Fallback for development if account not seeded
+        console.warn('Supabase Auth error:', error.message);
+        setAuthError('Email atau kata sandi salah. Silakan periksa kembali data Anda.');
+        setLoading(false);
         return;
       }
 
@@ -55,22 +50,10 @@ export default function LoginPage() {
         setLoading(false);
         window.location.href = '/admin';
       }
-    } catch {
-      setTimeout(() => {
-        setLoading(false);
-        window.location.href = '/admin';
-      }, 600);
-    }
-  };
-
-  const setDemoCredentials = (demoRole: 'admin' | 'guru') => {
-    setRole(demoRole);
-    if (demoRole === 'admin') {
-      setUsername('admin.maarif@smp452kedungpring.sch.id');
-      setPassword('smp452kedungpring');
-    } else {
-      setUsername('guru.masrukin');
-      setPassword('guru12345');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Gagal melakukan otentikasi.';
+      setAuthError(msg);
+      setLoading(false);
     }
   };
 
@@ -96,28 +79,12 @@ export default function LoginPage() {
               </p>
             </div>
 
-            {/* Quick Demo Fill Buttons */}
-            <div className="p-3 bg-school-gold-50 rounded-2xl border border-school-gold-200 space-y-2 text-xs">
-              <span className="font-extrabold text-school-gold-600 block">
-                ⚡ Coba Demo Login UI:
-              </span>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setDemoCredentials('admin')}
-                  className="flex-1 py-2 px-2 bg-white rounded-lg border border-[#D4AF37] font-bold text-slate-800 hover:bg-[#D4AF37]/10 text-xs text-center leading-tight min-h-[36px]"
-                >
-                  Akun Admin
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDemoCredentials('guru')}
-                  className="flex-1 py-2 px-2 bg-white rounded-lg border border-[#D4AF37] font-bold text-slate-800 hover:bg-[#D4AF37]/10 text-xs text-center leading-tight min-h-[36px]"
-                >
-                  Akun Guru
-                </button>
+            {authError && (
+              <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl font-medium flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+                <span>{authError}</span>
               </div>
-            </div>
+            )}
 
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-1">
