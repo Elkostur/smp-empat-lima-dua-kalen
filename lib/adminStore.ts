@@ -220,48 +220,20 @@ function getStoredValue<T>(key: string, defaultValue: T): T {
 }
 
 export function useAdminDataStore() {
-  const [schoolInfo, setSchoolInfoState] = useState<SchoolInfo>(() =>
-    getStoredValue('smp45_school_info', defaultSchoolInfo)
-  );
-  const [heroSlides, setHeroSlidesState] = useState(() =>
-    getStoredValue('smp45_hero_slides', defaultHeroSlides)
-  );
-  const [news, setNewsState] = useState<NewsItem[]>(() =>
-    getStoredValue('smp45_news', defaultNewsItems)
-  );
-  const [applicants, setApplicantsState] = useState<PpdbApplicant[]>(() =>
-    getStoredValue('smp45_applicants', initialApplicants)
-  );
-  const [programs, setProgramsState] = useState<ProgramItem[]>(() =>
-    getStoredValue('smp45_programs', defaultPrograms)
-  );
-  const [extracurriculars, setExtracurricularsState] = useState<ExtracurricularItem[]>(() =>
-    getStoredValue('smp45_ekskul', defaultEkskul)
-  );
-  const [staff, setStaffState] = useState<StaffItem[]>(() =>
-    getStoredValue('smp45_staff', defaultStaff)
-  );
-  const [gallery, setGalleryState] = useState<GalleryItem[]>(() =>
-    getStoredValue('smp45_gallery', defaultGallery)
-  );
-  const [agendas, setAgendasState] = useState<AgendaItem[]>(() =>
-    getStoredValue('smp45_agendas', defaultAgendas)
-  );
-  const [testimonials, setTestimonialsState] = useState(() =>
-    getStoredValue('smp45_testimonials', defaultTestimonials)
-  );
-  const [facilities, setFacilitiesState] = useState(() =>
-    getStoredValue('smp45_facilities', defaultFacilities)
-  );
-  const [faqs, setFaqsState] = useState(() =>
-    getStoredValue('smp45_faqs', defaultFaqs)
-  );
-  const [osisOfficers, setOsisOfficersState] = useState<OsisOfficer[]>(() =>
-    getStoredValue('smp45_osis_officers', defaultOsisOfficers)
-  );
-  const [ipnuInfo, setIpnuInfoState] = useState<IpnuInfo>(() =>
-    getStoredValue('smp45_ipnu_info', defaultIpnuInfo)
-  );
+  const [schoolInfo, setSchoolInfoState] = useState<SchoolInfo>(defaultSchoolInfo);
+  const [heroSlides, setHeroSlidesState] = useState(defaultHeroSlides);
+  const [news, setNewsState] = useState<NewsItem[]>(defaultNewsItems);
+  const [applicants, setApplicantsState] = useState<PpdbApplicant[]>(initialApplicants);
+  const [programs, setProgramsState] = useState<ProgramItem[]>(defaultPrograms);
+  const [extracurriculars, setExtracurricularsState] = useState<ExtracurricularItem[]>(defaultEkskul);
+  const [staff, setStaffState] = useState<StaffItem[]>(defaultStaff);
+  const [gallery, setGalleryState] = useState<GalleryItem[]>(defaultGallery);
+  const [agendas, setAgendasState] = useState<AgendaItem[]>(defaultAgendas);
+  const [testimonials, setTestimonialsState] = useState(defaultTestimonials);
+  const [facilities, setFacilitiesState] = useState(defaultFacilities);
+  const [faqs, setFaqsState] = useState(defaultFaqs);
+  const [osisOfficers, setOsisOfficersState] = useState<OsisOfficer[]>(defaultOsisOfficers);
+  const [ipnuInfo, setIpnuInfoState] = useState<IpnuInfo>(defaultIpnuInfo);
 
   // Sync back local storage helper
   const saveToStorage = (key: string, data: unknown) => {
@@ -281,6 +253,36 @@ export function useAdminDataStore() {
     if (typeof window === 'undefined') return;
 
     let isMounted = true;
+
+    // Invalidate defaced dinosaur data if present in localStorage
+    try {
+      const cached = localStorage.getItem('smp45_school_info');
+      if (cached && (cached.includes('dino1@') || cached.includes('Dinosaurus') || cached.includes('Tyrannosaurus'))) {
+        localStorage.clear();
+      }
+    } catch {
+      // ignore
+    }
+
+    function reloadDataFromStorage() {
+      setSchoolInfoState(getStoredValue('smp45_school_info', defaultSchoolInfo));
+      setHeroSlidesState(getStoredValue('smp45_hero_slides', defaultHeroSlides));
+      setNewsState(getStoredValue('smp45_news', defaultNewsItems));
+      setApplicantsState(getStoredValue('smp45_applicants', initialApplicants));
+      setStaffState(getStoredValue('smp45_staff', defaultStaff));
+      setGalleryState(getStoredValue('smp45_gallery', defaultGallery));
+      setAgendasState(getStoredValue('smp45_agendas', defaultAgendas));
+      setOsisOfficersState(getStoredValue('smp45_osis_officers', defaultOsisOfficers));
+      setIpnuInfoState(getStoredValue('smp45_ipnu_info', defaultIpnuInfo));
+      setProgramsState(getStoredValue('smp45_programs', defaultPrograms));
+      setExtracurricularsState(getStoredValue('smp45_ekskul', defaultEkskul));
+      setFacilitiesState(getStoredValue('smp45_facilities', defaultFacilities));
+      setTestimonialsState(getStoredValue('smp45_testimonials', defaultTestimonials));
+      setFaqsState(getStoredValue('smp45_faqs', defaultFaqs));
+    }
+
+    // Hydrate state from localStorage on client mount
+    reloadDataFromStorage();
 
     async function loadFromSupabase() {
       // Fetch ALL data from Supabase in parallel
@@ -379,23 +381,6 @@ export function useAdminDataStore() {
     }
 
     loadFromSupabase();
-
-    const reloadDataFromStorage = () => {
-      setSchoolInfoState(getStoredValue('smp45_school_info', defaultSchoolInfo));
-      setHeroSlidesState(getStoredValue('smp45_hero_slides', defaultHeroSlides));
-      setNewsState(getStoredValue('smp45_news', defaultNewsItems));
-      setApplicantsState(getStoredValue('smp45_applicants', initialApplicants));
-      setStaffState(getStoredValue('smp45_staff', defaultStaff));
-      setGalleryState(getStoredValue('smp45_gallery', defaultGallery));
-      setAgendasState(getStoredValue('smp45_agendas', defaultAgendas));
-      setOsisOfficersState(getStoredValue('smp45_osis_officers', defaultOsisOfficers));
-      setIpnuInfoState(getStoredValue('smp45_ipnu_info', defaultIpnuInfo));
-      setProgramsState(getStoredValue('smp45_programs', defaultPrograms));
-      setExtracurricularsState(getStoredValue('smp45_ekskul', defaultEkskul));
-      setFacilitiesState(getStoredValue('smp45_facilities', defaultFacilities));
-      setTestimonialsState(getStoredValue('smp45_testimonials', defaultTestimonials));
-      setFaqsState(getStoredValue('smp45_faqs', defaultFaqs));
-    };
 
     window.addEventListener('storage', reloadDataFromStorage);
     window.addEventListener('smp45_data_updated', reloadDataFromStorage);

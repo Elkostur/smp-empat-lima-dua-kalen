@@ -317,7 +317,7 @@ export default function AdminDashboardPage() {
       showToast('Slide hero banner berhasil diperbarui!');
     } else {
       const newSlide: HeroSlide = {
-        id: generateUniqueNumberId(),
+        id: generateUniqueId('slide'),
         title,
         subtitle,
         badge: badge || 'Informasi Sekolah',
@@ -333,7 +333,7 @@ export default function AdminDashboardPage() {
     setEditingSlide(null);
   };
 
-  const handleDeleteSlide = (id: number | string) => {
+  const handleDeleteSlide = (id: string) => {
     if (store.heroSlides.length <= 1) {
       alert('Minimal harus ada 1 slide utama!');
       return;
