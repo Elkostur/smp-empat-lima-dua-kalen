@@ -21,6 +21,7 @@ export async function fetchNewsList(): Promise<NewsItem[]> {
       author: item.author_name,
       authorRole: item.author_role || '',
       readTime: `${item.read_time_minutes} menit`,
+      imageUrl: item.image_url || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop',
       image: item.image_url || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop',
       summary: item.summary,
       content: item.content,

@@ -8,6 +8,7 @@ import {
   ProgramItem,
   ExtracurricularItem,
   FacilityItem,
+  TestimonialItem,
   PpdbFaqItem,
 } from '@/data/schoolData';
 import {
@@ -201,6 +202,7 @@ export async function getNewsDB(): Promise<NewsItem[] | null> {
       author: n.author_name,
       authorRole: n.author_role || '',
       readTime: `${n.read_time_minutes} menit`,
+      imageUrl: n.image_url || '',
       image: n.image_url || '',
       summary: n.summary,
       content: n.content,
@@ -238,7 +240,7 @@ export async function saveNewsDB(newsList: NewsItem[]): Promise<boolean> {
         author_name: item.author,
         author_role: item.authorRole,
         read_time_minutes: readMinutes,
-        image_url: item.image,
+        image_url: item.imageUrl || item.image || '',
         summary: item.summary,
         content: item.content,
         tags: item.tags,
@@ -352,6 +354,7 @@ export async function getStaffDB(): Promise<StaffItem[] | null> {
       bidang: s.bidang || undefined,
       subject: s.subject || undefined,
       education: s.education,
+      imageUrl: s.photo_url || '',
       photo: s.photo_url || '',
       quote: s.quote || undefined,
     }));
@@ -385,7 +388,7 @@ export async function saveStaffDB(staffList: StaffItem[]): Promise<boolean> {
         bidang: s.bidang || null,
         subject: s.subject || null,
         education: s.education,
-        photo_url: s.photo,
+        photo_url: s.imageUrl || s.photo || '',
         quote: s.quote || null,
         sort_order: i + 1,
         is_active: true,
@@ -800,7 +803,7 @@ export async function saveFacilitiesDB(facilities: import('@/data/schoolData').F
 // ============================================================
 // 13. TESTIMONIALS
 // ============================================================
-export async function getTestimonialsDB(): Promise<{ id: string; name: string; role: string; quote: string; photo: string }[] | null> {
+export async function getTestimonialsDB(): Promise<TestimonialItem[] | null> {
   try {
     const supabase = createClient();
     const { data, error } = await supabase
@@ -816,14 +819,14 @@ export async function getTestimonialsDB(): Promise<{ id: string; name: string; r
       name: t.name,
       role: t.role,
       quote: t.quote,
-      photo: t.photo_url || '',
+      photoUrl: t.photo_url || '',
     }));
   } catch {
     return null;
   }
 }
 
-export async function saveTestimonialsDB(testimonialsList: { id: string; name: string; role: string; quote: string; photo: string }[]): Promise<boolean> {
+export async function saveTestimonialsDB(testimonialsList: TestimonialItem[]): Promise<boolean> {
   try {
     const supabase = createClient();
     const { data: existing } = await supabase.from('testimonials').select('id');
@@ -840,7 +843,7 @@ export async function saveTestimonialsDB(testimonialsList: { id: string; name: s
         name: t.name,
         role: t.role,
         quote: t.quote,
-        photo_url: t.photo,
+        photo_url: t.photoUrl || '',
         sort_order: i + 1,
         is_published: true,
       });
@@ -868,6 +871,7 @@ export async function getPpdbFaqsDB(): Promise<import('@/data/schoolData').PpdbF
     if (error) return null;
 
     return (data || []).map((f) => ({
+      id: f.id,
       question: f.question,
       answer: f.answer,
     }));

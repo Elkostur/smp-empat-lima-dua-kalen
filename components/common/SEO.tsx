@@ -29,11 +29,11 @@ export const SchoolSchema: React.FC = () => {
     telephone: schoolInfo.phone,
     email: schoolInfo.email,
     sameAs: [
-      schoolInfo.socials.facebook,
-      schoolInfo.socials.instagram,
-      schoolInfo.socials.youtube,
-      schoolInfo.socials.tiktok,
-    ],
+      schoolInfo.socials?.facebook || schoolInfo.socialLinks?.facebook,
+      schoolInfo.socials?.instagram || schoolInfo.socialLinks?.instagram,
+      schoolInfo.socials?.youtube || schoolInfo.socialLinks?.youtube,
+      schoolInfo.socials?.tiktok || schoolInfo.socialLinks?.tiktok,
+    ].filter(Boolean),
   };
 
   return (

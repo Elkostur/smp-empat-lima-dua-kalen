@@ -50,7 +50,7 @@ export default function BeritaDetailClient({ slug }: BeritaDetailClientProps) {
         {/* Featured Image with BlurImage */}
         <div className="relative h-72 sm:h-96 w-full rounded-2xl overflow-hidden shadow-md mb-8 bg-slate-100">
           <BlurImage
-            src={article.image}
+            src={article.imageUrl}
             alt={article.title}
             fill
             className="object-cover"
@@ -112,7 +112,7 @@ export default function BeritaDetailClient({ slug }: BeritaDetailClientProps) {
               >
                 <div className="relative h-32 w-full rounded-lg overflow-hidden bg-slate-200">
                   <BlurImage
-                    src={rel.image}
+                    src={rel.imageUrl}
                     alt={rel.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"

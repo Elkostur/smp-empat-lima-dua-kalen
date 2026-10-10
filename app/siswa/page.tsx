@@ -106,14 +106,14 @@ export default function SiswaPage() {
                   <div className="space-y-4">
                     <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
                       <Image
-                        src={item.imageUrl}
+                        src={item.imageUrl || ''}
                         alt={item.name}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
                       />
                       <div className="absolute top-3 left-3 p-2 bg-slate-900/80 backdrop-blur-md rounded-xl text-school-gold-400 border border-white/20">
-                        {iconMap[item.iconName] || <Award className="w-5 h-5 text-school-gold-400" />}
+                        {(item.iconName && iconMap[item.iconName]) || <Award className="w-5 h-5 text-school-gold-400" />}
                       </div>
                     </div>
 

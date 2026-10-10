@@ -29,18 +29,33 @@ export interface SchoolInfo {
     youtube?: string;
     tiktok?: string;
   };
+  socials: {
+    facebook: string;
+    instagram: string;
+    youtube: string;
+    tiktok: string;
+  };
+  tagline?: string;
+  youtubeVideoUrl?: string;
+  googleMapsEmbedUrl?: string;
 }
 
 export interface HeroSlide {
   id: string;
   title: string;
   subtitle: string;
-  tagline: string;
-  ctaText: string;
-  ctaLink: string;
+  tagline?: string;
+  ctaText?: string;
+  ctaLink?: string;
   ctaSecondaryText?: string;
   ctaSecondaryLink?: string;
-  imageUrl: string;
+  imageUrl?: string;
+  // Compatibility fields used across admin/page.tsx
+  badge?: string;
+  description?: string;
+  ctaPrimary?: string;
+  ctaSecondary?: string;
+  bgImage?: string;
 }
 
 export interface NewsItem {
@@ -53,6 +68,7 @@ export interface NewsItem {
   authorRole: string;
   readTime: string;
   imageUrl: string;
+  image?: string;
   summary: string;
   content: string;
   tags: string[];
@@ -64,9 +80,11 @@ export interface StaffItem {
   name: string;
   role: string;
   department: string;
+  bidang?: string;
   subject?: string;
   education: string;
   imageUrl: string;
+  photo?: string;
   quote?: string;
 }
 
@@ -94,12 +112,13 @@ export interface ProgramItem {
 export interface ExtracurricularItem {
   id: string;
   name: string;
-  category: string;
+  category?: string;
   schedule: string;
   coach: string;
   description: string;
   achievements: string[];
   imageUrl?: string;
+  iconName?: string;
 }
 
 export interface FacilityItem {
@@ -107,7 +126,8 @@ export interface FacilityItem {
   name: string;
   description: string;
   imageUrl: string;
-  countLabel: string;
+  countLabel?: string;
+  count?: string;
 }
 
 export interface TestimonialItem {
@@ -119,7 +139,7 @@ export interface TestimonialItem {
 }
 
 export interface PpdbFaqItem {
-  id: string;
+  id?: string;
   question: string;
   answer: string;
 }
@@ -151,7 +171,13 @@ export const schoolInfoData: SchoolInfo = {
     instagram: "",
     youtube: "",
     tiktok: "",
-  }
+  },
+  socials: {
+    facebook: "",
+    instagram: "",
+    youtube: "",
+    tiktok: "",
+  },
 };
 
 export const heroSlidesData: HeroSlide[] = [
@@ -1578,3 +1604,25 @@ export const ppdbFaqsData: PpdbFaqItem[] = [
     "answer": "Jika terjadi kesalahan data, peserta dapat memperbaikinya selama masa pendaftaran atau akan diminta melakukan perbaikan oleh panitia PPDB."
   }
 ];
+
+// Compatibility aliases for existing components
+export const schoolInfo = schoolInfoData;
+export const heroSlides = heroSlidesData;
+export const testimonials = testimonialsData;
+export const ppdbFaqs = ppdbFaqsData;
+
+export interface SchoolStatItem {
+  icon: string;
+  value: string;
+  suffix?: string;
+  label: string;
+}
+
+export const schoolStats: SchoolStatItem[] = [
+  { icon: 'Users', value: '128', suffix: '+', label: 'Peserta Didik Aktif' },
+  { icon: 'GraduationCap', value: '19', suffix: '', label: 'Guru & Tenaga Pendidik' },
+  { icon: 'Trophy', value: '42', suffix: '+', label: 'Prestasi & Penghargaan' },
+  { icon: 'Award', value: 'B', suffix: '', label: 'Akreditasi Sekolah' },
+  { icon: 'TrendingUp', value: '100', suffix: '%', label: 'Kelulusan Siswa' },
+];
+

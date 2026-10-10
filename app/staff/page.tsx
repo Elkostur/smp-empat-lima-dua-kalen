@@ -87,7 +87,7 @@ export default function StaffPage() {
                 {/* Photo Header */}
                 <div className="relative w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-school-gold-400 shadow-md bg-slate-100 group-hover:scale-105 transition-transform duration-300">
                   <Image
-                    src={staff.photo}
+                    src={staff.imageUrl}
                     alt={staff.name}
                     fill
                     className="object-cover object-center"

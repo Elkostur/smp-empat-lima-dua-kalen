@@ -17,6 +17,7 @@ import {
   ProgramItem,
   ExtracurricularItem,
   FacilityItem,
+  TestimonialItem,
 } from '@/data/schoolData';
 import { ImageUploadInput } from '@/components/admin/ImageUploadInput';
 import * as XLSX from 'xlsx';
@@ -171,7 +172,7 @@ export default function AdminDashboardPage() {
   const [editingEkskul, setEditingEkskul] = useState<ExtracurricularItem | null>(null);
 
   const [testiModalOpen, setTestiModalOpen] = useState(false);
-  const [editingTesti, setEditingTesti] = useState<{ id: string; name: string; role: string; quote: string; photo: string } | null>(null);
+  const [editingTesti, setEditingTesti] = useState<TestimonialItem | null>(null);
 
   const [facilityModalOpen, setFacilityModalOpen] = useState(false);
   const [editingFacility, setEditingFacility] = useState<FacilityItem | null>(null);
@@ -453,7 +454,7 @@ export default function AdminDashboardPage() {
     const summary = formData.get('summary') as string;
     const content = formData.get('content') as string;
     const author = formData.get('author') as string;
-    const image = newsImage || editingNews?.image || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800';
+    const image = newsImage || editingNews?.imageUrl || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800';
     const isFeatured = formData.get('featured') === 'on';
 
     if (editingNews) {
@@ -466,7 +467,7 @@ export default function AdminDashboardPage() {
               summary,
               content,
               author,
-              image,
+              imageUrl: image,
               featured: isFeatured,
               slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
             }
@@ -488,7 +489,7 @@ export default function AdminDashboardPage() {
         author: author || 'Admin Sekolah',
         authorRole: 'Tim Humas',
         readTime: '3 menit',
-        image,
+        imageUrl: image,
         summary,
         content,
         featured: isFeatured,
@@ -619,12 +620,12 @@ export default function AdminDashboardPage() {
     const bidang = (formData.get('bidang') as string) || undefined;
     const subject = (formData.get('subject') as string) || undefined;
     const education = formData.get('education') as string;
-    const photo = staffPhoto || editingStaff?.photo || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800';
+    const photo = staffPhoto || editingStaff?.imageUrl || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800';
 
     if (editingStaff) {
       const updated = store.staff.map((s) =>
         s.id === editingStaff.id
-          ? { ...s, name, role, department, bidang, subject, education, photo }
+          ? { ...s, name, role, department, bidang, subject, education, imageUrl: photo }
           : s
       );
       store.setStaff(updated);
@@ -638,7 +639,7 @@ export default function AdminDashboardPage() {
         bidang,
         subject,
         education,
-        photo,
+        imageUrl: photo,
       };
       store.setStaff([...store.staff, newStaff]);
       showToast('Data staf guru baru berhasil disimpan!');
@@ -744,11 +745,11 @@ export default function AdminDashboardPage() {
     const name = formData.get('name') as string;
     const role = formData.get('role') as string;
     const quote = formData.get('quote') as string;
-    const photo = testiPhoto || editingTesti?.photo || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400';
+    const photo = testiPhoto || editingTesti?.photoUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400';
 
     if (editingTesti) {
       const updated = store.testimonials.map((t) =>
-        t.id === editingTesti.id ? { ...t, name, role, quote, photo } : t
+        t.id === editingTesti.id ? { ...t, name, role, quote, photoUrl: photo } : t
       );
       store.setTestimonials(updated);
       showToast('Testimoni berhasil diperbarui!');
@@ -758,7 +759,7 @@ export default function AdminDashboardPage() {
         name,
         role,
         quote,
-        photo,
+        photoUrl: photo,
       };
       store.setTestimonials([...store.testimonials, newTesti]);
       showToast('Testimoni baru berhasil ditambahkan!');
@@ -1955,7 +1956,7 @@ export default function AdminDashboardPage() {
                         <button
                           onClick={() => {
                             setEditingSlide(slide);
-                            setSlideBgImage(slide.bgImage);
+                            setSlideBgImage(slide.bgImage || '');
                             setSlideModalOpen(true);
                           }}
                           className="px-3 py-1 bg-white rounded-lg border border-slate-300 font-bold text-slate-700 hover:bg-slate-100 flex items-center gap-1"
@@ -2068,7 +2069,7 @@ export default function AdminDashboardPage() {
                             <td className="p-3.5">
                               <div className="flex items-center gap-3 max-w-md">
                                 <img
-                                  src={item.image}
+                                  src={item.imageUrl}
                                   alt={item.title}
                                   className="w-12 h-12 rounded-xl object-cover shrink-0 bg-slate-100"
                                 />
@@ -2125,7 +2126,7 @@ export default function AdminDashboardPage() {
                               <button
                                 onClick={() => {
                                   setEditingNews(item);
-                                  setNewsImage(item.image);
+                                  setNewsImage(item.imageUrl);
                                   setNewsModalOpen(true);
                                 }}
                                 className="p-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold border border-slate-200 inline-flex items-center justify-center"
@@ -2688,7 +2689,7 @@ export default function AdminDashboardPage() {
                       className="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 flex items-center gap-4 hover:border-slate-300 transition-colors"
                     >
                       <img
-                        src={person.photo}
+                        src={person.imageUrl}
                         alt={person.name}
                         className="w-16 h-16 rounded-2xl object-cover shrink-0 bg-slate-200 shadow-sm"
                       />
@@ -2711,7 +2712,7 @@ export default function AdminDashboardPage() {
                           <button
                             onClick={() => {
                               setEditingStaff(person);
-                              setStaffPhoto(person.photo || '');
+                              setStaffPhoto(person.imageUrl || '');
                               setStaffModalOpen(true);
                             }}
                             className="text-slate-600 hover:text-slate-900 font-bold"
@@ -2922,7 +2923,7 @@ export default function AdminDashboardPage() {
                     <div key={testi.id} className="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3 flex flex-col justify-between">
                       <div className="space-y-3">
                         <div className="flex items-center gap-3">
-                          <img src={testi.photo} alt={testi.name} className="w-10 h-10 rounded-full object-cover" />
+                          <img src={testi.photoUrl} alt={testi.name} className="w-10 h-10 rounded-full object-cover" />
                           <div>
                             <h4 className="font-extrabold text-slate-900 text-xs">{testi.name}</h4>
                             <p className="text-[10px] text-slate-500">{testi.role}</p>
@@ -2934,7 +2935,7 @@ export default function AdminDashboardPage() {
                         <button
                           onClick={() => {
                             setEditingTesti(testi);
-                            setTestiPhoto(testi.photo || '');
+                            setTestiPhoto(testi.photoUrl || '');
                             setTestiModalOpen(true);
                           }}
                           className="px-2.5 py-1 text-[11px] font-bold text-school-green-700 hover:bg-emerald-50 rounded-md"

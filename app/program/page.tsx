@@ -72,7 +72,7 @@ export default function ProgramPage() {
 
             <div className={`lg:col-span-6 relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden shadow-md bg-slate-100 ${idx % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
               <BlurImage
-                src={prog.imageUrl}
+                src={prog.imageUrl || ''}
                 alt={prog.title}
                 fill
                 className="object-cover"

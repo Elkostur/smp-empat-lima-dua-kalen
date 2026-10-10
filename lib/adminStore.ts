@@ -408,7 +408,7 @@ export function useAdminDataStore() {
               return {
                 ...s,
                 name: data.principal || s.name,
-                photo: data.principalPhoto || s.photo,
+                imageUrl: data.principalPhoto || s.imageUrl,
               };
             }
             return s;

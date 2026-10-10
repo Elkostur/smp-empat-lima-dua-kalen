@@ -49,7 +49,7 @@ export default function ProgramDetailPage({ params }: ProgramDetailProps) {
         {/* Featured Image */}
         <div className="relative h-72 sm:h-96 w-full rounded-3xl overflow-hidden shadow-lg bg-slate-100 border border-slate-200">
           <BlurImage
-            src={program.imageUrl}
+            src={program.imageUrl || ''}
             alt={program.title}
             fill
             className="object-cover"
@@ -115,7 +115,7 @@ export default function ProgramDetailPage({ params }: ProgramDetailProps) {
               <div key={op.id} className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3 flex flex-col justify-between group">
                 <div className="relative h-32 w-full rounded-xl overflow-hidden bg-slate-100">
                   <BlurImage
-                    src={op.imageUrl}
+                    src={op.imageUrl || ''}
                     alt={op.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"

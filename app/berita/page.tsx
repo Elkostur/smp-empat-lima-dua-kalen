@@ -93,7 +93,7 @@ export default function BeritaPage() {
                 <div>
                   <div className="relative h-52 w-full bg-slate-100 overflow-hidden">
                     <BlurImage
-                      src={item.image}
+                      src={item.imageUrl}
                       alt={item.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"

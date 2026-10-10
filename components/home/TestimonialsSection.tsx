@@ -50,7 +50,7 @@ export const TestimonialsSection: React.FC = () => {
                 <div className="pt-6 border-t border-white/10 mt-6 flex items-center gap-3">
                   <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[#D4AF37] shrink-0 bg-[#0A2418]">
                     <BlurImage
-                      src={item.photo || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200'}
+                      src={item.photoUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200'}
                       alt={item.name}
                       fill
                       className="object-cover"

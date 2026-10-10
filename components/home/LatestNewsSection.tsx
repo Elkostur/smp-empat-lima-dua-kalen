@@ -62,7 +62,7 @@ export const LatestNewsSection: React.FC = () => {
           >
             <div className="relative h-64 sm:h-80 w-full overflow-hidden bg-[#0A2418]">
               <BlurImage
-                src={featured.image}
+                src={featured.imageUrl}
                 alt={featured.title}
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
@@ -133,7 +133,7 @@ export const LatestNewsSection: React.FC = () => {
                 >
                   <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0 bg-[#0A2418]">
                     <BlurImage
-                      src={item.image}
+                      src={item.imageUrl}
                       alt={item.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"

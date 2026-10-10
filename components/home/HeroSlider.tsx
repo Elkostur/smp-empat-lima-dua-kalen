@@ -44,7 +44,7 @@ export const HeroSlider: React.FC = () => {
           className="absolute inset-0"
         >
           <BlurImage
-            src={slide.bgImage}
+            src={slide.bgImage || slide.imageUrl || ''}
             alt={slide.title}
             fill
             className="object-cover object-center"
