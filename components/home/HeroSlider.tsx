@@ -29,14 +29,22 @@ export const HeroSlider: React.FC = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  const slide = slides[currentSlide % Math.max(slides.length, 1)] || slides[0];
+const DEFAULT_HERO_BG = 'https://res.cloudinary.com/lvrhzzon/image/upload/v1786102568/smp45/uploads/wmx9c2cgy1ks5s3kswzl.webp';
+
+  const slide = (slides && slides.length > 0) ? (slides[currentSlide % slides.length] || slides[0]) : null;
+
+  if (!slide) return null;
+
+  const slideBg = (slide.bgImage && slide.bgImage.trim() !== '' ? slide.bgImage : null) ||
+                  (slide.imageUrl && slide.imageUrl.trim() !== '' ? slide.imageUrl : null) ||
+                  DEFAULT_HERO_BG;
 
   return (
     <section className="relative w-full h-[520px] sm:h-[600px] lg:h-[650px] overflow-hidden bg-[#05160E] text-white">
       {/* Slide Images Container */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={slide.id}
+          key={slide.id || `slide-${currentSlide}`}
           initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
@@ -44,11 +52,12 @@ export const HeroSlider: React.FC = () => {
           className="absolute inset-0"
         >
           <BlurImage
-            src={slide.bgImage || slide.imageUrl || ''}
-            alt={slide.title}
+            src={slideBg}
+            alt={slide.title || 'SMP Empat Lima 2 Kedungpring'}
             fill
             className="object-cover object-center"
             priority={currentSlide === 0}
+            fallbackSrc={DEFAULT_HERO_BG}
           />
           {/* Overlay Gradient for readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#05160E]/95 via-[#0A2418]/85 to-transparent" />
@@ -67,11 +76,11 @@ export const HeroSlider: React.FC = () => {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40 backdrop-blur-md max-w-full"
           >
             <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] animate-pulse shrink-0" />
-            <span className="break-words">{slide.badge}</span>
+            <span className="break-words">{slide.badge || 'Tahun Ajaran 2027/2028'}</span>
           </motion.div>
 
           <motion.h1
-            key={`title-${slide.id}`}
+            key={`title-${slide.id || currentSlide}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -81,17 +90,17 @@ export const HeroSlider: React.FC = () => {
           </motion.h1>
 
           <motion.p
-            key={`sub-${slide.id}`}
+            key={`sub-${slide.id || currentSlide}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-xs sm:text-sm md:text-base text-slate-200 leading-relaxed font-medium line-clamp-3"
           >
-            {slide.description}
+            {slide.description || slide.subtitle || ''}
           </motion.p>
 
           <motion.div
-            key={`cta-${slide.id}`}
+            key={`cta-${slide.id || currentSlide}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -102,14 +111,14 @@ export const HeroSlider: React.FC = () => {
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-extrabold text-[#0D2D1D] bg-[#D4AF37] hover:bg-yellow-500 shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 touch-target max-w-full text-center"
             >
               <GraduationCap className="w-5 h-5 text-[#0D2D1D] shrink-0" />
-              <span>{slide.ctaPrimary}</span>
+              <span>{slide.ctaPrimary || 'Pendaftaran PPDB Online'}</span>
             </Link>
 
             <Link
               href="/profil"
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-bold text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md transition-all duration-200 touch-target max-w-full text-center"
             >
-              <span>{slide.ctaSecondary}</span>
+              <span>{slide.ctaSecondary || 'Jelajahi Profil Sekolah'}</span>
               <ArrowRight className="w-4 h-4 text-[#D4AF37] shrink-0" />
             </Link>
           </motion.div>

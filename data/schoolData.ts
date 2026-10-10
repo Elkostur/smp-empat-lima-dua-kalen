@@ -182,34 +182,52 @@ export const schoolInfoData: SchoolInfo = {
 
 export const heroSlidesData: HeroSlide[] = [
   {
-    "id": "acc34482-17f0-460e-9264-a9e68255d5bb",
-    "title": "Selamat Datang di Website Resmi SMP \"Empat Lima\" 2 Kedungpring",
-    "subtitle": "Yayasan Pendidikan Ma'arif Empat Lima Kalen - Kedungpring, Lamongan",
-    "tagline": "",
-    "ctaText": "",
-    "ctaLink": "",
-    "ctaSecondaryText": "",
-    "ctaSecondaryLink": ""
+    id: "acc34482-17f0-460e-9264-a9e68255d5bb",
+    title: "Selamat Datang di Website Resmi SMP \"Empat Lima\" 2 Kedungpring",
+    subtitle: "Yayasan Pendidikan Ma'arif Empat Lima Kalen - Kedungpring, Lamongan",
+    badge: "Tahun Ajaran 2027/2028",
+    description: "Membentuk Generasi Cerdas Berakhlakul Karimah, Berprestasi Tinggi, dan Memegang Teguh Nilai-Nilai Keislaman An-Nahdliyah.",
+    ctaPrimary: "Pendaftaran PPDB Online",
+    ctaSecondary: "Jelajahi Profil Sekolah",
+    bgImage: "https://res.cloudinary.com/lvrhzzon/image/upload/v1786102568/smp45/uploads/wmx9c2cgy1ks5s3kswzl.webp",
+    imageUrl: "https://res.cloudinary.com/lvrhzzon/image/upload/v1786102568/smp45/uploads/wmx9c2cgy1ks5s3kswzl.webp",
+    tagline: "",
+    ctaText: "Pendaftaran PPDB Online",
+    ctaLink: "/ppdb",
+    ctaSecondaryText: "Jelajahi Profil Sekolah",
+    ctaSecondaryLink: "/profil"
   },
   {
-    "id": "3c3a120e-1b2e-43ef-b74a-b9d841a3e2d8",
-    "title": "Penerimaan Peserta Didik Baru (PPDB) Telah Dibuka!",
-    "subtitle": "Gelombang 1: Dapatkan Beasiswa Khusus Bebas Biaya Pendaftaran & Seragam",
-    "tagline": "",
-    "ctaText": "",
-    "ctaLink": "",
-    "ctaSecondaryText": "",
-    "ctaSecondaryLink": ""
+    id: "3c3a120e-1b2e-43ef-b74a-b9d841a3e2d8",
+    title: "Penerimaan Peserta Didik Baru (PPDB) Telah Dibuka!",
+    subtitle: "Gelombang 1: Dapatkan Beasiswa Khusus Bebas Biaya Pendaftaran & Seragam",
+    badge: "PPDB Online Buka",
+    description: "Mari bergabung bersama keluarga besar SMP 45 2 Kedungpring. Lingkungan belajar yang asri, sarana digital modern, dan pembinaan karakter Islami.",
+    ctaPrimary: "Formulir PPDB",
+    ctaSecondary: "Informasi Alur Pendaftaran",
+    bgImage: "https://res.cloudinary.com/lvrhzzon/image/upload/v1786101196/smp45/uploads/r5ct5fxqirnksd1isrnb.webp",
+    imageUrl: "https://res.cloudinary.com/lvrhzzon/image/upload/v1786101196/smp45/uploads/r5ct5fxqirnksd1isrnb.webp",
+    tagline: "",
+    ctaText: "Formulir PPDB",
+    ctaLink: "/ppdb",
+    ctaSecondaryText: "Informasi Alur Pendaftaran",
+    ctaSecondaryLink: "/profil"
   },
   {
-    "id": "3bb00c9e-72c2-4a8a-9f15-e35bb83e46e6",
-    "title": "Program Unggulan Tahfidz Al-Qur'an & Pembiasaan Karakter",
-    "subtitle": "Pembiasaan Sholat Dhuha, Dzuhur Berjamaah & Amaliyah Yaumiyah",
-    "tagline": "",
-    "ctaText": "",
-    "ctaLink": "",
-    "ctaSecondaryText": "",
-    "ctaSecondaryLink": ""
+    id: "3bb00c9e-72c2-4a8a-9f15-e35bb83e46e6",
+    title: "Program Unggulan Tahfidz Al-Qur'an & Pembiasaan Karakter",
+    subtitle: "Pembiasaan Sholat Dhuha, Dzuhur Berjamaah & Amaliyah Yaumiyah",
+    badge: "Pendidikan Karakter",
+    description: "Setiap siswa dibimbing untuk menghafal Juz 30 Al-Qur'an serta dibekali pemahaman agama Islam yang teduh, inklusif, dan berkemajuan.",
+    ctaPrimary: "Lihat Program Unggulan",
+    ctaSecondary: "Jadwal Extrakurikuler",
+    bgImage: "https://res.cloudinary.com/lvrhzzon/image/upload/v1786101208/smp45/uploads/sirsgt1l2pfuzjbibwgs.webp",
+    imageUrl: "https://res.cloudinary.com/lvrhzzon/image/upload/v1786101208/smp45/uploads/sirsgt1l2pfuzjbibwgs.webp",
+    tagline: "",
+    ctaText: "Lihat Program Unggulan",
+    ctaLink: "/program",
+    ctaSecondaryText: "Jadwal Extrakurikuler",
+    ctaSecondaryLink: "/program"
   }
 ];
 

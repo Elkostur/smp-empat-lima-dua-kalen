@@ -209,6 +209,21 @@ export const initialApplicants: PpdbApplicant[] = [
   },
 ];
 
+function sanitizeHeroSlides(slides: HeroSlide[]): HeroSlide[] {
+  if (!Array.isArray(slides) || slides.length === 0) return defaultHeroSlides;
+  return slides.map((s, idx) => {
+    const fallback = defaultHeroSlides[idx % defaultHeroSlides.length] || defaultHeroSlides[0];
+    return {
+      ...s,
+      bgImage: (s.bgImage && s.bgImage.trim() !== '' ? s.bgImage : null) || (s.imageUrl && s.imageUrl.trim() !== '' ? s.imageUrl : null) || fallback.bgImage || '',
+      badge: s.badge || fallback.badge,
+      description: s.description || s.subtitle || fallback.description,
+      ctaPrimary: s.ctaPrimary || fallback.ctaPrimary,
+      ctaSecondary: s.ctaSecondary || fallback.ctaSecondary,
+    };
+  });
+}
+
 function getStoredValue<T>(key: string, defaultValue: T): T {
   if (typeof window === 'undefined') return defaultValue;
   try {
@@ -221,7 +236,7 @@ function getStoredValue<T>(key: string, defaultValue: T): T {
 
 export function useAdminDataStore() {
   const [schoolInfo, setSchoolInfoState] = useState<SchoolInfo>(defaultSchoolInfo);
-  const [heroSlides, setHeroSlidesState] = useState(defaultHeroSlides);
+  const [heroSlides, setHeroSlidesState] = useState<HeroSlide[]>(defaultHeroSlides);
   const [news, setNewsState] = useState<NewsItem[]>(defaultNewsItems);
   const [applicants, setApplicantsState] = useState<PpdbApplicant[]>(initialApplicants);
   const [programs, setProgramsState] = useState<ProgramItem[]>(defaultPrograms);
@@ -266,7 +281,7 @@ export function useAdminDataStore() {
 
     function reloadDataFromStorage() {
       setSchoolInfoState(getStoredValue('smp45_school_info', defaultSchoolInfo));
-      setHeroSlidesState(getStoredValue('smp45_hero_slides', defaultHeroSlides));
+      setHeroSlidesState(sanitizeHeroSlides(getStoredValue('smp45_hero_slides', defaultHeroSlides)));
       setNewsState(getStoredValue('smp45_news', defaultNewsItems));
       setApplicantsState(getStoredValue('smp45_applicants', initialApplicants));
       setStaffState(getStoredValue('smp45_staff', defaultStaff));
@@ -327,8 +342,9 @@ export function useAdminDataStore() {
         saveToStorage('smp45_school_info', dbInfo);
       }
       if (dbSlides) {
-        setHeroSlidesState(dbSlides);
-        saveToStorage('smp45_hero_slides', dbSlides);
+        const sanitizedSlides = sanitizeHeroSlides(dbSlides);
+        setHeroSlidesState(sanitizedSlides);
+        saveToStorage('smp45_hero_slides', sanitizedSlides);
       }
       if (dbNews) {
         setNewsState(dbNews);

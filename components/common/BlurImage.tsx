@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Image, { ImageProps } from 'next/image';
 
-interface BlurImageProps extends ImageProps {
+interface BlurImageProps extends Omit<ImageProps, 'src'> {
+  src?: ImageProps['src'] | string | null;
   fallbackSrc?: string;
 }
 
@@ -24,22 +25,41 @@ const toBase64 = (str: string) =>
   typeof window === 'undefined' ? Buffer.from(str).toString('base64') : window.btoa(str);
 
 const defaultBlur = `data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`;
+const DEFAULT_FALLBACK = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop';
+
+function resolveValidSrc(
+  src: ImageProps['src'] | string | null | undefined,
+  fallback: string
+): ImageProps['src'] {
+  if (typeof src === 'string') {
+    const trimmed = src.trim();
+    if (trimmed !== '') return trimmed;
+  } else if (src && typeof src === 'object') {
+    return src;
+  }
+  return fallback;
+}
 
 export const BlurImage: React.FC<BlurImageProps> = ({
   src,
-  alt,
+  alt = '',
   className = '',
   placeholder = 'blur',
   blurDataURL,
+  fallbackSrc = DEFAULT_FALLBACK,
   ...props
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [imgSrc, setImgSrc] = useState(src);
+  const [imgSrc, setImgSrc] = useState<ImageProps['src']>(() => resolveValidSrc(src, fallbackSrc));
 
   useEffect(() => {
-    setImgSrc(src);
+    setImgSrc(resolveValidSrc(src, fallbackSrc));
     setIsLoading(true);
-  }, [src]);
+  }, [src, fallbackSrc]);
+
+  if (!imgSrc) {
+    return null;
+  }
 
   return (
     <Image
@@ -50,7 +70,7 @@ export const BlurImage: React.FC<BlurImageProps> = ({
       blurDataURL={blurDataURL || defaultBlur}
       onLoad={() => setIsLoading(false)}
       onError={() => {
-        setImgSrc('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop');
+        setImgSrc(fallbackSrc);
         setIsLoading(false);
       }}
       className={`transition-all duration-700 ease-in-out ${
