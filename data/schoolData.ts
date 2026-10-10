@@ -538,396 +538,340 @@ export const staffData: StaffItem[] = [
 
 export const galleryData: GalleryItem[] = [
   {
-    "id": "0897ac80-6ebe-485e-b9f1-3408aea49918",
-    "title": "Ujian Praktik Sholat Jenazah",
-    "category": "Pembelajaran",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777829/blogsmp/eebya5iye6s5inffrmbt.webp",
-    "date": "2026-05-03",
-    "description": "Ujian Praktik Sholat Jenazah"
+    "id": "cloud-gal-1",
+    "title": "Juara 3 Lompat Jauh Tingkat Kecamatan",
+    "category": "Prestasi",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929531/blogsmp/xlc3mxvpp9qwegqtlyb9.webp",
+    "date": "2026-08-05",
+    "description": "Juara 3 Lompat Jauh Tingkat Kecamatan"
   },
   {
-    "id": "0bc5cd0c-dcbb-461b-bff5-ffa90b4c08bc",
-    "title": "Upacara Hari Kartini",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778021/blogsmp/y7in0yddiahdyiw2rxpb.webp",
-    "date": "2026-05-03",
-    "description": "Upacara Hari Kartini"
+    "id": "cloud-gal-2",
+    "title": "Juara Atletik TIngkat Kecamatan",
+    "category": "Prestasi",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929474/blogsmp/m1tdvzg3jnjgt5plxokn.webp",
+    "date": "2026-08-05",
+    "description": "Juara Atletik TIngkat Kecamatan"
   },
   {
-    "id": "0ddd0de3-cb82-49b0-bb87-16d4a8fbb3b9",
-    "title": "Kegiatan Classmeeting hari 3",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765678317520.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 3"
+    "id": "cloud-gal-3",
+    "title": "Juara 1 MTQ Tingkat Kecamatan",
+    "category": "Prestasi",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929264/blogsmp/hyjkxbaftshsaa7yn34t.webp",
+    "date": "2026-08-05",
+    "description": "Juara 1 MTQ Tingkat Kecamatan"
   },
   {
-    "id": "10935cbd-648c-4ff9-82fd-ee84b723f20b",
-    "title": "Isra' Mi'raj",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912726/blogsmp/cmpqyw0ykq5kftspmdl8.webp",
-    "date": "2026-01-20",
-    "description": "Isra' Mi'raj"
+    "id": "cloud-gal-4",
+    "title": "Seragam Olahraga",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929247/blogsmp/xbaoilubgxkn7tqyy9k1.webp",
+    "date": "2026-08-05",
+    "description": "Seragam Olahraga"
   },
   {
-    "id": "18d17759-47f1-4f2d-9757-98cc30d150eb",
-    "title": "Kegiatan SAS Ganjil 2025",
-    "category": "Pembelajaran",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765755034290.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan SAS Ganjil 2025"
+    "id": "cloud-gal-5",
+    "title": "Seragam Hari Jum''at - Sabtu",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929220/blogsmp/qfgaoynaq17pqodzrm9v.webp",
+    "date": "2026-08-05",
+    "description": "Seragam Hari Jum''at - Sabtu"
   },
   {
-    "id": "19211015-ecf0-451f-9e93-5af635a0c230",
-    "title": "Pemeriksaan Kebugaran",
-    "category": "Pembelajaran",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912498/blogsmp/qbu9yqa96udiqqurfrfu.webp",
-    "date": "2026-01-20",
-    "description": "Pemeriksaan Kebugaran"
+    "id": "cloud-gal-6",
+    "title": "Seragam Hari Rabu- Kamis",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929200/blogsmp/ihkwv0iyguhxxjdtrqcn.webp",
+    "date": "2026-08-05",
+    "description": "Seragam Hari Rabu- Kamis"
   },
   {
-    "id": "1af4ac11-5e54-43ae-8ad7-58a44532645f",
-    "title": "Halal Bihalal",
-    "category": "Sholat Berjamaah",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777767/blogsmp/cktijjtzlapd9rzxgzjy.webp",
-    "date": "2026-05-03",
-    "description": "Halal Bihalal"
+    "id": "cloud-gal-7",
+    "title": "Seragam Hari Senin - Selasa",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929167/blogsmp/cbnbg7iruy3f1lijkjg7.webp",
+    "date": "2026-08-05",
+    "description": "Seragam Hari Senin - Selasa"
   },
   {
-    "id": "1c3ad12b-0a58-4158-aea3-99a98756fee0",
-    "title": "Ujian Praktik Melukis",
-    "category": "Pembelajaran",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777847/blogsmp/wtv031ji03nr2gwg48sa.webp",
-    "date": "2026-05-03",
-    "description": "Ujian Praktik Melukis"
+    "id": "cloud-gal-8",
+    "title": "Seragam Sekolah",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929140/blogsmp/ub8or2ourvlpwljvwziq.webp",
+    "date": "2026-08-05",
+    "description": "Seragam Sekolah"
   },
   {
-    "id": "1ffec11b-7bdf-4cce-9037-590342e50c3d",
-    "title": "Kegiatan Classmeeting hari 6",
-    "category": "Sholat Berjamaah",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765678552847.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 6"
+    "id": "cloud-gal-9",
+    "title": "MPLS",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929122/blogsmp/cfubcotmlgtaznosammk.webp",
+    "date": "2026-08-05",
+    "description": "MPLS"
   },
   {
-    "id": "2579e389-907c-456a-aa77-beaa8b24b524",
-    "title": "Pemeriksaan Kebugaran",
-    "category": "Pembelajaran",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912527/blogsmp/ia8ia1kc4fnjgpte8hed.webp",
-    "date": "2026-01-20",
-    "description": "Pemeriksaan Kebugaran"
+    "id": "cloud-gal-10",
+    "title": "MPLS",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929102/blogsmp/dwanggq7kala6cwyjgjr.webp",
+    "date": "2026-08-05",
+    "description": "MPLS"
   },
   {
-    "id": "26636cff-777c-4d80-808b-2359ed373c4c",
-    "title": "Isra' Mi'raj",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912592/blogsmp/mcli6f8qiy1fwsohyiv2.webp",
-    "date": "2026-01-20",
-    "description": "Isra' Mi'raj"
+    "id": "cloud-gal-11",
+    "title": "MPLS",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929089/blogsmp/j0vzdehytblobcqhyhlb.webp",
+    "date": "2026-08-05",
+    "description": "MPLS"
   },
   {
-    "id": "32450eb6-739a-4af9-9785-16471744d3a5",
-    "title": "Upacara Hari Kartini",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777995/blogsmp/jfnlmrx9ganhpudog14h.webp",
-    "date": "2026-05-03",
-    "description": "Upacara Hari Kartini"
+    "id": "cloud-gal-12",
+    "title": "MPLS",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929075/blogsmp/eeyurnu6hjrwo6lpprgq.webp",
+    "date": "2026-08-05",
+    "description": "MPLS"
   },
   {
-    "id": "3c89c304-67e8-43b0-bceb-6088aa7fdbdf",
-    "title": "Foto Bersama Para Guru",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765755015827.webp",
-    "date": "2025-12-14",
-    "description": "Foto Bersama Para Guru"
+    "id": "cloud-gal-13",
+    "title": "MPLS",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929052/blogsmp/kab3tyw1xjwsj2uksi2m.webp",
+    "date": "2026-08-05",
+    "description": "MPLS"
   },
   {
-    "id": "428b7fd3-20b9-4408-ba8b-8c0f213019fb",
-    "title": "Upacara Hari Kartini",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778037/blogsmp/s5wjyqpr1rlogm9covot.webp",
-    "date": "2026-05-03",
-    "description": "Upacara Hari Kartini"
-  },
-  {
-    "id": "495ae85c-d905-4dcf-b638-d05387259164",
-    "title": "Isra' Mi'raj",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912747/blogsmp/ks3xbzaequnm056wj3at.webp",
-    "date": "2026-01-20",
-    "description": "Isra' Mi'raj"
-  },
-  {
-    "id": "4978a7d6-633d-4e6a-94b3-5acde0c00a2f",
-    "title": "Pemeriksaan Kebugaran",
-    "category": "Pembelajaran",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912554/blogsmp/jdlfzy1ghia6rt3ddv4f.webp",
-    "date": "2026-01-20",
-    "description": "Pemeriksaan Kebugaran"
-  },
-  {
-    "id": "4c6591bb-5d3f-4f7c-b17f-8563d50bf6b7",
-    "title": "Kegiatan Classmeeting hari 1",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765676306453.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 1"
-  },
-  {
-    "id": "4cbfcdae-7ca1-4cb9-82fe-101184ca7236",
-    "title": "Kegiatan Classmeeting hari 4",
-    "category": "Sholat Berjamaah",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765678355615.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 4"
-  },
-  {
-    "id": "5229a20f-aef1-470d-b777-543cf503253e",
-    "title": "Kegiatan Classmeeting hari 2",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765678231434.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 2"
-  },
-  {
-    "id": "56d04067-2617-46bd-adca-87e2629c0459",
-    "title": "Upacara Hari guru Nasional",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765983735195.webp",
-    "date": "2025-12-17",
-    "description": "Upacara Hari guru Nasional"
-  },
-  {
-    "id": "5a991150-1e8b-4475-aae5-04d017abad74",
-    "title": "Halal Bihalal",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777750/blogsmp/euyvo4z54phhzcdyswzq.webp",
-    "date": "2026-05-03",
-    "description": "Halal Bihalal"
-  },
-  {
-    "id": "5cb93e26-129e-4f02-983b-bc67fab351c7",
-    "title": "Ujian Praktik Olahraga",
-    "category": "Pembelajaran",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777969/blogsmp/sptmr08f3cnsfdku1y8y.webp",
-    "date": "2026-05-03",
-    "description": "Ujian Praktik Olahraga"
-  },
-  {
-    "id": "63669e7f-c027-4a62-ac02-d1160d6ed78d",
-    "title": "Kegiatan Classmeeting hari 5",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765678432342.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 5"
-  },
-  {
-    "id": "645ea0df-3268-4e2d-9107-70c963bb0ce8",
-    "title": "Ujian Praktik Melukis",
-    "category": "Pembelajaran",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777847/blogsmp/wtv031ji03nr2gwg48sa.webp",
-    "date": "2026-05-03",
-    "description": "Ujian Praktik Melukis"
-  },
-  {
-    "id": "67513034-fe38-48d5-8029-f161fb33e651",
-    "title": "Pentas Seni",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1766191712/blogsmp/bz5zaj5lvmvcdanr5vmu.webp",
-    "date": "2025-12-20",
-    "description": "Pentas Seni"
-  },
-  {
-    "id": "69392d87-5f09-4590-bb86-7fa2ba370296",
-    "title": "PBB Oleh Paskanusa",
-    "category": "Pembelajaran",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765983816535.webp",
-    "date": "2025-12-17",
-    "description": "PBB Oleh Paskanusa"
-  },
-  {
-    "id": "6fb7934f-2501-4865-90e8-c0449170eb4b",
-    "title": "Jadwal Kegiatan Classmeeting",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765754935943.webp",
-    "date": "2025-12-14",
-    "description": "Jadwal Kegiatan Classmeeting"
-  },
-  {
-    "id": "741f3c2c-44b3-4b91-b15b-14e63edc8122",
-    "title": "Upacara Hari Kartini",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778050/blogsmp/gguxg0gwyrd3mq3slqhz.webp",
-    "date": "2026-05-03",
-    "description": "Upacara Hari Kartini"
-  },
-  {
-    "id": "7432737c-8003-4d51-b445-45684061f31c",
-    "title": "Isra' Mi'raj",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912650/blogsmp/xd4umgcaheeqwpd9pujw.webp",
-    "date": "2026-01-20",
-    "description": "Isra' Mi'raj"
-  },
-  {
-    "id": "779b0dbc-a6f3-46d0-a944-6ad39e2b1eea",
-    "title": "Pentas Seni",
-    "category": "Sholat Berjamaah",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1766011877/blogsmp/vlyd8stqk1qzrtfo88dl.webp",
-    "date": "2025-12-17",
-    "description": "Pentas Seni"
-  },
-  {
-    "id": "7a224ccb-8747-4f69-87f1-eaf4bc1def23",
-    "title": "Jadwal Kegiatan Pentas Seni",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765754981134.webp",
-    "date": "2025-12-14",
-    "description": "Jadwal Kegiatan Pentas Seni"
-  },
-  {
-    "id": "84e1c383-71c4-4d6d-937c-04ae6a0028b0",
-    "title": "Upacara Hari Kartini",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778079/blogsmp/epxqqtve8yc7jgxlgqht.webp",
-    "date": "2026-05-03",
-    "description": "Upacara Hari Kartini"
-  },
-  {
-    "id": "8a5291e7-c214-473d-ac93-178e531c98d0",
-    "title": "Upacara Hari Kartini",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778064/blogsmp/rnfxe5gb99inkrlrnmq0.webp",
-    "date": "2026-05-03",
-    "description": "Upacara Hari Kartini"
-  },
-  {
-    "id": "8c5c2385-980a-4ab7-bf8c-e99717545dcd",
+    "id": "cloud-gal-14",
     "title": "Hari Pendidikan Nasional",
-    "category": "Lainnya",
+    "category": "Kegiatan",
     "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778131/blogsmp/bu96kyddcxf20k9uc1nq.webp",
     "date": "2026-05-03",
     "description": "Hari Pendidikan Nasional"
   },
   {
-    "id": "8c74b419-e205-44c0-8e72-e4d89a5e964f",
-    "title": "Kegiatan Classmeeting hari 6",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765678536131.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 6"
-  },
-  {
-    "id": "909d6e2a-6e9c-4109-bb1a-4a16993bf2e4",
-    "title": "Kegiatan Classmeeting hari 4",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765678342364.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 4"
-  },
-  {
-    "id": "9207de71-27ba-4053-9654-5de78e719905",
+    "id": "cloud-gal-15",
     "title": "Hari Buruh Nasional",
-    "category": "Lainnya",
+    "category": "Kegiatan",
     "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778095/blogsmp/haocpxuwc6vgjmfn6sp8.webp",
     "date": "2026-05-03",
     "description": "Hari Buruh Nasional"
   },
   {
-    "id": "97488fc7-31b5-4107-a65d-d38b8f7a9137",
-    "title": "Kegiatan Classmeeting hari 3",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765678284335.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 3"
-  },
-  {
-    "id": "a38bf1ba-a9c6-46d4-932b-ffe552cff541",
-    "title": "Kegiatan Classmeeting hari 5",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765678456437.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 5"
-  },
-  {
-    "id": "b9abf0e3-7a55-4c09-a9fd-e7acd5da1567",
-    "title": "Isra' Mi'raj",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912662/blogsmp/a14jeypb6eotu4slp5ay.webp",
-    "date": "2026-01-20",
-    "description": "Isra' Mi'raj"
-  },
-  {
-    "id": "be1f879f-5790-4f67-abee-ab590b3b4752",
-    "title": "Ujian Praktik Melukis",
-    "category": "Pembelajaran",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777906/blogsmp/xyq30foul5p8odunj4tn.webp",
+    "id": "cloud-gal-16",
+    "title": "Upacara Hari Kartini",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778079/blogsmp/epxqqtve8yc7jgxlgqht.webp",
     "date": "2026-05-03",
-    "description": "Ujian Praktik Melukis"
+    "description": "Upacara Hari Kartini"
   },
   {
-    "id": "c89aed20-d6a1-4c3d-9894-0a6436b748dd",
-    "title": "Kegiatan Classmeeting hari 1",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765676338176.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 1"
+    "id": "cloud-gal-17",
+    "title": "Upacara Hari Kartini",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778064/blogsmp/rnfxe5gb99inkrlrnmq0.webp",
+    "date": "2026-05-03",
+    "description": "Upacara Hari Kartini"
   },
   {
-    "id": "d96dbfbc-8a1a-454a-84b9-3c29bf53bd0d",
-    "title": "Pentas Seni",
-    "category": "Lainnya",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1766012383/blogsmp/nahh5srcfvrm5fy40ryu.webp",
-    "date": "2025-12-17",
-    "description": "Pentas Seni"
+    "id": "cloud-gal-18",
+    "title": "Upacara Hari Kartini",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778050/blogsmp/gguxg0gwyrd3mq3slqhz.webp",
+    "date": "2026-05-03",
+    "description": "Upacara Hari Kartini"
   },
   {
-    "id": "e0537f8e-bf94-4d6a-9545-63a0e60a3656",
+    "id": "cloud-gal-19",
+    "title": "Upacara Hari Kartini",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778037/blogsmp/s5wjyqpr1rlogm9covot.webp",
+    "date": "2026-05-03",
+    "description": "Upacara Hari Kartini"
+  },
+  {
+    "id": "cloud-gal-20",
+    "title": "Upacara Hari Kartini",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778021/blogsmp/y7in0yddiahdyiw2rxpb.webp",
+    "date": "2026-05-03",
+    "description": "Upacara Hari Kartini"
+  },
+  {
+    "id": "cloud-gal-21",
+    "title": "Upacara Hari Kartini",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777995/blogsmp/jfnlmrx9ganhpudog14h.webp",
+    "date": "2026-05-03",
+    "description": "Upacara Hari Kartini"
+  },
+  {
+    "id": "cloud-gal-22",
     "title": "Ujian Praktik Olahraga",
-    "category": "Pembelajaran",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777969/blogsmp/sptmr08f3cnsfdku1y8y.webp",
+    "date": "2026-05-03",
+    "description": "Ujian Praktik Olahraga"
+  },
+  {
+    "id": "cloud-gal-23",
+    "title": "Ujian Praktik Olahraga",
+    "category": "Kegiatan",
     "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777933/blogsmp/ogsegoen2hr55xbeoilq.webp",
     "date": "2026-05-03",
     "description": "Ujian Praktik Olahraga"
   },
   {
-    "id": "e0b5fb18-8f74-4d63-8dfa-0eacf6f875ff",
-    "title": "Ujian Praktik Sholat Jenazah",
-    "category": "Pembelajaran",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777787/blogsmp/tvye7ukn3wnwxmwwnnfu.webp",
-    "date": "2026-05-03",
-    "description": "Ujian Praktik Sholat Jenazah"
-  },
-  {
-    "id": "e8f7e5a3-a839-4593-a97c-73f4e1e51a6f",
-    "title": "Kegiatan Classmeeting hari 2",
-    "category": "Lainnya",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765678249153.webp",
-    "date": "2025-12-14",
-    "description": "Kegiatan Classmeeting hari 2"
-  },
-  {
-    "id": "eaa36c41-6cfc-4668-8396-cf25e35b3a25",
+    "id": "cloud-gal-24",
     "title": "Ujian Praktik Melukis",
-    "category": "Pembelajaran",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777906/blogsmp/xyq30foul5p8odunj4tn.webp",
+    "date": "2026-05-03",
+    "description": "Ujian Praktik Melukis"
+  },
+  {
+    "id": "cloud-gal-25",
+    "title": "Ujian Praktik Melukis",
+    "category": "Kegiatan",
     "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777881/blogsmp/vjq290dvidxj9mllax7z.webp",
     "date": "2026-05-03",
     "description": "Ujian Praktik Melukis"
   },
   {
-    "id": "f860a6a7-b228-483f-9be4-7d4a109e48b5",
+    "id": "cloud-gal-26",
+    "title": "Ujian Praktik Melukis",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777847/blogsmp/wtv031ji03nr2gwg48sa.webp",
+    "date": "2026-05-03",
+    "description": "Ujian Praktik Melukis"
+  },
+  {
+    "id": "cloud-gal-27",
+    "title": "Ujian Praktik Sholat Jenazah",
+    "category": "Keagamaan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777829/blogsmp/eebya5iye6s5inffrmbt.webp",
+    "date": "2026-05-03",
+    "description": "Ujian Praktik Sholat Jenazah"
+  },
+  {
+    "id": "cloud-gal-28",
+    "title": "Ujian Praktik Sholat Jenazah",
+    "category": "Keagamaan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777787/blogsmp/tvye7ukn3wnwxmwwnnfu.webp",
+    "date": "2026-05-03",
+    "description": "Ujian Praktik Sholat Jenazah"
+  },
+  {
+    "id": "cloud-gal-29",
     "title": "Halal Bihalal",
-    "category": "Lainnya",
+    "category": "Keagamaan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777767/blogsmp/cktijjtzlapd9rzxgzjy.webp",
+    "date": "2026-05-03",
+    "description": "Halal Bihalal"
+  },
+  {
+    "id": "cloud-gal-30",
+    "title": "Halal Bihalal",
+    "category": "Keagamaan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777750/blogsmp/euyvo4z54phhzcdyswzq.webp",
+    "date": "2026-05-03",
+    "description": "Halal Bihalal"
+  },
+  {
+    "id": "cloud-gal-31",
+    "title": "Halal Bihalal",
+    "category": "Keagamaan",
     "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777692/blogsmp/mzisz24bj4ljrejqhvdi.webp",
     "date": "2026-05-03",
     "description": "Halal Bihalal"
   },
   {
-    "id": "fa0d1dc9-0ca9-4714-bce9-2ee20af4d2df",
-    "title": "PBB Oleh Paskanusa",
-    "category": "Pembelajaran",
-    "imageUrl": "https://wkcftuhdevblaniufxvl.supabase.co/storage/v1/object/public/images/gallery/1765983798110.webp",
+    "id": "cloud-gal-32",
+    "title": "Isra'' Mi''raj",
+    "category": "Keagamaan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912747/blogsmp/ks3xbzaequnm056wj3at.webp",
+    "date": "2026-01-20",
+    "description": "Isra'' Mi''raj"
+  },
+  {
+    "id": "cloud-gal-33",
+    "title": "Isra'' Mi''raj",
+    "category": "Keagamaan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912726/blogsmp/cmpqyw0ykq5kftspmdl8.webp",
+    "date": "2026-01-20",
+    "description": "Isra'' Mi''raj"
+  },
+  {
+    "id": "cloud-gal-34",
+    "title": "Isra'' Mi''raj",
+    "category": "Keagamaan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912662/blogsmp/a14jeypb6eotu4slp5ay.webp",
+    "date": "2026-01-20",
+    "description": "Isra'' Mi''raj"
+  },
+  {
+    "id": "cloud-gal-35",
+    "title": "Isra'' Mi''raj",
+    "category": "Keagamaan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912650/blogsmp/xd4umgcaheeqwpd9pujw.webp",
+    "date": "2026-01-20",
+    "description": "Isra'' Mi''raj"
+  },
+  {
+    "id": "cloud-gal-36",
+    "title": "Isra'' Mi''raj",
+    "category": "Keagamaan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912592/blogsmp/mcli6f8qiy1fwsohyiv2.webp",
+    "date": "2026-01-20",
+    "description": "Isra'' Mi''raj"
+  },
+  {
+    "id": "cloud-gal-37",
+    "title": "Pemeriksaan Kebugaran",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912554/blogsmp/jdlfzy1ghia6rt3ddv4f.webp",
+    "date": "2026-01-20",
+    "description": "Pemeriksaan Kebugaran"
+  },
+  {
+    "id": "cloud-gal-38",
+    "title": "Pemeriksaan Kebugaran",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912527/blogsmp/ia8ia1kc4fnjgpte8hed.webp",
+    "date": "2026-01-20",
+    "description": "Pemeriksaan Kebugaran"
+  },
+  {
+    "id": "cloud-gal-39",
+    "title": "Pemeriksaan Kebugaran",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912498/blogsmp/qbu9yqa96udiqqurfrfu.webp",
+    "date": "2026-01-20",
+    "description": "Pemeriksaan Kebugaran"
+  },
+  {
+    "id": "cloud-gal-40",
+    "title": "Pentas Seni",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1766191712/blogsmp/bz5zaj5lvmvcdanr5vmu.webp",
+    "date": "2025-12-20",
+    "description": "Pentas Seni"
+  },
+  {
+    "id": "cloud-gal-41",
+    "title": "Pentas Seni",
+    "category": "Kegiatan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1766012383/blogsmp/nahh5srcfvrm5fy40ryu.webp",
     "date": "2025-12-17",
-    "description": "PBB Oleh Paskanusa"
+    "description": "Pentas Seni"
+  },
+  {
+    "id": "cloud-gal-42",
+    "title": "Pentas Seni",
+    "category": "Keagamaan",
+    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1766011877/blogsmp/vlyd8stqk1qzrtfo88dl.webp",
+    "date": "2025-12-17",
+    "description": "Pentas Seni"
   }
 ];
 
