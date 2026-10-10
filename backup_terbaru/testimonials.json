@@ -1,0 +1,32 @@
+[
+  {
+    "id": "c71663f4-3700-412f-81bf-3ec638871a18",
+    "name": "Ahmad Khoirul Anam, S.T.",
+    "role": "Alumni Angkatan 2018 (Sekarang Software Engineer)",
+    "quote": "Fondasi agama yang kuat dan kedisiplinan belajar dari para guru SMP 45 2 Kedungpring menjadi modal berharga saya hingga bisa sukses di dunia profesional IT.",
+    "photo_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
+    "is_published": true,
+    "sort_order": 1,
+    "created_at": "2026-10-10T10:09:50.4298+00:00"
+  },
+  {
+    "id": "b9186783-46d5-4d4d-ab21-f1a9042f969a",
+    "name": "Hj. Nurul Hidayah",
+    "role": "Wali Murid Ananda Annisa (Kelas IX-A)",
+    "quote": "Sangat bersyukur menyekolahkan anak di sini. Selain perkembangan akademiknya bagus, anak saya sekarang rajin Sholat Dhuha dan membaca Al-Qur'an tanpa perlu disuruh.",
+    "photo_url": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop",
+    "is_published": true,
+    "sort_order": 2,
+    "created_at": "2026-10-10T10:09:50.4298+00:00"
+  },
+  {
+    "id": "e817a9ee-f311-43bb-8164-17139314cc7c",
+    "name": "Siti Nur Aini",
+    "role": "Siswa Kelas IX / Peraih Juara MTQ Pelajar",
+    "quote": "Guru-gurunya sangat sabar dan mendukung bakat siswa. Tempat belajarnya adem, banyak teman, dan ekstra Pagar Nusa nya keren banget!",
+    "photo_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
+    "is_published": true,
+    "sort_order": 3,
+    "created_at": "2026-10-10T10:09:50.4298+00:00"
+  }
+]

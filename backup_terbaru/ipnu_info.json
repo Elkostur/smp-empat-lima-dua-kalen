@@ -1,0 +1,33 @@
+[
+  {
+    "id": "f195fe0f-b38e-425f-a322-40056133948a",
+    "title": "Pimpinan Komisariat IPNU & IPPNU SMP 45 2 Kedungpring",
+    "period": "Masa Bakti 2027/2028",
+    "description": "Selain OSIS, siswa SMP 45 2 Kedungpring juga dibina dalam wadah PK IPNU (Ikatan Pelajar Nahdlatul Ulama) dan IPPNU (Ikatan Pelajar Putri Nahdlatul Ulama) untuk mengukuhkan wawasan Aswaja & An-Nahdliyah.",
+    "sections": [
+      "Keagamaan",
+      "Olahraga & Kesehatan",
+      "Kesenian & Budaya",
+      "Humas & Publikasi Digital"
+    ],
+    "leader_name": "M. Zidan Al-Farizi (Ketua PK IPNU)",
+    "leader_class": "IX-A",
+    "is_active": true,
+    "created_at": "2026-10-10T10:09:51.854829+00:00",
+    "updated_at": null
+  },
+  {
+    "id": "a7e733f9-fcfe-4278-befd-c7894c92ae10",
+    "title": "-",
+    "period": "-",
+    "description": "-",
+    "sections": [
+      "-"
+    ],
+    "leader_name": "-",
+    "leader_class": "-",
+    "is_active": true,
+    "created_at": "2026-10-10T15:12:32.621888+00:00",
+    "updated_at": null
+  }
+]

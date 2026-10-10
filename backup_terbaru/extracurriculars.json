@@ -1,0 +1,112 @@
+[
+  {
+    "id": "0a6395b0-b510-40b9-9aaf-7a3bac019cdf",
+    "slug": "e2a5d98d-eb89-4f5a-8176-2396a6861e48",
+    "name": "Seni Tari",
+    "coach": "Annisa Rizka Fatihah, S.Si",
+    "schedule": "Jumat, 14.30 WIB",
+    "description": "Ekstrakurikuler Seni Tari menjadi wadah bagi siswa untuk mengeksplorasi keindahan gerak, baik dalam tarian tradisional maupun modern. Anggota akan mempelajari teknik dasar, ritme, serta ekspresi panggung yang dapat melatih kedisiplinan dan rasa percaya diri. Selain mengasah bakat seni, kegiatan ini juga turut melestarikan kekayaan budaya melalui berbagai pertunjukan dan kompetisi.",
+    "icon_name": "Award",
+    "achievements": [],
+    "image_url": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800",
+    "is_active": true,
+    "sort_order": 6,
+    "created_at": "2026-10-10T15:11:24.696215+00:00",
+    "updated_at": "2026-10-10T15:11:53.064215+00:00"
+  },
+  {
+    "id": "8cd9ad73-7d73-4e4c-9ba0-36dcd308c0ab",
+    "slug": "e157dfba-6a9a-46f7-a170-c5e0519c38a2",
+    "name": "MTQ (Musabaqah Tilawatil Qur'an)",
+    "coach": "Ahmad Irfan Fauzi, S.Ag, S.Sos",
+    "schedule": "Jumat, 14.30 WIB",
+    "description": "Ekstrakurikuler ini bertujuan untuk memperdalam kemampuan siswa dalam membaca, menghafal, dan memahami Al-Qur'an dengan tajwid serta irama yang indah. Melalui bimbingan rutin, para anggota dilatih untuk meningkatkan keimanan sekaligus mempersiapkan diri menghadapi berbagai ajang kompetisi keagamaan. Kegiatan ini menjadi wadah pembentukan karakter religius yang berprestasi dan berakhlak mulia.",
+    "icon_name": "Award",
+    "achievements": [],
+    "image_url": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800",
+    "is_active": true,
+    "sort_order": 7,
+    "created_at": "2026-10-10T15:11:53.205902+00:00",
+    "updated_at": null
+  },
+  {
+    "id": "eb31c39a-f94a-44d5-863e-5849b939af9f",
+    "slug": "pramuka",
+    "name": "Pramuka Gudep Ma'arif 45.02",
+    "coach": "Khoirul Huda, S.Pd.i",
+    "schedule": "Jumat (09.30 - 11.00 WIB)",
+    "description": "Ekstrakurikuler wajib pembentuk kedisiplinan, kemandirian, dan cinta tanah air berbasis Dasa Darma.",
+    "icon_name": "Award",
+    "achievements": [],
+    "image_url": "https://res.cloudinary.com/lvrhzzon/image/upload/v1786967121/smp45/uploads/ebumigaoygnodsov12ta.webp",
+    "is_active": true,
+    "sort_order": 1,
+    "created_at": "2026-10-10T10:09:50.163625+00:00",
+    "updated_at": "2026-10-10T15:11:52.057985+00:00"
+  },
+  {
+    "id": "d41123da-8926-4753-8ee1-3ff823dd710e",
+    "slug": "hadrah",
+    "name": "Seni Hadrah & Banjari \"Bahana Empat Lima\"",
+    "coach": "Rohmad Yulia Akbar Tri Maulana",
+    "schedule": "Setiap Rabu Sore (15.00 WIB)",
+    "description": "Grup musik Islami pelestari seni sholawat khas An-Nahdliyah dengan kombinasi pukulan reban moderen.",
+    "icon_name": "Award",
+    "achievements": [
+      "Juara Harapan 1 Festival Banjari Pelajar Kedungpring",
+      "Pengisi Acara Pengajian Yayasan"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop",
+    "is_active": true,
+    "sort_order": 2,
+    "created_at": "2026-10-10T10:09:50.163625+00:00",
+    "updated_at": "2026-10-10T15:11:52.376219+00:00"
+  },
+  {
+    "id": "3c89ad96-d104-41ee-bcc0-8c9584ec4740",
+    "slug": "it-club",
+    "name": "IT & Web Media Team",
+    "coach": "Rohman Firmansyah, S.Kom",
+    "schedule": "Setiap Selasa Sore (14.30 WIB)",
+    "description": "Klub jurnalistik digital, fotografi, videografi konten kreatif, dan pemrograman komputer dasar.",
+    "icon_name": "Award",
+    "achievements": [
+      "Pengelola Media Sosial & Dokumen Website Sekolah"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop",
+    "is_active": true,
+    "sort_order": 3,
+    "created_at": "2026-10-10T10:09:50.163625+00:00",
+    "updated_at": "2026-10-10T15:11:52.561579+00:00"
+  },
+  {
+    "id": "0e1a2339-45a6-410f-8916-c30ea6af2bf0",
+    "slug": "volleyball",
+    "name": "Bola Voli & Futsal",
+    "coach": "Annuris Shoba S.Pd",
+    "schedule": "Setiap Senin & Kamis Sore",
+    "description": "Pembinaan stamina, kerja sama tim, dan ketangkasan olahraga bola voli serta futsal antar sekolah.",
+    "icon_name": "Award",
+    "achievements": [],
+    "image_url": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?q=80&w=800&auto=format&fit=crop",
+    "is_active": true,
+    "sort_order": 4,
+    "created_at": "2026-10-10T10:09:50.163625+00:00",
+    "updated_at": "2026-10-10T15:11:52.725269+00:00"
+  },
+  {
+    "id": "e2e4455d-9775-43fb-8c4c-9128848002ae",
+    "slug": "9dab3469-9a0a-4329-8d44-b17ab79c1e45",
+    "name": "English Course",
+    "coach": "Kadari Ningsih Ayu Wandira S.PdI",
+    "schedule": "Jumat, 09.30 WIB",
+    "description": "Ekstrakurikuler ini dirancang untuk mengasah kemampuan berbahasa Inggris siswa secara interaktif melalui kegiatan debat, percakapan harian, dan permainan peran. Selain meningkatkan rasa percaya diri dalam berbicara, anggota juga dapat memperluas kosakata serta pemahaman tata bahasa secara menyenangkan. Kegiatan ini menjadi sarana tepat untuk mempersiapkan siswa menghadapi tantangan global dan kompetisi akademik.",
+    "icon_name": "Award",
+    "achievements": [],
+    "image_url": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644713/smp45/uploads/utz7bnspytonplpqve9c.webp",
+    "is_active": true,
+    "sort_order": 5,
+    "created_at": "2026-10-10T15:06:57.144304+00:00",
+    "updated_at": "2026-10-10T15:11:52.891741+00:00"
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "3c697ac2-995a-4bba-b82c-d959a2544635",
+    "period": "2027/2028",
+    "position": "Ketua OSIS",
+    "name": "Muhammad Naufal Rizky",
+    "class_name": "VIII-A",
+    "photo_url": null,
+    "sort_order": 1,
+    "is_active": true,
+    "created_at": "2026-10-10T10:09:51.419627+00:00"
+  },
+  {
+    "id": "74d44497-abfe-47b1-af74-95d86c2185f1",
+    "period": "2027/2028",
+    "position": "Wakil Ketua",
+    "name": "Aisyah Nur Aini",
+    "class_name": "VIII-B",
+    "photo_url": null,
+    "sort_order": 2,
+    "is_active": true,
+    "created_at": "2026-10-10T10:09:51.419627+00:00"
+  },
+  {
+    "id": "19c46419-e4e3-4be9-bbc4-3bf7afa79e92",
+    "period": "2027/2028",
+    "position": "Sekretaris",
+    "name": "Siti Rahmawati",
+    "class_name": "VIII-A",
+    "photo_url": null,
+    "sort_order": 3,
+    "is_active": true,
+    "created_at": "2026-10-10T10:09:51.419627+00:00"
+  },
+  {
+    "id": "1067f79c-ae3f-40f5-b69f-a73170074a03",
+    "period": "2027/2028",
+    "position": "Bendahara",
+    "name": "Ahmad Farhan",
+    "class_name": "VIII-C",
+    "photo_url": null,
+    "sort_order": 4,
+    "is_active": true,
+    "created_at": "2026-10-10T10:09:51.419627+00:00"
+  }
+]
