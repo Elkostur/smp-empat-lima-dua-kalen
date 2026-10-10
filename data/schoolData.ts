@@ -541,7 +541,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-1",
     "title": "Juara 3 Lompat Jauh Tingkat Kecamatan",
     "category": "Prestasi",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929531/blogsmp/xlc3mxvpp9qwegqtlyb9.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644287/smp45/gallery/prelsretcfmi5c3g8rto.webp",
     "date": "2026-08-05",
     "description": "Juara 3 Lompat Jauh Tingkat Kecamatan"
   },
@@ -549,7 +549,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-2",
     "title": "Juara Atletik TIngkat Kecamatan",
     "category": "Prestasi",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929474/blogsmp/m1tdvzg3jnjgt5plxokn.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644288/smp45/gallery/ldzkrpuh1fbsum8galhx.webp",
     "date": "2026-08-05",
     "description": "Juara Atletik TIngkat Kecamatan"
   },
@@ -557,7 +557,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-3",
     "title": "Juara 1 MTQ Tingkat Kecamatan",
     "category": "Prestasi",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929264/blogsmp/hyjkxbaftshsaa7yn34t.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644289/smp45/gallery/p5a6xcglth85ox27sd5i.webp",
     "date": "2026-08-05",
     "description": "Juara 1 MTQ Tingkat Kecamatan"
   },
@@ -565,7 +565,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-4",
     "title": "Seragam Olahraga",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929247/blogsmp/xbaoilubgxkn7tqyy9k1.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644290/smp45/gallery/ho3eivfpmtwmfu2hpjyx.webp",
     "date": "2026-08-05",
     "description": "Seragam Olahraga"
   },
@@ -573,7 +573,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-5",
     "title": "Seragam Hari Jum''at - Sabtu",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929220/blogsmp/qfgaoynaq17pqodzrm9v.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644291/smp45/gallery/opajl6fkuhtcermgxqzp.webp",
     "date": "2026-08-05",
     "description": "Seragam Hari Jum''at - Sabtu"
   },
@@ -581,7 +581,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-6",
     "title": "Seragam Hari Rabu- Kamis",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929200/blogsmp/ihkwv0iyguhxxjdtrqcn.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644292/smp45/gallery/paxwiyhbk1u1ec0a8jbv.webp",
     "date": "2026-08-05",
     "description": "Seragam Hari Rabu- Kamis"
   },
@@ -589,7 +589,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-7",
     "title": "Seragam Hari Senin - Selasa",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929167/blogsmp/cbnbg7iruy3f1lijkjg7.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644293/smp45/gallery/ybslskxjqkp5a9fpwev3.webp",
     "date": "2026-08-05",
     "description": "Seragam Hari Senin - Selasa"
   },
@@ -597,7 +597,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-8",
     "title": "Seragam Sekolah",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929140/blogsmp/ub8or2ourvlpwljvwziq.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644294/smp45/gallery/eqfkjfnxs8q3xsbs5gyv.webp",
     "date": "2026-08-05",
     "description": "Seragam Sekolah"
   },
@@ -605,7 +605,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-9",
     "title": "MPLS",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929122/blogsmp/cfubcotmlgtaznosammk.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644295/smp45/gallery/tksaxbxhnv8oqcwpw78h.webp",
     "date": "2026-08-05",
     "description": "MPLS"
   },
@@ -613,7 +613,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-10",
     "title": "MPLS",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929102/blogsmp/dwanggq7kala6cwyjgjr.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644296/smp45/gallery/zlwdgg2udupyxptr0vli.webp",
     "date": "2026-08-05",
     "description": "MPLS"
   },
@@ -621,7 +621,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-11",
     "title": "MPLS",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929089/blogsmp/j0vzdehytblobcqhyhlb.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644297/smp45/gallery/twz42u05pn7kay5owrhx.webp",
     "date": "2026-08-05",
     "description": "MPLS"
   },
@@ -629,7 +629,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-12",
     "title": "MPLS",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929075/blogsmp/eeyurnu6hjrwo6lpprgq.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644298/smp45/gallery/wv4ujbk8f962sgzgkw3x.webp",
     "date": "2026-08-05",
     "description": "MPLS"
   },
@@ -637,7 +637,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-13",
     "title": "MPLS",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1785929052/blogsmp/kab3tyw1xjwsj2uksi2m.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644299/smp45/gallery/w7ayiwptlxklge2q9p8h.webp",
     "date": "2026-08-05",
     "description": "MPLS"
   },
@@ -645,7 +645,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-14",
     "title": "Hari Pendidikan Nasional",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778131/blogsmp/bu96kyddcxf20k9uc1nq.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644300/smp45/gallery/lqredbcyucytaaxvyipk.webp",
     "date": "2026-05-03",
     "description": "Hari Pendidikan Nasional"
   },
@@ -653,7 +653,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-15",
     "title": "Hari Buruh Nasional",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778095/blogsmp/haocpxuwc6vgjmfn6sp8.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644301/smp45/gallery/tzedkezudhvitmzro2u7.webp",
     "date": "2026-05-03",
     "description": "Hari Buruh Nasional"
   },
@@ -661,7 +661,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-16",
     "title": "Upacara Hari Kartini",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778079/blogsmp/epxqqtve8yc7jgxlgqht.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644302/smp45/gallery/u2vqjt7atalo0qqtehnw.webp",
     "date": "2026-05-03",
     "description": "Upacara Hari Kartini"
   },
@@ -669,7 +669,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-17",
     "title": "Upacara Hari Kartini",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778064/blogsmp/rnfxe5gb99inkrlrnmq0.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644303/smp45/gallery/h2esak4h4zcah0qgdiwv.webp",
     "date": "2026-05-03",
     "description": "Upacara Hari Kartini"
   },
@@ -677,7 +677,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-18",
     "title": "Upacara Hari Kartini",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778050/blogsmp/gguxg0gwyrd3mq3slqhz.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644304/smp45/gallery/fj0j5pmasd6ro8zwa3si.webp",
     "date": "2026-05-03",
     "description": "Upacara Hari Kartini"
   },
@@ -685,7 +685,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-19",
     "title": "Upacara Hari Kartini",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778037/blogsmp/s5wjyqpr1rlogm9covot.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644305/smp45/gallery/r0mrxsdq4aswsaa57ddr.webp",
     "date": "2026-05-03",
     "description": "Upacara Hari Kartini"
   },
@@ -693,7 +693,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-20",
     "title": "Upacara Hari Kartini",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777778021/blogsmp/y7in0yddiahdyiw2rxpb.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644306/smp45/gallery/gmjvodlpj2hug7shwrfu.webp",
     "date": "2026-05-03",
     "description": "Upacara Hari Kartini"
   },
@@ -701,7 +701,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-21",
     "title": "Upacara Hari Kartini",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777995/blogsmp/jfnlmrx9ganhpudog14h.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644307/smp45/gallery/mpzpjr3avoj3n3sg1734.webp",
     "date": "2026-05-03",
     "description": "Upacara Hari Kartini"
   },
@@ -709,7 +709,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-22",
     "title": "Ujian Praktik Olahraga",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777969/blogsmp/sptmr08f3cnsfdku1y8y.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644308/smp45/gallery/bumdagyyl1ktnfoxpj0j.webp",
     "date": "2026-05-03",
     "description": "Ujian Praktik Olahraga"
   },
@@ -717,7 +717,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-23",
     "title": "Ujian Praktik Olahraga",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777933/blogsmp/ogsegoen2hr55xbeoilq.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644309/smp45/gallery/saulzrpef1eh5tjzxmai.webp",
     "date": "2026-05-03",
     "description": "Ujian Praktik Olahraga"
   },
@@ -725,7 +725,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-24",
     "title": "Ujian Praktik Melukis",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777906/blogsmp/xyq30foul5p8odunj4tn.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644310/smp45/gallery/fqhkq3xlgntuqwckedk2.webp",
     "date": "2026-05-03",
     "description": "Ujian Praktik Melukis"
   },
@@ -733,7 +733,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-25",
     "title": "Ujian Praktik Melukis",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777881/blogsmp/vjq290dvidxj9mllax7z.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644312/smp45/gallery/bevkonqtdy32sjq6vctf.webp",
     "date": "2026-05-03",
     "description": "Ujian Praktik Melukis"
   },
@@ -741,7 +741,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-26",
     "title": "Ujian Praktik Melukis",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777847/blogsmp/wtv031ji03nr2gwg48sa.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644313/smp45/gallery/a4aau5wikxl6eiylotzt.webp",
     "date": "2026-05-03",
     "description": "Ujian Praktik Melukis"
   },
@@ -749,7 +749,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-27",
     "title": "Ujian Praktik Sholat Jenazah",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777829/blogsmp/eebya5iye6s5inffrmbt.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644314/smp45/gallery/pvfen0spclcgsinmwctp.webp",
     "date": "2026-05-03",
     "description": "Ujian Praktik Sholat Jenazah"
   },
@@ -757,7 +757,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-28",
     "title": "Ujian Praktik Sholat Jenazah",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777787/blogsmp/tvye7ukn3wnwxmwwnnfu.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644315/smp45/gallery/svsl8307g7eaigziumpn.webp",
     "date": "2026-05-03",
     "description": "Ujian Praktik Sholat Jenazah"
   },
@@ -765,7 +765,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-29",
     "title": "Halal Bihalal",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777767/blogsmp/cktijjtzlapd9rzxgzjy.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644316/smp45/gallery/dwwjhvleuyoypi7yhnwh.webp",
     "date": "2026-05-03",
     "description": "Halal Bihalal"
   },
@@ -773,7 +773,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-30",
     "title": "Halal Bihalal",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777750/blogsmp/euyvo4z54phhzcdyswzq.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644317/smp45/gallery/ngmfnlugijfrbimoffn8.webp",
     "date": "2026-05-03",
     "description": "Halal Bihalal"
   },
@@ -781,7 +781,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-31",
     "title": "Halal Bihalal",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1777777692/blogsmp/mzisz24bj4ljrejqhvdi.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644318/smp45/gallery/whkvhwiq27j4pinpkrjf.webp",
     "date": "2026-05-03",
     "description": "Halal Bihalal"
   },
@@ -789,7 +789,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-32",
     "title": "Isra'' Mi''raj",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912747/blogsmp/ks3xbzaequnm056wj3at.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644319/smp45/gallery/yqbjpbxcl7qvcn7aslrf.webp",
     "date": "2026-01-20",
     "description": "Isra'' Mi''raj"
   },
@@ -797,7 +797,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-33",
     "title": "Isra'' Mi''raj",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912726/blogsmp/cmpqyw0ykq5kftspmdl8.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644320/smp45/gallery/ji0uwftcujukuuxw8hrs.webp",
     "date": "2026-01-20",
     "description": "Isra'' Mi''raj"
   },
@@ -805,7 +805,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-34",
     "title": "Isra'' Mi''raj",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912662/blogsmp/a14jeypb6eotu4slp5ay.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644321/smp45/gallery/blnilulzk9qhd2wgwkxb.webp",
     "date": "2026-01-20",
     "description": "Isra'' Mi''raj"
   },
@@ -813,7 +813,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-35",
     "title": "Isra'' Mi''raj",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912650/blogsmp/xd4umgcaheeqwpd9pujw.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644322/smp45/gallery/xm25gzcjcvrqbt8s8ot6.webp",
     "date": "2026-01-20",
     "description": "Isra'' Mi''raj"
   },
@@ -821,7 +821,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-36",
     "title": "Isra'' Mi''raj",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912592/blogsmp/mcli6f8qiy1fwsohyiv2.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644323/smp45/gallery/fajueiebcte7orx2xo4i.webp",
     "date": "2026-01-20",
     "description": "Isra'' Mi''raj"
   },
@@ -829,7 +829,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-37",
     "title": "Pemeriksaan Kebugaran",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912554/blogsmp/jdlfzy1ghia6rt3ddv4f.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644325/smp45/gallery/bw711dyufvjck9pyldu3.webp",
     "date": "2026-01-20",
     "description": "Pemeriksaan Kebugaran"
   },
@@ -837,7 +837,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-38",
     "title": "Pemeriksaan Kebugaran",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912527/blogsmp/ia8ia1kc4fnjgpte8hed.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644328/smp45/gallery/k5pkvncunwyj9xehgurw.webp",
     "date": "2026-01-20",
     "description": "Pemeriksaan Kebugaran"
   },
@@ -845,7 +845,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-39",
     "title": "Pemeriksaan Kebugaran",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1768912498/blogsmp/qbu9yqa96udiqqurfrfu.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644329/smp45/gallery/zua5g6xtabq4jiaccxw4.webp",
     "date": "2026-01-20",
     "description": "Pemeriksaan Kebugaran"
   },
@@ -853,7 +853,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-40",
     "title": "Pentas Seni",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1766191712/blogsmp/bz5zaj5lvmvcdanr5vmu.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644331/smp45/gallery/dzqnyyrxpylxfli7srhc.webp",
     "date": "2025-12-20",
     "description": "Pentas Seni"
   },
@@ -861,7 +861,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-41",
     "title": "Pentas Seni",
     "category": "Kegiatan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1766012383/blogsmp/nahh5srcfvrm5fy40ryu.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644333/smp45/gallery/oibriayjak9utarz7ajf.webp",
     "date": "2025-12-17",
     "description": "Pentas Seni"
   },
@@ -869,7 +869,7 @@ export const galleryData: GalleryItem[] = [
     "id": "cloud-gal-42",
     "title": "Pentas Seni",
     "category": "Keagamaan",
-    "imageUrl": "https://res.cloudinary.com/dxqkfbujc/image/upload/v1766011877/blogsmp/vlyd8stqk1qzrtfo88dl.webp",
+    "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1791644334/smp45/gallery/jf2vm83qg7dxtglptq1f.webp",
     "date": "2025-12-17",
     "description": "Pentas Seni"
   }
