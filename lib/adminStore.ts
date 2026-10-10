@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import {
   schoolInfo as defaultSchoolInfo,
   heroSlides as defaultHeroSlides,
@@ -234,286 +234,300 @@ function getStoredValue<T>(key: string, defaultValue: T): T {
   }
 }
 
-export function useAdminDataStore() {
-  const [schoolInfo, setSchoolInfoState] = useState<SchoolInfo>(defaultSchoolInfo);
-  const [heroSlides, setHeroSlidesState] = useState<HeroSlide[]>(defaultHeroSlides);
-  const [news, setNewsState] = useState<NewsItem[]>(defaultNewsItems);
-  const [applicants, setApplicantsState] = useState<PpdbApplicant[]>(initialApplicants);
-  const [programs, setProgramsState] = useState<ProgramItem[]>(defaultPrograms);
-  const [extracurriculars, setExtracurricularsState] = useState<ExtracurricularItem[]>(defaultEkskul);
-  const [staff, setStaffState] = useState<StaffItem[]>(defaultStaff);
-  const [gallery, setGalleryState] = useState<GalleryItem[]>(defaultGallery);
-  const [agendas, setAgendasState] = useState<AgendaItem[]>(defaultAgendas);
-  const [testimonials, setTestimonialsState] = useState(defaultTestimonials);
-  const [facilities, setFacilitiesState] = useState(defaultFacilities);
-  const [faqs, setFaqsState] = useState(defaultFaqs);
-  const [osisOfficers, setOsisOfficersState] = useState<OsisOfficer[]>(defaultOsisOfficers);
-  const [ipnuInfo, setIpnuInfoState] = useState<IpnuInfo>(defaultIpnuInfo);
+interface AdminStoreState {
+  schoolInfo: SchoolInfo;
+  heroSlides: HeroSlide[];
+  news: NewsItem[];
+  applicants: PpdbApplicant[];
+  programs: ProgramItem[];
+  extracurriculars: ExtracurricularItem[];
+  staff: StaffItem[];
+  gallery: GalleryItem[];
+  agendas: AgendaItem[];
+  testimonials: typeof defaultTestimonials;
+  facilities: typeof defaultFacilities;
+  faqs: typeof defaultFaqs;
+  osisOfficers: OsisOfficer[];
+  ipnuInfo: IpnuInfo;
+}
 
-  // Sync back local storage helper
-  const saveToStorage = (key: string, data: unknown) => {
-    try {
-      localStorage.setItem(key, JSON.stringify(data));
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new Event('storage'));
-        window.dispatchEvent(new Event('smp45_data_updated'));
-      }
-    } catch {
-      // ignore
-    }
+let globalState: AdminStoreState = {
+  schoolInfo: defaultSchoolInfo,
+  heroSlides: defaultHeroSlides,
+  news: defaultNewsItems,
+  applicants: initialApplicants,
+  programs: defaultPrograms,
+  extracurriculars: defaultEkskul,
+  staff: defaultStaff,
+  gallery: defaultGallery,
+  agendas: defaultAgendas,
+  testimonials: defaultTestimonials,
+  facilities: defaultFacilities,
+  faqs: defaultFaqs,
+  osisOfficers: defaultOsisOfficers,
+  ipnuInfo: defaultIpnuInfo,
+};
+
+let hasHydratedStorage = false;
+let isSyncingSupabase = false;
+let hasSyncedSupabase = false;
+const listeners = new Set<() => void>();
+
+function notifyListeners() {
+  listeners.forEach((listener) => listener());
+}
+
+function subscribe(callback: () => void) {
+  listeners.add(callback);
+  return () => {
+    listeners.delete(callback);
   };
+}
 
-  // Hydrate from Supabase first, fallback to localStorage
+function getSnapshot(): AdminStoreState {
+  return globalState;
+}
+
+function getServerSnapshot(): AdminStoreState {
+  return globalState;
+}
+
+function saveSilent(key: string, data: unknown) {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch {}
+}
+
+function saveAndDispatch(key: string, data: unknown) {
+  saveSilent(key, data);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('storage'));
+    window.dispatchEvent(new Event('smp45_data_updated'));
+  }
+}
+
+function hydrateFromStorage() {
+  if (typeof window === 'undefined') return;
+  try {
+    const cached = localStorage.getItem('smp45_school_info');
+    if (cached && (cached.includes('dino1@') || cached.includes('Dinosaurus') || cached.includes('Tyrannosaurus'))) {
+      localStorage.clear();
+    }
+  } catch {}
+
+  globalState = {
+    schoolInfo: getStoredValue('smp45_school_info', defaultSchoolInfo),
+    heroSlides: sanitizeHeroSlides(getStoredValue('smp45_hero_slides', defaultHeroSlides)),
+    news: getStoredValue('smp45_news', defaultNewsItems),
+    applicants: getStoredValue('smp45_applicants', initialApplicants),
+    staff: getStoredValue('smp45_staff', defaultStaff),
+    gallery: getStoredValue('smp45_gallery', defaultGallery),
+    agendas: getStoredValue('smp45_agendas', defaultAgendas),
+    osisOfficers: getStoredValue('smp45_osis_officers', defaultOsisOfficers),
+    ipnuInfo: getStoredValue('smp45_ipnu_info', defaultIpnuInfo),
+    programs: getStoredValue('smp45_programs', defaultPrograms),
+    extracurriculars: getStoredValue('smp45_ekskul', defaultEkskul),
+    facilities: getStoredValue('smp45_facilities', defaultFacilities),
+    testimonials: getStoredValue('smp45_testimonials', defaultTestimonials),
+    faqs: getStoredValue('smp45_faqs', defaultFaqs),
+  };
+  hasHydratedStorage = true;
+  notifyListeners();
+}
+
+async function syncFromSupabase() {
+  if (typeof window === 'undefined' || isSyncingSupabase || hasSyncedSupabase) return;
+  isSyncingSupabase = true;
+
+  try {
+    const [
+      dbInfo,
+      dbSlides,
+      dbNews,
+      dbApplicants,
+      dbStaff,
+      dbGallery,
+      dbAgendas,
+      dbOsis,
+      dbIpnu,
+      dbPrograms,
+      dbEkskul,
+      dbFacilities,
+      dbTestimonials,
+      dbFaqs,
+    ] = await Promise.all([
+      getSchoolInfoDB(),
+      getHeroSlidesDB(),
+      getNewsDB(),
+      getApplicantsDB(),
+      getStaffDB(),
+      getGalleryDB(),
+      getAgendasDB(),
+      getOsisOfficersDB(),
+      getIpnuInfoDB(),
+      getProgramsDB(),
+      getExtracurricularsDB(),
+      getFacilitiesDB(),
+      getTestimonialsDB(),
+      getPpdbFaqsDB(),
+    ]);
+
+    let changed = false;
+    const nextState = { ...globalState };
+
+    if (dbInfo) { nextState.schoolInfo = dbInfo; saveSilent('smp45_school_info', dbInfo); changed = true; }
+    if (dbSlides) { const s = sanitizeHeroSlides(dbSlides); nextState.heroSlides = s; saveSilent('smp45_hero_slides', s); changed = true; }
+    if (dbNews) { nextState.news = dbNews; saveSilent('smp45_news', dbNews); changed = true; }
+    if (dbApplicants) { nextState.applicants = dbApplicants; saveSilent('smp45_applicants', dbApplicants); changed = true; }
+    if (dbStaff) { nextState.staff = dbStaff; saveSilent('smp45_staff', dbStaff); changed = true; }
+    if (dbGallery) { nextState.gallery = dbGallery; saveSilent('smp45_gallery', dbGallery); changed = true; }
+    if (dbAgendas) { nextState.agendas = dbAgendas; saveSilent('smp45_agendas', dbAgendas); changed = true; }
+    if (dbOsis) { nextState.osisOfficers = dbOsis; saveSilent('smp45_osis_officers', dbOsis); changed = true; }
+    if (dbIpnu) { nextState.ipnuInfo = dbIpnu; saveSilent('smp45_ipnu_info', dbIpnu); changed = true; }
+    if (dbPrograms) { nextState.programs = dbPrograms; saveSilent('smp45_programs', dbPrograms); changed = true; }
+    if (dbEkskul) { nextState.extracurriculars = dbEkskul; saveSilent('smp45_ekskul', dbEkskul); changed = true; }
+    if (dbFacilities) { nextState.facilities = dbFacilities; saveSilent('smp45_facilities', dbFacilities); changed = true; }
+    if (dbTestimonials) { nextState.testimonials = dbTestimonials; saveSilent('smp45_testimonials', dbTestimonials); changed = true; }
+    if (dbFaqs) { nextState.faqs = dbFaqs; saveSilent('smp45_faqs', dbFaqs); changed = true; }
+
+    hasSyncedSupabase = true;
+    if (changed) {
+      globalState = nextState;
+      notifyListeners();
+    }
+  } catch (err) {
+    console.error('Failed to sync from Supabase:', err);
+  } finally {
+    isSyncingSupabase = false;
+  }
+}
+
+export function useAdminDataStore() {
+  const state = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    let isMounted = true;
-
-    // Invalidate defaced dinosaur data if present in localStorage
-    try {
-      const cached = localStorage.getItem('smp45_school_info');
-      if (cached && (cached.includes('dino1@') || cached.includes('Dinosaurus') || cached.includes('Tyrannosaurus'))) {
-        localStorage.clear();
-      }
-    } catch {
-      // ignore
+    if (!hasHydratedStorage) {
+      hydrateFromStorage();
     }
+    syncFromSupabase();
 
-    function reloadDataFromStorage() {
-      setSchoolInfoState(getStoredValue('smp45_school_info', defaultSchoolInfo));
-      setHeroSlidesState(sanitizeHeroSlides(getStoredValue('smp45_hero_slides', defaultHeroSlides)));
-      setNewsState(getStoredValue('smp45_news', defaultNewsItems));
-      setApplicantsState(getStoredValue('smp45_applicants', initialApplicants));
-      setStaffState(getStoredValue('smp45_staff', defaultStaff));
-      setGalleryState(getStoredValue('smp45_gallery', defaultGallery));
-      setAgendasState(getStoredValue('smp45_agendas', defaultAgendas));
-      setOsisOfficersState(getStoredValue('smp45_osis_officers', defaultOsisOfficers));
-      setIpnuInfoState(getStoredValue('smp45_ipnu_info', defaultIpnuInfo));
-      setProgramsState(getStoredValue('smp45_programs', defaultPrograms));
-      setExtracurricularsState(getStoredValue('smp45_ekskul', defaultEkskul));
-      setFacilitiesState(getStoredValue('smp45_facilities', defaultFacilities));
-      setTestimonialsState(getStoredValue('smp45_testimonials', defaultTestimonials));
-      setFaqsState(getStoredValue('smp45_faqs', defaultFaqs));
-    }
-
-    // Hydrate state from localStorage on client mount
-    reloadDataFromStorage();
-
-    async function loadFromSupabase() {
-      // Fetch ALL data from Supabase in parallel
-      const [
-        dbInfo,
-        dbSlides,
-        dbNews,
-        dbApplicants,
-        dbStaff,
-        dbGallery,
-        dbAgendas,
-        dbOsis,
-        dbIpnu,
-        dbPrograms,
-        dbEkskul,
-        dbFacilities,
-        dbTestimonials,
-        dbFaqs,
-      ] = await Promise.all([
-        getSchoolInfoDB(),
-        getHeroSlidesDB(),
-        getNewsDB(),
-        getApplicantsDB(),
-        getStaffDB(),
-        getGalleryDB(),
-        getAgendasDB(),
-        getOsisOfficersDB(),
-        getIpnuInfoDB(),
-        getProgramsDB(),
-        getExtracurricularsDB(),
-        getFacilitiesDB(),
-        getTestimonialsDB(),
-        getPpdbFaqsDB(),
-      ]);
-
-      if (!isMounted) return;
-
-      // Supabase is the source of truth.
-      // Update state AND cache to localStorage so subsequent reloads are instant
-      if (dbInfo) {
-        setSchoolInfoState(dbInfo);
-        saveToStorage('smp45_school_info', dbInfo);
-      }
-      if (dbSlides) {
-        const sanitizedSlides = sanitizeHeroSlides(dbSlides);
-        setHeroSlidesState(sanitizedSlides);
-        saveToStorage('smp45_hero_slides', sanitizedSlides);
-      }
-      if (dbNews) {
-        setNewsState(dbNews);
-        saveToStorage('smp45_news', dbNews);
-      }
-      if (dbApplicants) {
-        setApplicantsState(dbApplicants);
-        saveToStorage('smp45_applicants', dbApplicants);
-      }
-      if (dbStaff) {
-        setStaffState(dbStaff);
-        saveToStorage('smp45_staff', dbStaff);
-      }
-      if (dbGallery) {
-        setGalleryState(dbGallery);
-        saveToStorage('smp45_gallery', dbGallery);
-      }
-      if (dbAgendas) {
-        setAgendasState(dbAgendas);
-        saveToStorage('smp45_agendas', dbAgendas);
-      }
-      if (dbOsis) {
-        setOsisOfficersState(dbOsis);
-        saveToStorage('smp45_osis_officers', dbOsis);
-      }
-      if (dbIpnu) {
-        setIpnuInfoState(dbIpnu);
-        saveToStorage('smp45_ipnu_info', dbIpnu);
-      }
-      if (dbPrograms) {
-        setProgramsState(dbPrograms);
-        saveToStorage('smp45_programs', dbPrograms);
-      }
-      if (dbEkskul) {
-        setExtracurricularsState(dbEkskul);
-        saveToStorage('smp45_ekskul', dbEkskul);
-      }
-      if (dbFacilities) {
-        setFacilitiesState(dbFacilities);
-        saveToStorage('smp45_facilities', dbFacilities);
-      }
-      if (dbTestimonials) {
-        setTestimonialsState(dbTestimonials);
-        saveToStorage('smp45_testimonials', dbTestimonials);
-      }
-      if (dbFaqs) {
-        setFaqsState(dbFaqs);
-        saveToStorage('smp45_faqs', dbFaqs);
-      }
-    }
-
-    loadFromSupabase();
-
-    window.addEventListener('storage', reloadDataFromStorage);
-    window.addEventListener('smp45_data_updated', reloadDataFromStorage);
+    const handleExternalUpdate = () => {
+      hydrateFromStorage();
+    };
+    window.addEventListener('storage', handleExternalUpdate);
+    window.addEventListener('smp45_data_updated', handleExternalUpdate);
     return () => {
-      isMounted = false;
-      window.removeEventListener('storage', reloadDataFromStorage);
-      window.removeEventListener('smp45_data_updated', reloadDataFromStorage);
+      window.removeEventListener('storage', handleExternalUpdate);
+      window.removeEventListener('smp45_data_updated', handleExternalUpdate);
     };
   }, []);
 
   return {
-    schoolInfo,
+    ...state,
     setSchoolInfo: (data: SchoolInfo) => {
-      setSchoolInfoState(data);
-      saveToStorage('smp45_school_info', data);
+      globalState = { ...globalState, schoolInfo: data };
+      saveAndDispatch('smp45_school_info', data);
       updateSchoolInfoDB(data);
 
-      // Auto-sync Principal in Staff list if present
       if (data.principal || data.principalPhoto) {
-        setStaffState((prevStaff) => {
-          let updated = false;
-          const newStaff = prevStaff.map((s) => {
-            if (s.department === 'Kepala Sekolah' || s.role === 'Kepala Sekolah') {
-              updated = true;
-              return {
-                ...s,
-                name: data.principal || s.name,
-                imageUrl: data.principalPhoto || s.imageUrl,
-              };
-            }
-            return s;
-          });
-          if (updated) {
-            saveToStorage('smp45_staff', newStaff);
-            saveStaffDB(newStaff);
+        let staffUpdated = false;
+        const newStaff = globalState.staff.map((s) => {
+          if (s.department === 'Kepala Sekolah' || s.role === 'Kepala Sekolah') {
+            staffUpdated = true;
+            return {
+              ...s,
+              name: data.principal || s.name,
+              imageUrl: data.principalPhoto || s.imageUrl,
+            };
           }
-          return newStaff;
+          return s;
         });
+        if (staffUpdated) {
+          globalState = { ...globalState, staff: newStaff };
+          saveAndDispatch('smp45_staff', newStaff);
+          saveStaffDB(newStaff);
+        }
       }
+      notifyListeners();
     },
-    heroSlides,
     setHeroSlides: (data: typeof defaultHeroSlides) => {
-      setHeroSlidesState(data);
-      saveToStorage('smp45_hero_slides', data);
+      globalState = { ...globalState, heroSlides: data };
+      saveAndDispatch('smp45_hero_slides', data);
       saveHeroSlidesDB(data);
+      notifyListeners();
     },
-    news,
     setNews: (data: NewsItem[]) => {
-      setNewsState(data);
-      saveToStorage('smp45_news', data);
+      globalState = { ...globalState, news: data };
+      saveAndDispatch('smp45_news', data);
       saveNewsDB(data);
+      notifyListeners();
     },
-    applicants,
     setApplicants: (data: PpdbApplicant[]) => {
-      setApplicantsState(data);
-      saveToStorage('smp45_applicants', data);
+      globalState = { ...globalState, applicants: data };
+      saveAndDispatch('smp45_applicants', data);
       saveApplicantsDB(data);
+      notifyListeners();
     },
-    programs,
     setPrograms: (data: ProgramItem[]) => {
-      setProgramsState(data);
-      saveToStorage('smp45_programs', data);
+      globalState = { ...globalState, programs: data };
+      saveAndDispatch('smp45_programs', data);
       saveProgramsDB(data);
+      notifyListeners();
     },
-    extracurriculars,
     setExtracurriculars: (data: ExtracurricularItem[]) => {
-      setExtracurricularsState(data);
-      saveToStorage('smp45_ekskul', data);
+      globalState = { ...globalState, extracurriculars: data };
+      saveAndDispatch('smp45_ekskul', data);
       saveExtracurricularsDB(data);
+      notifyListeners();
     },
-    staff,
     setStaff: (data: StaffItem[]) => {
-      setStaffState(data);
-      saveToStorage('smp45_staff', data);
+      globalState = { ...globalState, staff: data };
+      saveAndDispatch('smp45_staff', data);
       saveStaffDB(data);
+      notifyListeners();
     },
-    gallery,
+    gallery: state.gallery,
     setGallery: (data: GalleryItem[]) => {
-      setGalleryState(data);
-      saveToStorage('smp45_gallery', data);
+      globalState = { ...globalState, gallery: data };
+      saveAndDispatch('smp45_gallery', data);
       saveGalleryDB(data);
+      notifyListeners();
     },
-    agendas,
     setAgendas: (data: AgendaItem[]) => {
-      setAgendasState(data);
-      saveToStorage('smp45_agendas', data);
+      globalState = { ...globalState, agendas: data };
+      saveAndDispatch('smp45_agendas', data);
       saveAgendasDB(data);
+      notifyListeners();
     },
-    testimonials,
     setTestimonials: (data: typeof defaultTestimonials) => {
-      setTestimonialsState(data);
-      saveToStorage('smp45_testimonials', data);
+      globalState = { ...globalState, testimonials: data };
+      saveAndDispatch('smp45_testimonials', data);
       saveTestimonialsDB(data);
+      notifyListeners();
     },
-    facilities,
     setFacilities: (data: typeof defaultFacilities) => {
-      setFacilitiesState(data);
-      saveToStorage('smp45_facilities', data);
+      globalState = { ...globalState, facilities: data };
+      saveAndDispatch('smp45_facilities', data);
       saveFacilitiesDB(data);
+      notifyListeners();
     },
-    faqs,
     setFaqs: (data: typeof defaultFaqs) => {
-      setFaqsState(data);
-      saveToStorage('smp45_faqs', data);
+      globalState = { ...globalState, faqs: data };
+      saveAndDispatch('smp45_faqs', data);
       savePpdbFaqsDB(data);
+      notifyListeners();
     },
-    osisOfficers,
     setOsisOfficers: (data: OsisOfficer[]) => {
-      setOsisOfficersState(data);
-      saveToStorage('smp45_osis_officers', data);
+      globalState = { ...globalState, osisOfficers: data };
+      saveAndDispatch('smp45_osis_officers', data);
       saveOsisOfficersDB(data);
+      notifyListeners();
     },
-    ipnuInfo,
     setIpnuInfo: (data: IpnuInfo) => {
-      setIpnuInfoState(data);
-      saveToStorage('smp45_ipnu_info', data);
+      globalState = { ...globalState, ipnuInfo: data };
+      saveAndDispatch('smp45_ipnu_info', data);
       saveIpnuInfoDB(data);
+      notifyListeners();
     },
   };
 }

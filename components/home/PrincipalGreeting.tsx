@@ -32,6 +32,7 @@ export const PrincipalGreeting: React.FC = () => {
                   src={schoolInfo.principalPhoto}
                   alt={schoolInfo.principal}
                   fill
+                  sizes="(max-width: 768px) 90vw, 400px"
                   className="object-cover object-center"
                 />
                 

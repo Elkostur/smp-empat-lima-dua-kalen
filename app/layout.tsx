@@ -1,8 +1,21 @@
 import type { Metadata, Viewport } from 'next';
+import { Plus_Jakarta_Sans, Cinzel } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { MobileQuickBar } from '@/components/layout/MobileQuickBar';
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+});
+
+const cinzel = Cinzel({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-heading',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -63,8 +76,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className="scroll-smooth">
-      <body className="antialiased min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-school-gold-500 selection:text-slate-900 overflow-x-hidden max-w-full">
+    <html lang="id" className={`scroll-smooth ${plusJakartaSans.variable} ${cinzel.variable}`}>
+      <body className="antialiased min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-school-gold-500 selection:text-slate-900 overflow-x-hidden max-w-full font-sans">
         <Navbar />
         <main className="flex-1 w-full max-w-full overflow-x-hidden pb-16 md:pb-0">
           {children}

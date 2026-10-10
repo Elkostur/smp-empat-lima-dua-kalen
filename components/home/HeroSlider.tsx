@@ -45,7 +45,7 @@ const DEFAULT_HERO_BG = 'https://res.cloudinary.com/lvrhzzon/image/upload/v17861
       <AnimatePresence mode="wait">
         <motion.div
           key={slide.id || `slide-${currentSlide}`}
-          initial={{ opacity: 0, scale: 1.05 }}
+          initial={currentSlide === 0 ? false : { opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
@@ -55,6 +55,7 @@ const DEFAULT_HERO_BG = 'https://res.cloudinary.com/lvrhzzon/image/upload/v17861
             src={slideBg}
             alt={slide.title || 'SMP Empat Lima 2 Kedungpring'}
             fill
+            sizes="100vw"
             className="object-cover object-center"
             priority={currentSlide === 0}
             fallbackSrc={DEFAULT_HERO_BG}

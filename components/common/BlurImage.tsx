@@ -49,13 +49,16 @@ export const BlurImage: React.FC<BlurImageProps> = ({
   fallbackSrc = DEFAULT_FALLBACK,
   ...props
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const isPriority = Boolean(props.priority);
+  const [isLoading, setIsLoading] = useState(!isPriority);
   const [imgSrc, setImgSrc] = useState<ImageProps['src']>(() => resolveValidSrc(src, fallbackSrc));
 
   useEffect(() => {
     setImgSrc(resolveValidSrc(src, fallbackSrc));
-    setIsLoading(true);
-  }, [src, fallbackSrc]);
+    if (!isPriority) {
+      setIsLoading(true);
+    }
+  }, [src, fallbackSrc, isPriority]);
 
   if (!imgSrc) {
     return null;
@@ -66,15 +69,15 @@ export const BlurImage: React.FC<BlurImageProps> = ({
       {...props}
       src={imgSrc}
       alt={alt}
-      placeholder={placeholder}
-      blurDataURL={blurDataURL || defaultBlur}
+      placeholder={isPriority ? 'empty' : placeholder}
+      blurDataURL={isPriority ? undefined : (blurDataURL || defaultBlur)}
       onLoad={() => setIsLoading(false)}
       onError={() => {
         setImgSrc(fallbackSrc);
         setIsLoading(false);
       }}
       className={`transition-all duration-700 ease-in-out ${
-        isLoading ? 'scale-105 blur-md brightness-90' : 'scale-100 blur-0 brightness-100'
+        isLoading && !isPriority ? 'scale-105 blur-md brightness-90' : 'scale-100 blur-0 brightness-100'
       } ${className}`}
       referrerPolicy="no-referrer"
     />
