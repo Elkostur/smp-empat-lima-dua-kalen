@@ -58,6 +58,7 @@ const DEFAULT_HERO_BG = 'https://res.cloudinary.com/lvrhzzon/image/upload/v17861
             sizes="100vw"
             className="object-cover object-center"
             priority={currentSlide === 0}
+            unoptimized={currentSlide === 0}
             fallbackSrc={DEFAULT_HERO_BG}
           />
           {/* Overlay Gradient for readability */}

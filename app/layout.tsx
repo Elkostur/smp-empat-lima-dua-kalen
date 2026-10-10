@@ -77,6 +77,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id" className={`scroll-smooth ${plusJakartaSans.variable} ${cinzel.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body className="antialiased min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-school-gold-500 selection:text-slate-900 overflow-x-hidden max-w-full font-sans">
         <Navbar />
         <main className="flex-1 w-full max-w-full overflow-x-hidden pb-16 md:pb-0">
