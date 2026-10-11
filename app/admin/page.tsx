@@ -64,7 +64,12 @@ import {
   Award,
   Layers,
   ArrowRight,
+  Database,
+  FileCode,
+  Copy,
 } from 'lucide-react';
+import { generateSupabaseBackupSql, downloadFile } from '@/lib/backupService';
+
 
 function generateUniqueId(_prefix?: string): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -139,6 +144,37 @@ export default function AdminDashboardPage() {
   const [editApplicantModalOpen, setEditApplicantModalOpen] = useState(false);
   const [selectedApplicant, setSelectedApplicant] = useState<PpdbApplicant | null>(null);
   const [addPpdbModalOpen, setAddPpdbModalOpen] = useState(false);
+
+  // Database Backup Modal State
+  const [backupModalOpen, setBackupModalOpen] = useState(false);
+  const [generatedSql, setGeneratedSql] = useState('');
+  const [sqlCopied, setSqlCopied] = useState(false);
+
+  const handleOpenBackupModal = () => {
+    const sql = generateSupabaseBackupSql(store);
+    setGeneratedSql(sql);
+    setSqlCopied(false);
+    setBackupModalOpen(true);
+  };
+
+  const handleDownloadBackupSql = () => {
+    const timestamp = new Date().toISOString().slice(0, 10);
+    const sql = generatedSql || generateSupabaseBackupSql(store);
+    downloadFile(`backup_smp45_supabase_${timestamp}.sql`, sql, 'text/sql');
+    showToast('File backup SQL (.sql) berhasil diunduh!');
+  };
+
+  const handleCopyBackupSql = async () => {
+    try {
+      await navigator.clipboard.writeText(generatedSql);
+      setSqlCopied(true);
+      showToast('Script SQL berhasil disalin ke clipboard!');
+      setTimeout(() => setSqlCopied(false), 3000);
+    } catch {
+      showToast('Gagal menyalin script SQL');
+    }
+  };
+
   const [adminApplicantForm, setAdminApplicantForm] = useState({
     fullName: '',
     originSchool: '',
@@ -1071,6 +1107,17 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Backup SQL Database Button */}
+            <button
+              onClick={handleOpenBackupModal}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 text-white text-xs font-bold border border-emerald-400/50 shadow-md transition-all hover:scale-[1.02]"
+              title="Backup semua data website ke file SQL Supabase"
+            >
+              <Database className="w-3.5 h-3.5 text-school-gold-400 shrink-0" />
+              <span className="hidden xs:inline">Backup Database SQL</span>
+              <span className="xs:hidden">Backup</span>
+            </button>
+
             <Link
               href="/"
               target="_blank"
@@ -3005,6 +3052,56 @@ export default function AdminDashboardPage() {
                   </button>
                 </form>
               </div>
+
+              {/* CARD: BACKUP & RESTORE DATABASE SUPABASE */}
+              <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                <div className="border-b border-slate-100 pb-4 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-lg font-extrabold text-slate-900 flex items-center gap-2">
+                      <Database className="w-5 h-5 text-emerald-700" />
+                      <span>Cadangan Database (Backup SQL Supabase)</span>
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                      Amankan semua data website ke file SQL. Jika database diretas atau terhapus, Anda dapat memulihkannya secara instan di Supabase SQL Editor.
+                    </p>
+                  </div>
+                  <span className="hidden sm:inline-block px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[11px] font-extrabold rounded-lg border border-emerald-200">
+                    Supabase Ready
+                  </span>
+                </div>
+
+                <div className="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-2 text-xs text-slate-700">
+                  <p className="font-bold text-emerald-950 flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+                    <span>Fitur Pemulihan Darurat (Disaster Recovery):</span>
+                  </p>
+                  <ul className="list-disc list-inside space-y-1 text-slate-600 pl-1">
+                    <li>Mencakup seluruh 14 tabel database (Profil Sekolah, Berita, PPDB, Guru/Staf, Galeri, Agenda, Ekskul, Fasilitas, Testimoni, dll).</li>
+                    <li>File SQL memuat perintah <code>CREATE TABLE IF NOT EXISTS</code> dan <code>INSERT ... ON CONFLICT DO UPDATE</code>.</li>
+                    <li>Dapat langsung di-copy atau diunduh sebagai file <code>.sql</code>.</li>
+                  </ul>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={handleOpenBackupModal}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs shadow-md transition-all"
+                  >
+                    <FileCode className="w-4 h-4 text-school-gold-400" />
+                    <span>Buka Generator Backup SQL</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleDownloadBackupSql}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs border border-slate-300 transition-colors"
+                  >
+                    <Download className="w-4 h-4 text-slate-600" />
+                    <span>Unduh File .sql Langsung</span>
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </main>
@@ -4608,6 +4705,143 @@ export default function AdminDashboardPage() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: BACKUP DATABASE SQL SUPABASE */}
+      {backupModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in duration-200">
+            {/* Header Modal */}
+            <div className="bg-gradient-school text-white p-5 sm:p-6 flex items-center justify-between border-b border-[#D4AF37]/30 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-emerald-950/60 rounded-2xl border border-[#D4AF37]/40 shadow-inner">
+                  <Database className="w-6 h-6 text-school-gold-400" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
+                    <span>Backup Database SQL (Supabase Disaster Recovery)</span>
+                  </h3>
+                  <p className="text-xs text-emerald-100 font-medium">
+                    Script SQL lengkap &amp; aman untuk memulihkan seluruh data langsung di Supabase SQL Editor.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setBackupModalOpen(false)}
+                className="p-2 rounded-xl text-emerald-200 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label="Tutup Modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Body Modal */}
+            <div className="p-5 sm:p-6 space-y-4 overflow-y-auto flex-1 text-xs">
+              {/* Petunjuk Penggunaan */}
+              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-slate-800 space-y-2">
+                <p className="font-extrabold text-amber-900 flex items-center gap-1.5 text-xs sm:text-sm">
+                  <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+                  <span>Cara Memulihkan Data Saat Terjadi Peretasan / Data Hilang:</span>
+                </p>
+                <ol className="list-decimal list-inside space-y-1 text-xs text-slate-700 font-medium pl-1">
+                  <li>Klik tombol <strong>&quot;Salin Script SQL&quot;</strong> atau <strong>&quot;Download File .sql&quot;</strong> di bawah.</li>
+                  <li>Buka browser dan login ke dashboard proyek <strong>Supabase</strong> Anda (<a href="https://supabase.com/dashboard" target="_blank" rel="noreferrer" className="underline text-emerald-800 font-bold">supabase.com/dashboard</a>).</li>
+                  <li>Pilih menu <strong>SQL Editor</strong> di sidebar sebelah kiri Supabase.</li>
+                  <li>Klik <strong>&quot;New Query&quot;</strong>, tempelkan (Paste) seluruh script SQL ini, lalu klik tombol <strong>&quot;Run&quot;</strong>.</li>
+                  <li>Selesai! Seluruh tabel dan data (Profil Sekolah, Berita, PPDB, Staf Guru, Galeri, Agenda, Program, dll) akan langsung pulih 100%.</li>
+                </ol>
+              </div>
+
+              {/* Ringkasan Data yang di-backup */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                  <p className="text-[10px] font-bold text-slate-500 uppercase">Artikel Berita</p>
+                  <p className="text-base font-black text-slate-900">{store.news.length}</p>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                  <p className="text-[10px] font-bold text-slate-500 uppercase">Pendaftar PPDB</p>
+                  <p className="text-base font-black text-slate-900">{store.applicants.length}</p>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                  <p className="text-[10px] font-bold text-slate-500 uppercase">Staf &amp; Guru</p>
+                  <p className="text-base font-black text-slate-900">{store.staff.length}</p>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                  <p className="text-[10px] font-bold text-slate-500 uppercase">Foto Galeri</p>
+                  <p className="text-base font-black text-slate-900">{store.gallery.length}</p>
+                </div>
+              </div>
+
+              {/* Code Preview Box */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-slate-600 font-bold">
+                  <span className="flex items-center gap-1.5">
+                    <FileCode className="w-4 h-4 text-emerald-700" />
+                    <span>Pratinjau Script SQL (PostgreSQL / Supabase):</span>
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-mono">
+                    {generatedSql.split('\n').length} baris
+                  </span>
+                </div>
+                <div className="relative">
+                  <pre className="w-full h-64 sm:h-72 p-4 bg-slate-950 text-emerald-400 font-mono text-[11px] rounded-2xl border border-slate-800 overflow-auto scrollbar-thin select-all">
+                    <code>{generatedSql}</code>
+                  </pre>
+                  <button
+                    type="button"
+                    onClick={handleCopyBackupSql}
+                    className="absolute top-3 right-3 px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-1.5 border border-slate-700 shadow-md transition-all backdrop-blur-sm"
+                  >
+                    {sqlCopied ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span className="text-emerald-400">Tersalin!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5 text-slate-300" />
+                        <span>Salin SQL</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer Modal Actions */}
+            <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3 shrink-0">
+              <div className="text-[11px] text-slate-500 font-medium">
+                💡 Simpan file backup ini di tempat yang aman (Google Drive / Flashdisk) secara berkala.
+              </div>
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => setBackupModalOpen(false)}
+                  className="px-4 py-2 rounded-xl bg-white text-slate-700 font-bold border border-slate-200 hover:bg-slate-100 transition-colors"
+                >
+                  Tutup
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCopyBackupSql}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-extrabold shadow-sm transition-colors"
+                >
+                  {sqlCopied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  <span>{sqlCopied ? 'Tersalin' : 'Salin Semua SQL'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDownloadBackupSql}
+                  className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold shadow-md transition-all hover:scale-[1.02]"
+                >
+                  <Download className="w-4 h-4 text-school-gold-400" />
+                  <span>Download File .sql</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -235,7 +235,7 @@ function getStoredValue<T>(key: string, defaultValue: T): T {
   }
 }
 
-interface AdminStoreState {
+export interface AdminStoreState {
   schoolInfo: SchoolInfo;
   heroSlides: HeroSlide[];
   news: NewsItem[];
