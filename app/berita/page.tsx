@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/layout/PageHeader';
 import { NewsItem } from '@/data/schoolData';
 import { Calendar, User, Search, Tag, ArrowRight, BookOpen } from 'lucide-react';
 import { useAdminDataStore } from '@/lib/adminStore';
+import { sortNewsByDateDesc } from '@/lib/utils';
 
 const categories = [
   'Semua',
@@ -22,8 +23,9 @@ export default function BeritaPage() {
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [searchQuery, setSearchQuery] = useState('');
   const { news: newsList } = useAdminDataStore();
+  const sortedNews = sortNewsByDateDesc(newsList);
 
-  const filteredNews = newsList.filter((item) => {
+  const filteredNews = sortedNews.filter((item) => {
     const itemCat = item.category as string;
     const matchesCategory =
       selectedCategory === 'Semua' ||

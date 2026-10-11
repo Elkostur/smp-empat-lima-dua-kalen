@@ -315,7 +315,7 @@ export const newsData: NewsItem[] = [
     "readTime": "3 menit",
     "imageUrl": "https://res.cloudinary.com/lvrhzzon/image/upload/v1788147897/smp45/uploads/wlkcwjq7q3ondtyfhwgf.webp",
     "summary": "Kegiatan SPEDA Champions 81 berlangsung pada 26–28 Agustus dengan penuh semangat dan kebersamaan.",
-    "content": "Kegiatan SPEDA Champions 81 berlangsung pada 26–28 Agustus 2026 dan diikuti oleh peserta didik SMP “Empat Lima” 2 Kalen Kedungpring.\nSelama kegiatan, para peserta menunjukkan antusiasme dan semangat dalam mengikuti rangkaian aktivitas. Kebersamaan dan kekompakan menjadi bagian penting dari suasana kegiatan.\nKegiatan ini juga menjadi kesempatan bagi peserta didik untuk membangun karakter positif, seperti disiplin, kerja sama, tanggung jawab, dan sportivitas.\nMelalui SPEDA Champions 81, sekolah terus mendorong peserta didik untuk aktif, percaya diri, serta mampu mengembangkan potensi melalui berbagai kegiatan.\nDokumentasi kegiatan SPEDA Champions 81, 26–28 Agustus 2026.",
+    "content": "Kegiatan SPEDA Champions 81 berlangsung pada 26–28 Agustus 2026 dan diikuti oleh peserta didik SMP “Empat Lima” 2 Kalen Kedungpring.\n\nSelama kegiatan, para peserta menunjukkan antusiasme dan semangat dalam mengikuti rangkaian aktivitas. Kebersamaan dan kekompakan menjadi bagian penting dari suasana kegiatan.\n\nKegiatan ini juga menjadi kesempatan bagi peserta didik untuk membangun karakter positif, seperti disiplin, kerja sama, tanggung jawab, dan sportivitas.\n\nMelalui SPEDA Champions 81, sekolah terus mendorong peserta didik untuk aktif, percaya diri, serta mampu mengembangkan potensi melalui berbagai kegiatan.\n\nDokumentasi kegiatan SPEDA Champions 81, 26–28 Agustus 2026.",
     "tags": [
       "Informasi Sekolah",
       "SMP 45 2 Kedungpring"
@@ -1590,7 +1590,7 @@ export const testimonialsData: TestimonialItem[] = [
     "id": "e817a9ee-f311-43bb-8164-17139314cc7c",
     "name": "Siti Nur Aini",
     "role": "Siswa Kelas IX / Peraih Juara MTQ Pelajar",
-    "quote": "Guru-gurunya sangat sabar dan mendukung bakat siswa. Tempat belajarnya adem, banyak teman, dan ekstra Pagar Nusa nya keren banget!",
+    "quote": "Guru-gurunya sangat sabar dan mendukung bakat siswa. Tempat belajarnya adem, banyak teman, dan kegiatan ekstrakurikulernya seru dan serba lengkap!",
     "photoUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop"
   }
 ];

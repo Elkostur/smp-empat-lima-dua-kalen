@@ -28,21 +28,29 @@ export const PpdbBanner: React.FC = () => {
               </h2>
 
               <p className="text-slate-200 text-sm sm:text-base leading-relaxed max-w-2xl">
-                Dapatkan promo spesial Gelombang 1: <strong className="text-[#D4AF37]">Bebas Biaya Pendaftaran</strong> dan <strong className="text-[#D4AF37]">Gratis Seragam Olahraga</strong>. Kuota terbatas untuk 50 pendaftar pertama!
+                <strong className="text-[#D4AF37]">Biaya Pendaftaran 100% Gratis</strong>, <strong className="text-[#D4AF37]">Gratis 2 Setel Seragam (Ma&apos;arif &amp; Biru Putih) &amp; 1 Tas Sekolah</strong>, serta <strong className="text-[#D4AF37]">Layanan Antar Jemput</strong> untuk seluruh siswa. Tersedia beasiswa bagi pemilik kartu KIP/PKH &amp; keluarga kurang mampu.
               </p>
 
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs sm:text-sm text-[#D4AF37] font-semibold pt-2">
                 <span className="flex items-center gap-1.5">
                   <CheckCircle className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                  <span>Jalur Reguler & Prestasi</span>
+                  <span>Biaya Pendaftaran Gratis</span>
                 </span>
                 <span className="flex items-center gap-1.5">
                   <CheckCircle className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                  <span>Beasiswa Tahfidz Qur&apos;an</span>
+                  <span>Gratis Seragam Ma&apos;arif &amp; Biru Putih</span>
                 </span>
                 <span className="flex items-center gap-1.5">
                   <CheckCircle className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                  <span>Formulir Online 24 Jam</span>
+                  <span>Gratis 1 Buah Tas</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                  <span>Antar Jemput Semua Siswa</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                  <span>Beasiswa KIP / PKH</span>
                 </span>
               </div>
             </div>

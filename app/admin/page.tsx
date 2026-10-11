@@ -456,6 +456,7 @@ export default function AdminDashboardPage() {
     const author = formData.get('author') as string;
     const image = newsImage || editingNews?.imageUrl || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800';
     const isFeatured = formData.get('featured') === 'on';
+    const dateInput = (formData.get('date') as string) || (editingNews ? editingNews.date : new Date().toISOString().split('T')[0]);
 
     if (editingNews) {
       let updated = store.news.map((n) =>
@@ -464,6 +465,7 @@ export default function AdminDashboardPage() {
               ...n,
               title,
               category,
+              date: dateInput,
               summary,
               content,
               author,
@@ -485,7 +487,7 @@ export default function AdminDashboardPage() {
         slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
         title,
         category,
-        date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+        date: dateInput,
         author: author || 'Admin Sekolah',
         authorRole: 'Tim Humas',
         readTime: '3 menit',
@@ -3035,7 +3037,7 @@ export default function AdminDashboardPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
                   <label className="font-bold text-slate-700">Kategori Artikel *</label>
                   <select
@@ -3050,6 +3052,21 @@ export default function AdminDashboardPage() {
                     <option value="Ekstrakurikuler">Ekstrakurikuler &amp; Olahraga</option>
                     <option value="Artikel &amp; Opini">Artikel &amp; Opini Edukasi</option>
                   </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">Tanggal Publikasi *</label>
+                  <input
+                    type="date"
+                    name="date"
+                    required
+                    defaultValue={
+                      editingNews?.date && editingNews.date.includes('-')
+                        ? editingNews.date
+                        : new Date().toISOString().split('T')[0]
+                    }
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-school-green-700"
+                  />
                 </div>
 
                 <div className="space-y-1">
@@ -3078,21 +3095,88 @@ export default function AdminDashboardPage() {
                   required
                   rows={2}
                   defaultValue={editingNews?.summary || ''}
-                  placeholder="Ringkasan 1-2 kalimat..."
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
+                  placeholder="Ringkasan 1-2 kalimat untuk preview di beranda dan daftar berita..."
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700 text-xs sm:text-sm"
                 />
               </div>
 
-              <div className="space-y-1">
-                <label className="font-bold text-slate-700">Isi Berita Lengkap *</label>
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="font-bold text-slate-700">Isi Berita Lengkap *</label>
+                  <span className="text-[11px] text-school-green-700 font-bold flex items-center gap-1">
+                    <Sparkles className="w-3.5 h-3.5 text-school-gold-500" />
+                    <span>Auto-Format Paragraf &amp; Teks</span>
+                  </span>
+                </div>
                 <textarea
                   name="content"
                   required
-                  rows={5}
+                  rows={9}
                   defaultValue={editingNews?.content || ''}
-                  placeholder="Tuliskan isi berita selengkapnya..."
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700"
+                  placeholder="Tuliskan isi berita selengkapnya... Pisahkan setiap paragraf dengan menekan Enter."
+                  className="w-full px-3.5 py-3 rounded-2xl border border-slate-300 font-medium focus:outline-none focus:border-school-green-700 leading-relaxed text-xs sm:text-sm shadow-inner"
                 />
+
+                {/* Petunjuk Format Penulisan Berita */}
+                <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl space-y-2.5 mt-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-extrabold text-slate-800 flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-school-gold-500" />
+                      <span>Petunjuk Format Penulisan Artikel:</span>
+                    </span>
+                    <span className="text-[10px] text-slate-500 font-semibold">Tampilan otomatis dirapikan</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-600">
+                    <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 flex items-start gap-2">
+                      <span className="font-mono bg-emerald-50 text-emerald-800 border border-emerald-200 px-1.5 py-0.5 rounded font-bold text-[10px] shrink-0">Enter</span>
+                      <div>
+                        <strong className="text-slate-800">Paragraf Baru:</strong>
+                        <p className="text-[10px] text-slate-500 mt-0.5">Tekan Enter untuk memisahkan setiap paragraf agar tidak menyatu.</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 flex items-start gap-2">
+                      <span className="font-mono bg-emerald-50 text-emerald-800 border border-emerald-200 px-1.5 py-0.5 rounded font-bold text-[10px] shrink-0">**kata**</span>
+                      <div>
+                        <strong className="text-slate-800">Teks Tebal (Bold):</strong>
+                        <p className="text-[10px] text-slate-500 mt-0.5">Apit dengan tanda bintang ganda, cth: <code className="text-emerald-700 font-bold">**kata penting**</code></p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 flex items-start gap-2">
+                      <span className="font-mono bg-emerald-50 text-emerald-800 border border-emerald-200 px-1.5 py-0.5 rounded font-bold text-[10px] shrink-0">*kata*</span>
+                      <div>
+                        <strong className="text-slate-800">Teks Miring (Italic):</strong>
+                        <p className="text-[10px] text-slate-500 mt-0.5">Apit dengan satu bintang, cth: <code className="text-emerald-700 font-bold">*tagline sekolah*</code></p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 flex items-start gap-2">
+                      <span className="font-mono bg-emerald-50 text-emerald-800 border border-emerald-200 px-1.5 py-0.5 rounded font-bold text-[10px] shrink-0">Judul:</span>
+                      <div>
+                        <strong className="text-slate-800">Subjudul / Bab:</strong>
+                        <p className="text-[10px] text-slate-500 mt-0.5">Akhiri baris dengan titik dua (<code className="text-emerald-700 font-bold">Jadwal Lomba:</code>) atau awali <code className="text-emerald-700 font-bold">## Judul</code></p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 flex items-start gap-2">
+                      <span className="font-mono bg-emerald-50 text-emerald-800 border border-emerald-200 px-1.5 py-0.5 rounded font-bold text-[10px] shrink-0">- teks</span>
+                      <div>
+                        <strong className="text-slate-800">Daftar Poin (List):</strong>
+                        <p className="text-[10px] text-slate-500 mt-0.5">Awali baris dengan <code className="text-emerald-700 font-bold">- </code> atau angka <code className="text-emerald-700 font-bold">1. </code> untuk poin teratur</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 flex items-start gap-2">
+                      <span className="font-mono bg-emerald-50 text-emerald-800 border border-emerald-200 px-1.5 py-0.5 rounded font-bold text-[10px] shrink-0">Catatan:</span>
+                      <div>
+                        <strong className="text-slate-800">Dokumentasi &amp; Catatan:</strong>
+                        <p className="text-[10px] text-slate-500 mt-0.5">Awali baris dengan <code className="text-emerald-700 font-bold">Dokumentasi:</code> atau <code className="text-emerald-700 font-bold">Catatan:</code> untuk kotak sorotan</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-center gap-2.5 p-3.5 bg-amber-50 rounded-2xl border border-amber-200 text-amber-900">

@@ -7,12 +7,14 @@ import { motion } from 'motion/react';
 import { Calendar, User, ArrowRight, Newspaper } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
 import { useAdminDataStore } from '@/lib/adminStore';
+import { sortNewsByDateDesc } from '@/lib/utils';
 
 export const LatestNewsSection: React.FC = () => {
   const { news: newsList } = useAdminDataStore();
+  const sortedNews = sortNewsByDateDesc(newsList);
 
-  const featured = newsList.filter((n) => n.featured)[0] || newsList[0];
-  const secondaryNews = featured ? newsList.filter((n) => n.id !== featured.id).slice(0, 3) : [];
+  const featured = sortedNews.find((n) => n.featured) || sortedNews[0];
+  const secondaryNews = featured ? sortedNews.filter((n) => n.id !== featured.id).slice(0, 3) : [];
 
   // Empty state — news list is empty or still loading from Supabase
   if (!featured) {

@@ -93,7 +93,7 @@ export const PrincipalGreeting: React.FC = () => {
               </div>
               <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200 font-semibold">
                 <CheckCircle className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                <span>Ekstrakurikuler Pagar Nusa & Pramuka</span>
+                <span>8+ Pilihan Ekstrakurikuler Aktif</span>
               </div>
             </div>
 

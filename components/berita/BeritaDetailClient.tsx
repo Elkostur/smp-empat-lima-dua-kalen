@@ -5,8 +5,10 @@ import { BlurImage } from '@/components/common/BlurImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/layout/PageHeader';
+import { ArticleBody } from '@/components/berita/ArticleBody';
 import { Calendar, User, ArrowLeft, Tag } from 'lucide-react';
 import { useAdminDataStore } from '@/lib/adminStore';
+import { sortNewsByDateDesc } from '@/lib/utils';
 
 interface BeritaDetailClientProps {
   slug: string;
@@ -14,14 +16,15 @@ interface BeritaDetailClientProps {
 
 export default function BeritaDetailClient({ slug }: BeritaDetailClientProps) {
   const { news: newsList } = useAdminDataStore();
+  const sortedNews = sortNewsByDateDesc(newsList);
 
-  const article = newsList.find((n) => n.slug === slug);
+  const article = sortedNews.find((n) => n.slug === slug);
 
   if (!article) {
     notFound();
   }
 
-  const relatedNews = newsList
+  const relatedNews = sortedNews
     .filter((n) => n.id !== article.id)
     .slice(0, 3);
 
@@ -77,11 +80,8 @@ export default function BeritaDetailClient({ slug }: BeritaDetailClientProps) {
           </span>
         </div>
 
-        {/* Article Body HTML Content */}
-        <div
-          className="prose prose-slate max-w-none prose-headings:font-extrabold prose-headings:text-slate-900 prose-p:text-slate-700 prose-p:leading-relaxed prose-li:text-slate-700 text-sm sm:text-base space-y-4"
-          dangerouslySetInnerHTML={{ __html: article.content }}
-        />
+        {/* Article Body Content */}
+        <ArticleBody content={article.content} />
 
         {/* Tags */}
         <div className="mt-10 pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">

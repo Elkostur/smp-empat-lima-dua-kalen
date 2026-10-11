@@ -5,8 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/layout/PageHeader';
+import { ArticleBody } from '@/components/berita/ArticleBody';
 import { newsData, NewsItem } from '@/data/schoolData';
 import { Calendar, User, ArrowLeft, Tag } from 'lucide-react';
+import { sortNewsByDateDesc } from '@/lib/utils';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -40,7 +42,8 @@ export default function BeritaDetailPage({ params }: PageProps) {
     }
   }, []);
 
-  const article = newsList.find((n) => n.slug === slug);
+  const sortedNews = sortNewsByDateDesc(newsList);
+  const article = sortedNews.find((n) => n.slug === slug);
 
   if (!article) {
     if (!mounted) {
@@ -54,7 +57,7 @@ export default function BeritaDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const relatedNews = newsList
+  const relatedNews = sortedNews
     .filter((n) => n.id !== article.id)
     .slice(0, 3);
 
@@ -111,11 +114,8 @@ export default function BeritaDetailPage({ params }: PageProps) {
           </span>
         </div>
 
-        {/* Article Body HTML Content */}
-        <div
-          className="prose prose-slate max-w-none prose-headings:font-extrabold prose-headings:text-slate-900 prose-p:text-slate-700 prose-p:leading-relaxed prose-li:text-slate-700 text-sm sm:text-base space-y-4"
-          dangerouslySetInnerHTML={{ __html: article.content }}
-        />
+        {/* Article Body Content */}
+        <ArticleBody content={article.content} />
 
         {/* Tags */}
         <div className="mt-10 pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">

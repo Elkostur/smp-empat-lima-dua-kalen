@@ -42,7 +42,7 @@ const dailySchedule = [
 
 export default function SiswaPage() {
   const [activeTab, setActiveTab] = useState<'ekskul' | 'osis' | 'jadwal'>('ekskul');
-  const { extracurriculars, osisOfficers, ipnuInfo } = useAdminDataStore();
+  const { extracurriculars, osisOfficers } = useAdminDataStore();
 
   return (
     <main className="min-h-screen bg-slate-50/50 pb-20">
@@ -74,7 +74,7 @@ export default function SiswaPage() {
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
             }`}
           >
-            <span>Organisasi OSIS &amp; IPNU/IPPNU</span>
+            <span>Organisasi OSIS</span>
           </button>
           <button
             onClick={() => setActiveTab('jadwal')}
@@ -158,100 +158,55 @@ export default function SiswaPage() {
           </div>
         )}
 
-        {/* Tab 2: OSIS & IPNU/IPPNU */}
+        {/* Tab 2: OSIS */}
         {activeTab === 'osis' && (
           <div className="space-y-8">
             <SectionHeading
               badge="Kepemimpinan & Organisasi"
-              title="Organisasi Siswa Intra Sekolah (OSIS) & IPNU-IPPNU"
-              subtitle="Melatih jiwa kepemimpinan, kerja sama tim, dan penanaman nilai Ahlussunnah wal Jamaah sejak dini."
+              title="Organisasi Siswa Intra Sekolah (OSIS)"
+              subtitle="Melatih jiwa kepemimpinan, kedisiplinan, tanggung jawab, dan kerja sama tim antar siswa."
             />
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="max-w-3xl mx-auto">
               {/* OSIS Card */}
-              <div className="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm hover:border-school-green-600 transition-all space-y-6 flex flex-col justify-between">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 bg-school-green-50 text-school-green-700 rounded-2xl border border-school-green-200">
-                        <Users className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <h3 className="text-base font-extrabold text-slate-900">Pengurus OSIS</h3>
-                        <p className="text-xs text-slate-500">Masa Bakti 2026/2027</p>
-                      </div>
+              <div className="bg-white p-7 sm:p-9 rounded-3xl border border-slate-200 shadow-sm hover:border-school-green-600 transition-all space-y-6">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-5">
+                  <div className="flex items-center gap-3.5">
+                    <div className="p-3 bg-school-green-50 text-school-green-700 rounded-2xl border border-school-green-200 shadow-xs">
+                      <Users className="w-6 h-6" />
                     </div>
-                    <span className="px-3 py-1 bg-school-green-700 text-white font-extrabold text-[11px] rounded-full shadow-sm">
-                      Resmi
-                    </span>
+                    <div>
+                      <h3 className="text-lg font-extrabold text-slate-900">Pengurus OSIS</h3>
+                      <p className="text-xs text-slate-500 font-medium">Masa Bakti 2026/2027</p>
+                    </div>
                   </div>
+                  <span className="px-3.5 py-1 bg-school-green-700 text-white font-extrabold text-xs rounded-full shadow-sm">
+                    Resmi
+                  </span>
+                </div>
 
-                  <div className="space-y-2.5">
-                    {osisOfficers.map((officer) => (
-                      <div
-                        key={officer.id}
-                        className="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-between hover:bg-emerald-50/40 transition-colors"
-                      >
-                        <div className="space-y-0.5">
-                          <span className="text-[11px] font-bold text-school-green-700 uppercase tracking-wide">
-                            {officer.position}
-                          </span>
-                          <h4 className="text-sm font-extrabold text-slate-900">{officer.name}</h4>
-                        </div>
-                        <span className="px-2.5 py-1 bg-white border border-slate-200 text-slate-700 font-bold text-xs rounded-xl shadow-xs">
-                          Kelas {officer.className}
+                <div className="space-y-3">
+                  {osisOfficers.map((officer) => (
+                    <div
+                      key={officer.id}
+                      className="p-4 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-between hover:bg-emerald-50/40 transition-colors"
+                    >
+                      <div className="space-y-0.5">
+                        <span className="text-[11px] font-bold text-school-green-700 uppercase tracking-wide">
+                          {officer.position}
                         </span>
+                        <h4 className="text-sm font-extrabold text-slate-900">{officer.name}</h4>
                       </div>
-                    ))}
-                  </div>
+                      <span className="px-3 py-1 bg-white border border-slate-200 text-slate-700 font-bold text-xs rounded-xl shadow-xs">
+                        Kelas {officer.className}
+                      </span>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 text-[11px] text-slate-500 flex items-center justify-between">
+                <div className="pt-5 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between font-medium">
                   <span>Pembina: Kesiswaan &amp; Guru Pembimbing</span>
-                  <span className="text-school-green-700 font-bold">SMP 45 2 Kedungpring</span>
-                </div>
-              </div>
-
-              {/* IPNU & IPPNU Card */}
-              <div className="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm hover:border-[#D4AF37] transition-all space-y-6 flex flex-col justify-between">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 bg-amber-50 text-amber-700 rounded-2xl border border-amber-200">
-                        <Award className="w-6 h-6 text-[#D4AF37]" />
-                      </div>
-                      <div>
-                        <h3 className="text-base font-extrabold text-slate-900">PK IPNU &amp; IPPNU</h3>
-                        <p className="text-xs text-slate-500">{ipnuInfo.period}</p>
-                      </div>
-                    </div>
-                    <span className="px-3 py-1 bg-[#D4AF37] text-slate-900 font-extrabold text-[11px] rounded-full shadow-sm">
-                      Ma&apos;arif NU
-                    </span>
-                  </div>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
-                    {ipnuInfo.description}
-                  </p>
-
-                  <div className="space-y-2">
-                    <h4 className="text-xs font-extrabold text-slate-800 uppercase tracking-wide">
-                      Seksi Bidang &amp; Departemen:
-                    </h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {ipnuInfo.sections.map((sec, sIdx) => (
-                        <div key={sIdx} className="p-2.5 rounded-xl bg-amber-50/55 border border-amber-100 text-xs font-bold text-slate-800 flex items-center gap-2">
-                          <CheckCircle className="w-3.5 h-3.5 text-school-gold-600 shrink-0" />
-                          <span>{sec}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-slate-100 text-xs flex items-center justify-between">
-                  <span className="text-slate-500">Ketua Komisariat: <strong className="text-slate-900">{ipnuInfo.leaderName}</strong></span>
-                  <span className="px-2.5 py-1 bg-amber-100/70 text-amber-900 font-bold rounded-lg text-[11px]">Kelas {ipnuInfo.leaderClass}</span>
+                  <span className="text-school-green-700 font-bold">SMP Empat Lima 2 Kedungpring</span>
                 </div>
               </div>
             </div>

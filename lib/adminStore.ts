@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useSyncExternalStore } from 'react';
+import { sortNewsByDateDesc } from '@/lib/utils';
 import {
   schoolInfo as defaultSchoolInfo,
   heroSlides as defaultHeroSlides,
@@ -254,7 +255,7 @@ interface AdminStoreState {
 let globalState: AdminStoreState = {
   schoolInfo: defaultSchoolInfo,
   heroSlides: defaultHeroSlides,
-  news: defaultNewsItems,
+  news: sortNewsByDateDesc(defaultNewsItems),
   applicants: initialApplicants,
   programs: defaultPrograms,
   extracurriculars: defaultEkskul,
@@ -318,7 +319,7 @@ function hydrateFromStorage() {
   globalState = {
     schoolInfo: getStoredValue('smp45_school_info', defaultSchoolInfo),
     heroSlides: sanitizeHeroSlides(getStoredValue('smp45_hero_slides', defaultHeroSlides)),
-    news: getStoredValue('smp45_news', defaultNewsItems),
+    news: sortNewsByDateDesc(getStoredValue('smp45_news', defaultNewsItems)),
     applicants: getStoredValue('smp45_applicants', initialApplicants),
     staff: getStoredValue('smp45_staff', defaultStaff),
     gallery: getStoredValue('smp45_gallery', defaultGallery),
@@ -377,7 +378,7 @@ async function syncFromSupabase() {
 
     if (dbInfo) { nextState.schoolInfo = dbInfo; saveSilent('smp45_school_info', dbInfo); changed = true; }
     if (dbSlides) { const s = sanitizeHeroSlides(dbSlides); nextState.heroSlides = s; saveSilent('smp45_hero_slides', s); changed = true; }
-    if (dbNews) { nextState.news = dbNews; saveSilent('smp45_news', dbNews); changed = true; }
+    if (dbNews) { const sNews = sortNewsByDateDesc(dbNews); nextState.news = sNews; saveSilent('smp45_news', sNews); changed = true; }
     if (dbApplicants) { nextState.applicants = dbApplicants; saveSilent('smp45_applicants', dbApplicants); changed = true; }
     if (dbStaff) { nextState.staff = dbStaff; saveSilent('smp45_staff', dbStaff); changed = true; }
     if (dbGallery) { nextState.gallery = dbGallery; saveSilent('smp45_gallery', dbGallery); changed = true; }
@@ -457,9 +458,10 @@ export function useAdminDataStore() {
       notifyListeners();
     },
     setNews: (data: NewsItem[]) => {
-      globalState = { ...globalState, news: data };
-      saveAndDispatch('smp45_news', data);
-      saveNewsDB(data);
+      const sorted = sortNewsByDateDesc(data);
+      globalState = { ...globalState, news: sorted };
+      saveAndDispatch('smp45_news', sorted);
+      saveNewsDB(sorted);
       notifyListeners();
     },
     setApplicants: (data: PpdbApplicant[]) => {

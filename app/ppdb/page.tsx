@@ -59,7 +59,7 @@ export default function PpdbPage() {
     pekerjaanOrangTua: '',
     noWhatsapp: '',
     alamatLengkap: '',
-    jalurPendaftaran: 'Gelombang 1 - Reguler (Bebas Biaya & Gratis Seragam)',
+    jalurPendaftaran: 'Reguler (Bebas Biaya Pendaftaran)',
   });
 
   const [nomorPendaftaran, setNomorPendaftaran] = useState('');
@@ -290,18 +290,18 @@ export default function PpdbPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
-        {/* Banner Highlight Gelombang 1 */}
+        {/* Banner Highlight PPDB */}
         <div className="bg-gradient-school text-white rounded-3xl p-6 sm:p-10 border-2 border-school-gold-500 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
           <div className="space-y-3 relative z-10 max-w-2xl">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-school-gold-500 text-slate-900 font-extrabold text-xs uppercase rounded-full">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Promo Gelombang 1 - Kuota Terbatas!</span>
+              <span>PPDB TA 2027/2028</span>
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
-              Dapatkan Bebas Uang Pendaftaran & Gratis Seragam Olahraga
+              Biaya Pendaftaran Gratis &amp; Gratis 2 Seragam + 1 Tas Sekolah
             </h2>
             <p className="text-xs sm:text-sm text-emerald-100 leading-relaxed">
-              Khusus 50 pendaftar pertama pada Gelombang 1. Bebas biaya formulir pendaftaran dan potongan khusus bagi siswa berprestasi & hafidz Al-Qur&apos;an.
+              Biaya pendaftaran 100% gratis. Dapatkan <strong className="text-school-gold-300">gratis seragam Ma&apos;arif &amp; biru putih</strong>, <strong className="text-school-gold-300">1 tas sekolah</strong>, serta <strong className="text-school-gold-300">layanan antar jemput untuk semua siswa</strong>. Tersedia beasiswa KIP/PKH dan anak kurang mampu.
             </p>
           </div>
 
@@ -319,52 +319,70 @@ export default function PpdbPage() {
         {/* Timeline Gelombang */}
         <div className="space-y-6">
           <SectionHeading
-            badge="Jadwal Pendaftaran"
-            title="Gelombang & Alur Pendaftaran"
-            subtitle="Perhatikan tanggal penting pelaksanaan PPDB SMP Empat Lima 2 Kedungpring."
+            badge="Keunggulan PPDB"
+            title="Keuntungan Mendaftar di Sini"
+            subtitle="Kami menyambut semua calon peserta didik baru dengan tangan terbuka dan fasilitas terbaik."
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border-2 border-school-green-700 shadow-md space-y-4 relative">
-              <span className="absolute top-4 right-4 px-3 py-1 bg-school-green-700 text-white text-xs font-bold rounded-full">
-                Sedang Buka
-              </span>
-              <h3 className="text-xl font-extrabold text-slate-900">Gelombang I (Jalur Khusus & Reguler)</h3>
-              <p className="text-xs text-slate-600">01 Agustus 2027 - 30 September 2027</p>
-              <ul className="space-y-2 text-xs text-slate-700 font-medium pt-2 border-t border-slate-100">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+            {/* Card 1 – Penerimaan & Fasilitas */}
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border-2 border-school-green-700 shadow-md space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="inline-flex items-center px-3 py-1 bg-school-green-700 text-white text-xs font-bold rounded-full shadow-sm">
+                    Dibuka Sekarang
+                  </span>
+                </div>
+                <h3 className="text-xl font-extrabold text-slate-900">Penerimaan &amp; Fasilitas Siswa Baru</h3>
+                <p className="text-xs text-slate-600">Berlaku untuk seluruh pendaftar PPDB TA 2027/2028</p>
+              </div>
+              <ul className="space-y-2.5 text-xs text-slate-700 font-medium pt-3 border-t border-slate-100 flex-1">
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-school-green-700" />
-                  <span>Bebas Biaya Formulir Pendaftaran (0 rupiah)</span>
+                  <CheckCircle2 className="w-4 h-4 text-school-green-700 shrink-0" />
+                  <span><strong>Biaya pendaftaran 100% Gratis</strong> (Rp 0 rupiah)</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-school-green-700" />
-                  <span>Gratis 1 Stel Seragam Olahraga Sekolah</span>
+                  <CheckCircle2 className="w-4 h-4 text-school-green-700 shrink-0" />
+                  <span><strong>Gratis 2 setel seragam sekolah</strong> (seragam Ma&apos;arif &amp; biru putih)</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-school-green-700" />
-                  <span>Pengumuman Kelulusan: 02 Oktober 2027</span>
+                  <CheckCircle2 className="w-4 h-4 text-school-green-700 shrink-0" />
+                  <span><strong>Gratis 1 buah tas sekolah</strong> untuk setiap siswa baru</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-school-green-700 shrink-0" />
+                  <span><strong>Tersedia fasilitas antar jemput</strong> untuk semua siswa</span>
                 </li>
               </ul>
             </div>
 
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-              <span className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded-full">
-                Mendatang
-              </span>
-              <h3 className="text-xl font-extrabold text-slate-900">Gelombang II (Jalur Reguler)</h3>
-              <p className="text-xs text-slate-600">01 Oktober 2027 - 30 November 2027</p>
-              <ul className="space-y-2 text-xs text-slate-700 font-medium pt-2 border-t border-slate-100">
+            {/* Card 2 – Beasiswa */}
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full border border-amber-200 shadow-sm">
+                    Beasiswa Tersedia
+                  </span>
+                </div>
+                <h3 className="text-xl font-extrabold text-slate-900">Program Beasiswa &amp; Keringanan</h3>
+                <p className="text-xs text-slate-600">Khusus bagi siswa berprestasi &amp; keluarga kurang mampu</p>
+              </div>
+              <ul className="space-y-2.5 text-xs text-slate-700 font-medium pt-3 border-t border-slate-100 flex-1">
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-school-green-700" />
-                  <span>Pendaftaran Reguler Online & Offline</span>
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0" />
+                  <span><strong>Beasiswa KIP (Kartu Indonesia Pintar)</strong> — keringanan biaya operasional</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-school-green-700" />
-                  <span>Potongan Khusus Bagi Pemilik Kartu KIP/PKH</span>
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0" />
+                  <span><strong>Beasiswa PKH</strong> — bagi keluarga penerima Program Keluarga Harapan</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-school-green-700" />
-                  <span>Pengumuman Kelulusan: 05 Desember 2027</span>
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0" />
+                  <span><strong>Beasiswa Anak Tidak Mampu</strong> — bagi yang memiliki surat keterangan RTM</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0" />
+                  <span><strong>Beasiswa Tahfidz Al-Qur&apos;an</strong> — bagi yang memiliki hafalan Juz 30</span>
                 </li>
               </ul>
             </div>
@@ -504,7 +522,7 @@ export default function PpdbPage() {
                     <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
                     <span>Mode Cepat - Ambil Nomor Registrasi</span>
                   </h4>
-                  <p className="text-xs text-slate-600 font-medium">Cukup isi data pokok di bawah ini untuk memesan kuota Gelombang 1.</p>
+                  <p className="text-xs text-slate-600 font-medium">Cukup isi data pokok di bawah ini untuk pendaftaran langsung.</p>
                 </div>
                 <span className="text-[11px] bg-emerald-100 text-school-green-900 font-black px-3 py-1 rounded-full border border-emerald-300 shrink-0 hidden sm:inline-block">
                   Gratis
@@ -582,9 +600,11 @@ export default function PpdbPage() {
                     onChange={handleChange}
                     className="w-full px-3.5 py-3 rounded-xl border-2 border-slate-200 text-xs sm:text-sm font-black text-slate-900 bg-white focus:outline-none focus:border-school-green-700 focus:ring-2 focus:ring-school-green-700/20 shadow-sm"
                   >
-                    <option value="Gelombang 1 - Reguler (Bebas Biaya)">Reguler Gel. 1 (Bebas Biaya Form + Seragam Olahraga)</option>
-                    <option value="Jalur Prestasi Akademik/Lomba">Jalur Prestasi (Beasiswa SPP)</option>
-                    <option value="Jalur Tahfidz Al-Qur'an (Juz 30)">Jalur Beasiswa Tahfidz Al-Qur&apos;an</option>
+                    <option value="Reguler (Bebas Biaya Pendaftaran)">Reguler — Gratis Pendaftaran + 2 Seragam + 1 Tas</option>
+                    <option value="Beasiswa KIP / PKH">Beasiswa KIP / PKH (Keringanan Biaya Operasional)</option>
+                    <option value="Beasiswa Anak Tidak Mampu">Beasiswa Anak Tidak Mampu (Surat Keterangan RTM)</option>
+                    <option value="Jalur Prestasi Akademik/Lomba">Jalur Prestasi (Piagam / Juara Lomba)</option>
+                    <option value="Jalur Tahfidz Al-Qur'an (Juz 30)">Jalur Beasiswa Tahfidz Al-Qur&apos;an (Hafalan Juz 30)</option>
                   </select>
                 </div>
               </div>
@@ -861,19 +881,21 @@ export default function PpdbPage() {
                 <span className="text-xs font-bold text-slate-500">3 dari 3</span>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-black text-slate-900">Pilih Jalur Pendaftaran *</label>
-                <select
-                  name="jalurPendaftaran"
-                  value={formData.jalurPendaftaran}
-                  onChange={handleChange}
-                  className="w-full px-3.5 py-3 rounded-xl border-2 border-slate-200 text-xs sm:text-sm font-black text-slate-900 bg-white focus:outline-none focus:border-school-green-700 focus:ring-2 focus:ring-school-green-700/20 shadow-sm"
-                >
-                  <option value="Gelombang 1 - Reguler (Bebas Biaya)">Reguler Gel. 1 (Bebas Biaya Form + Seragam Olahraga)</option>
-                  <option value="Jalur Prestasi Akademik/Lomba">Jalur Prestasi (Beasiswa SPP)</option>
-                  <option value="Jalur Tahfidz Al-Qur'an (Juz 30)">Jalur Beasiswa Tahfidz Al-Qur&apos;an</option>
-                </select>
-              </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-black text-slate-900">Pilih Jalur Pendaftaran *</label>
+                  <select
+                    name="jalurPendaftaran"
+                    value={formData.jalurPendaftaran}
+                    onChange={handleChange}
+                    className="w-full px-3.5 py-3 rounded-xl border-2 border-slate-200 text-xs sm:text-sm font-black text-slate-900 bg-white focus:outline-none focus:border-school-green-700 focus:ring-2 focus:ring-school-green-700/20 shadow-sm"
+                  >
+                    <option value="Reguler (Bebas Biaya Pendaftaran)">Reguler — Gratis Pendaftaran + 2 Seragam + 1 Tas</option>
+                    <option value="Beasiswa KIP / PKH">Beasiswa KIP / PKH (Keringanan Biaya Operasional)</option>
+                    <option value="Beasiswa Anak Tidak Mampu">Beasiswa Anak Tidak Mampu (Surat Keterangan RTM)</option>
+                    <option value="Jalur Prestasi Akademik/Lomba">Jalur Prestasi (Piagam / Juara Lomba)</option>
+                    <option value="Jalur Tahfidz Al-Qur'an (Juz 30)">Jalur Beasiswa Tahfidz Al-Qur&apos;an (Hafalan Juz 30)</option>
+                  </select>
+                </div>
 
               {/* Ringkasan Data Preview */}
               <div className="bg-emerald-50/80 p-5 rounded-2xl border-2 border-emerald-200/80 text-xs text-slate-900 space-y-2.5 shadow-sm font-semibold">
