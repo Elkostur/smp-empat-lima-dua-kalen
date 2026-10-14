@@ -138,7 +138,7 @@ export default function PpdbPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const saveApplicantToStore = async (regCode: string) => {
+  const saveApplicantToStore = async (initialRegCode: string): Promise<boolean> => {
     let trackVal: 'Reguler' | 'Prestasi' | 'Tahfidz Qur\'an' | 'Undangan Yayasan' = 'Reguler';
     const trackLower = (formData.jalurPendaftaran || '').toLowerCase();
     if (trackLower.includes('tahfidz')) {
@@ -151,15 +151,12 @@ export default function PpdbPage() {
 
     const genderVal = (formData.jenisKelamin || '').toLowerCase().includes('perempuan') ? 'Perempuan' : 'Laki-Laki';
 
-    const nowObj = new Date();
-    const dateStr = `${nowObj.getFullYear()}-${String(nowObj.getMonth() + 1).padStart(2, '0')}-${String(nowObj.getDate()).padStart(2, '0')} ${String(nowObj.getHours()).padStart(2, '0')}:${String(nowObj.getMinutes()).padStart(2, '0')}`;
-
     const isFull = formMode === 'full';
-    const isComplete = isFull && !!formData.nisn.trim() && !!formData.alamatLengkap.trim();
+    let assignedRegCode = initialRegCode;
 
     const newApplicant: PpdbApplicant = {
       id: typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => ((Math.random() * 16) | 0).toString(16)),
-      registrationNo: regCode,
+      registrationNo: initialRegCode,
       fullName: formData.namaLengkap.trim() || 'Calon Siswa Baru',
       nisn: formData.nisn.trim() || '-',
       gender: genderVal,
@@ -180,14 +177,26 @@ export default function PpdbPage() {
       isDataComplete: isFull,
     };
 
-    // 1. Submit to Supabase
+    // 1. Submit to Protected Server API
     try {
-      const res = await submitPpdbApplication(newApplicant);
+      const res = await submitPpdbApplication({
+        ...newApplicant,
+        honeypot,
+        captchaAnswer: parseInt(userCaptcha.trim(), 10),
+        expectedCaptcha: (captchaNum1 ?? 0) + (captchaNum2 ?? 0),
+      });
+
       if (res.success && res.registrationNo) {
-        setNomorPendaftaran(res.registrationNo);
+        assignedRegCode = res.registrationNo;
+        setNomorPendaftaran(assignedRegCode);
+        newApplicant.registrationNo = assignedRegCode;
+      } else if (!res.success) {
+        setErrorMessage(res.error || 'Pendaftaran gagal diproses. Silakan periksa data Anda.');
+        return false;
       }
-    } catch (err) {
-      console.warn('Supabase PPDB insert fallback to local:', err);
+    } catch (err: any) {
+      setErrorMessage(err?.message || 'Gagal menghubungi server pendaftaran.');
+      return false;
     }
 
     // 2. Persist to local fallback
@@ -206,6 +215,8 @@ export default function PpdbPage() {
     } catch (e) {
       console.error('Gagal menyimpan data pendaftaran PPDB:', e);
     }
+
+    return true;
   };
 
   const handleNextStep = (e: React.FormEvent) => {
@@ -235,19 +246,20 @@ export default function PpdbPage() {
       // BOT SECURITY CHECK 2: Submission Rate Throttling (30s cooldown per device)
       const now = Date.now();
       if (now - lastSubmitTime < 30000 && lastSubmitTime !== 0) {
-        setErrorMessage('Terlalu banyak percakapan pendaftaran. Mohon tunggu 30 detik sebelum mendaftar lagi.');
+        setErrorMessage('Terlalu banyak permintaan pendaftaran. Mohon tunggu 30 detik sebelum mendaftar lagi.');
         return;
       }
 
       setIsSubmitting(true);
-      setTimeout(async () => {
-        const regCode = `PPDB2027-${Math.floor(1000 + Math.random() * 9000)}`;
-        setNomorPendaftaran(regCode);
-        setLastSubmitTime(now);
-        await saveApplicantToStore(regCode);
+      (async () => {
+        const tempRegCode = `PPDB2027-${Math.floor(1000 + Math.random() * 9000)}`;
+        const ok = await saveApplicantToStore(tempRegCode);
         setIsSubmitting(false);
-        setFormStep(4);
-      }, 800);
+        if (ok) {
+          setLastSubmitTime(now);
+          setFormStep(4);
+        }
+      })();
       return;
     }
 
@@ -264,19 +276,20 @@ export default function PpdbPage() {
 
       const now = Date.now();
       if (now - lastSubmitTime < 30000 && lastSubmitTime !== 0) {
-        setErrorMessage('Terlalu banyak percakapan pendaftaran. Mohon tunggu 30 detik sebelum mendaftar lagi.');
+        setErrorMessage('Terlalu banyak permintaan pendaftaran. Mohon tunggu 30 detik sebelum mendaftar lagi.');
         return;
       }
 
       setIsSubmitting(true);
-      setTimeout(async () => {
-        const regCode = `PPDB2027-${Math.floor(1000 + Math.random() * 9000)}`;
-        setNomorPendaftaran(regCode);
-        setLastSubmitTime(now);
-        await saveApplicantToStore(regCode);
+      (async () => {
+        const tempRegCode = `PPDB2027-${Math.floor(1000 + Math.random() * 9000)}`;
+        const ok = await saveApplicantToStore(tempRegCode);
         setIsSubmitting(false);
-        setFormStep(4);
-      }, 800);
+        if (ok) {
+          setLastSubmitTime(now);
+          setFormStep(4);
+        }
+      })();
     }
   };
 

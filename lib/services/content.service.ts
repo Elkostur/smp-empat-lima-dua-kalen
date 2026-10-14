@@ -263,7 +263,8 @@ export async function getApplicantsDB(): Promise<PpdbApplicant[] | null> {
     const { data, error } = await supabase
       .from('ppdb_applicants')
       .select('*')
-      .order('registration_date', { ascending: false });
+      .order('registration_date', { ascending: false })
+      .limit(500);
 
     if (error || !data) return null;
 
@@ -284,8 +285,8 @@ export async function getApplicantsDB(): Promise<PpdbApplicant[] | null> {
       birthPlace: a.birth_place || '',
       birthDate: a.birth_date || '',
       address: a.address || '',
-      fatherName: a.fatherName || '',
-      motherName: a.motherName || '',
+      fatherName: a.father_name || a.fatherName || '',
+      motherName: a.mother_name || a.motherName || '',
       parentOccupation: a.parent_occupation || '',
       isDataComplete: a.is_data_complete,
     }));
